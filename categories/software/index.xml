@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on 数字人生</title>
+    <link>https://blog.policx.com/categories/software/</link>
+    <description>Recent content in Software on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Fri, 26 Jul 2019 22:19:21 +0000</lastBuildDate><atom:link href="https://blog.policx.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>「拖放」Mac 的底层能力，也是效率神技</title>
+      <link>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E6%8B%96%E6%94%BE/</link>
+      <pubDate>Fri, 26 Jul 2019 22:19:21 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E6%8B%96%E6%94%BE/</guid>
+      <description>个人惯用 Mac 拖放，但每每身边同事看我的操作习惯，都大惊失色，感叹 Mac 还有这种操作，所以决定单独讲一篇 Mac 拖放。 Mac的拖放几乎是全局的，比如你可以</description>
+    </item>
+    
+    <item>
+      <title>善用佳软 预览</title>
+      <link>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E9%A2%84%E8%A7%88/</link>
+      <pubDate>Fri, 28 Jul 2017 12:11:04 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E9%A2%84%E8%A7%88/</guid>
+      <description>「预览」作为 Mac 自带的 PDF&amp;amp;图片 应用，大都数用户只是拿来当 图像查看器 使用，而并不了解它的诸多功能。Mac 很多系统级应用都有很好的体验</description>
+    </item>
+    
+  </channel>
+</rss>

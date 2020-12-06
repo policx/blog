@@ -1,0 +1,2387 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。 数据库 数据库是一个"/>
+<meta name="keywords" content=""/>
+
+<title>MongoDB - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/mongodb\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2018-05-02T14:11:11Z",
+    "dataModified": "2018-05-02T14:11:11Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。 数据库 数据库是一个"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/mongodb/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="MongoDB" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-05-02T14:11:11Z"
+                                  title="2018-05-02T14:11:11Z">2018-05-02</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-05-02T14:11:11Z"
+                                  title="2018-05-02T14:11:11Z">2018-05-02</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">11 分钟读完 (大约5098个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">MongoDB</h1>
+        <div class="content"><p>MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。</p>
+<!-- more -->
+<h3 id="数据库">数据库</h3>
+<blockquote>
+<p>数据库是一个集合的物理容器。每个数据库获取其自己设定在文件系统上的文件。一个单一的MongoDB服务器通常有多个数据库。</p>
+</blockquote>
+<h3 id="集合">集合</h3>
+<blockquote>
+<p>集合是一组MongoDB的文件。它与一个RDBMS表是等效的。一个集合存在于数据库中。集合不强制执行模式。集合中的文档可以有不同的字段。通常情况下，在一个集合中的所有文件都是类似或相关目的。</p>
+</blockquote>
+<h3 id="文档">文档</h3>
+<blockquote>
+<p>文档是一组键值对。文档具有动态模式。动态模式是指，在同一个集合的文件不必具有相同一组集合的文档字段或结构，并且相同的字段可以保持不同类型的数据。
+下面给出的示例显示了一个博客网站，仅仅是一个逗号分隔的键值对的文档结构。</p>
+</blockquote>
+<pre><code>{
+   _id: ObjectId(7df78ad8902c)
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorial',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100, 
+   comments: [	
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2011,1,20,2,15),
+         like: 0 
+      },
+      {
+         user:'user2',
+         message: 'My second comments',
+         dateCreated: new Date(2011,1,25,7,45),
+         like: 5
+      }
+   ]
+}
+</code></pre><h3 id="创建数据库">创建数据库</h3>
+<blockquote>
+<p>MongoDB use DATABASE_NAME 用于创建数据库。该命令如果数据库不存在，将创建一个新的数据库， 否则将返回现有的数据库。</p>
+</blockquote>
+<h4 id="语法">语法</h4>
+<p>use DATABASE语句的基本语法如下：
+<code>use DATABASE_NAME</code></p>
+<h5 id="例子">例子：</h5>
+<pre><code>如果想创建一个数据库名称为 &lt;mydb&gt;, 那么 use DATABASE 语句应该如下：
+&gt;use mydb
+switched to db mydb
+
+要检查当前选择的数据库使用命令 db
+&gt;db
+mydb
+
+如果想查询数据库列表，那么使用命令 show dbs.
+&gt;show dbs
+local     0.78125GB
+test      0.23012GB
+
+所创建的数据库（mydb）不存在于列表中。要显示的数据库，需要至少插入一个文档进去。
+&gt;db.movie.insert({&quot;name&quot;:&quot;yiibai tutorials&quot;})
+&gt;show dbs
+local      0.78125GB
+mydb       0.23012GB
+test       0.23012GB
+</code></pre><p>MongoDB的默认数据库是test。 如果没有创建任何数据库，那么集合将被保存在测试数据库。</p>
+<h4 id="删除数据库">删除数据库</h4>
+<p>MongoDB db.dropDatabase() 命令用于删除现有的数据库。</p>
+<h5 id="语法-1">语法</h5>
+<p>dropDatabase()指令的基本语法如下：
+<code>db.dropDatabase()</code></p>
+<p>这将删除选定的数据库。如果没有选择任何数据库，那么它会删除默认的“test”数据库</p>
+<h5 id="例子-1">例子：</h5>
+<p>如果想删除新的数据库 <mydb>, 那么 dropDatabase() 命令将如下所示：</p>
+<pre><code>&gt;use mydb
+switched to db mydb
+&gt;db.dropDatabase()
+&gt;{ &quot;dropped&quot; : &quot;mydb&quot;, &quot;ok&quot; : 1 }
+&gt;
+</code></pre><h4 id="创建集合">创建集合</h4>
+<p>MongoDB 的 db.createCollection(name, options) 用于创建集合。 在命令中, name 是要创建集合的名称。 Options 是一个文档，用于指定集合的配置</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>String</td>
+<td>要创建的集合的名称</td>
+</tr>
+<tr>
+<td>Options</td>
+<td>Document</td>
+<td>（可选）指定有关内存大小和索引选项</td>
+</tr>
+</tbody>
+</table>
+<p>选项参数是可选的，所以需要指定集合的唯一名字。</p>
+<h3 id="语法-2">语法</h3>
+<p>createCollection()方法的基本语法如下</p>
+<pre><code>&gt;use test
+switched to db test
+&gt;db.createCollection(&quot;mycollection&quot;)
+{ &quot;ok&quot; : 1 }
+&gt;
+</code></pre><p>可以通过使用 show collections 命令来检查创建的集合</p>
+<pre><code>&gt;show collections
+mycollection
+system.indexes
+</code></pre><h3 id="选项列表">选项列表</h3>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>capped</td>
+<td>Boolean</td>
+<td>（可选）如果为true，它启用上限集合。上限集合是一个固定大小的集合，当它达到其最大尺寸会自动覆盖最老的条目。 如果指定true，则还需要指定参数的大小。</td>
+</tr>
+<tr>
+<td>autoIndexID</td>
+<td>Boolean</td>
+<td>（可选）如果为true，自动创建索引_id字段。默认的值是 false.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>number</td>
+<td>（可选）指定的上限集合字节的最大尺寸。如果capped 是true，那么还需要指定这个字段。</td>
+</tr>
+<tr>
+<td>max</td>
+<td>number</td>
+<td>（可选）指定上限集合允许的最大文件数。</td>
+</tr>
+</tbody>
+</table>
+<p>尽管插入文档，MongoDB首先检查字段集合的上限大小，那么它会检查最大字段。</p>
+<h4 id="语法-">语法 :</h4>
+<pre><code>&gt;db.createCollection(&quot;mycol&quot;, { capped : true, autoIndexID : true, size : 6142800, max : 10000 } )
+{ &quot;ok&quot; : 1 }
+&gt;
+</code></pre><p>在MongoDB中并不需要创建集合。 当插入一些文档 MongoDB 会自动创建集合。</p>
+<pre><code>&gt;db.yiibai.insert({&quot;name&quot; : &quot;yiibai&quot;})
+&gt;show collections
+mycol
+mycollection
+system.indexes
+yiibai
+&gt;
+</code></pre><h4 id="删除集合">删除集合</h4>
+<p>MongoDB 的 db.collection.drop() 用于从数据库中删除集合。</p>
+<h5 id="语法-3">语法</h5>
+<p>drop() 命令的基本语法如下
+<code>db.COLLECTION_NAME.drop()</code></p>
+<h5 id="例子-2">例子：</h5>
+<p>下面给出的例子将删除给定名称的集合：mycollection</p>
+<pre><code>&gt;use mydb
+switched to db mydb
+&gt;db.mycollection.drop()
+true
+&gt;
+</code></pre><h4 id="插入文档">插入文档</h4>
+<p>将数据插入到MongoDB集合，需要使用MongoDB 的 insert() 方法。</p>
+<h5 id="语法-4">语法</h5>
+<p>insert()命令的基本语法如下：
+<code>&gt;db.COLLECTION_NAME.insert(document)</code></p>
+<h5 id="例子-3">例子</h5>
+<pre><code>&gt;db.mycol.insert({
+   _id: ObjectId(7df78ad8902c),
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorials',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+})
+</code></pre><p>这里 mycol 是我们的集合名称，它是在之前的教程中创建。如果集合不存在于数据库中，那么MongoDB创建此集合，然后插入文档进去。</p>
+<p>在如果我们不指定_id参数插入的文档，那么 MongoDB 将为文档分配一个唯一的ObjectId。</p>
+<p>_id 是12个字节十六进制数在一个集合的每个文档是唯一的。 12个字节被划分如下：
+_id: ObjectId(4 bytes timestamp, 3 bytes machine id, 2 bytes process id, 3 bytes incrementer)</p>
+<p>要以单个查询插入多个文档，可以通过文档 insert() 命令的数组方式。</p>
+<h5 id="例子-4">例子</h5>
+<pre><code>&gt;db.post.insert([
+{
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'yiibai tutorials',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+},
+{
+   title: 'NoSQL Database', 
+   description: 'NoSQL database doesn't have tables',
+   by: 'yiibai tutorials',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 20, 
+   comments: [	
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2013,11,10,2,35),
+         like: 0 
+      }
+   ]
+}
+])
+</code></pre><h4 id="查询文档">查询文档</h4>
+<p>要从集合查询MongoDB数据，需要使用MongoDB的 find()方法。</p>
+<h5 id="语法-5">语法</h5>
+<p>find()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.find()</code>
+find() 方法将在非结构化的方式显示所有的文件。 如果显示结果是格式化的，那么可以用pretty() 方法。</p>
+<h5 id="语法-6">语法</h5>
+<p><code>&gt;db.mycol.find().pretty()</code></p>
+<h5 id="例子-5">例子</h5>
+<pre><code>&gt;db.mycol.find().pretty()
+{
+   &quot;_id&quot;: ObjectId(7df78ad8902c),
+   &quot;title&quot;: &quot;MongoDB Overview&quot;, 
+   &quot;description&quot;: &quot;MongoDB is no sql database&quot;,
+   &quot;by&quot;: &quot;yiibai tutorials&quot;,
+   &quot;url&quot;: &quot;https://www.yiibai.com&quot;,
+   &quot;tags&quot;: [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;],
+   &quot;likes&quot;: &quot;100&quot;
+}
+&gt;
+</code></pre><p>除了find()方法还有findOne()方法，仅返回一个文档。</p>
+<h3 id="rdbms-where子句等效于mongodb">RDBMS Where子句等效于MongoDB</h3>
+<p>查询文档在一些条件的基础上，可以使用下面的操作</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>语法</th>
+<th>示例</th>
+<th>RDBMS等效语句</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equality</td>
+<td><code>{&lt;key&gt;:&lt;value&gt;}</code></td>
+<td>db.mycol.find({&ldquo;by&rdquo;:&ldquo;yiibai tutorials&rdquo;}).pretty()</td>
+<td>where by = &lsquo;yiibai tutorials&rsquo;</td>
+</tr>
+<tr>
+<td>Less Than</td>
+<td><code>{&lt;key&gt;:{$lt:&lt;value&gt;}}</code></td>
+<td>db.mycol.find({&ldquo;likes&rdquo;:{$lt:50}}).pretty()</td>
+<td>where likes &lt; 50</td>
+</tr>
+<tr>
+<td>Less Than Equals</td>
+<td><code>{&lt;key&gt;:{$lte:&lt;value&gt;}}</code></td>
+<td>db.mycol.find({&ldquo;likes&rdquo;:{$lte:50}}).pretty()</td>
+<td>where likes &lt;= 50</td>
+</tr>
+<tr>
+<td>Greater Than</td>
+<td><code>{&lt;key&gt;:{$gt:&lt;value&gt;}}</code></td>
+<td>db.mycol.find({&ldquo;likes&rdquo;:{$gt:50}}).pretty()</td>
+<td>where likes &gt; 50</td>
+</tr>
+<tr>
+<td>Greater Than Equals</td>
+<td><code>{&lt;key&gt;:{$gte:&lt;value&gt;}}</code></td>
+<td>db.mycol.find({&ldquo;likes&rdquo;:{$gte:50}}).pretty()</td>
+<td>where likes &gt;= 50</td>
+</tr>
+<tr>
+<td>Not Equals</td>
+<td><code>{&lt;key&gt;:{$ne:&lt;value&gt;}}</code></td>
+<td>db.mycol.find({&ldquo;likes&rdquo;:{$ne:50}}).pretty()</td>
+<td>where likes != 50</td>
+</tr>
+</tbody>
+</table>
+<h4 id="and-在-mongodb">AND 在 MongoDB</h4>
+<h5 id="语法-7">语法</h5>
+<p>在 find()方法，如果您传递多个键通过&quot;,&ldquo;将它们分开，那么MongoDB对待它就如AND条件一样。基本语法如下所示：
+<code>&gt;db.mycol.find({key1:value1, key2:value2}).pretty()</code></p>
+<h5 id="例子-6">例子</h5>
+<p>下面给出的例子将显示所有教程含“yiibai tutorials”和其标题是“MongoDB Overview”</p>
+<pre><code>&gt;db.mycol.find({&quot;by&quot;:&quot;yiibai tutorials&quot;,&quot;title&quot;: &quot;MongoDB Overview&quot;}).pretty()
+{
+   &quot;_id&quot;: ObjectId(7df78ad8902c),
+   &quot;title&quot;: &quot;MongoDB Overview&quot;, 
+   &quot;description&quot;: &quot;MongoDB is no sql database&quot;,
+   &quot;by&quot;: &quot;yiibai tutorials&quot;,
+   &quot;url&quot;: &quot;https://www.yiibai.com&quot;,
+   &quot;tags&quot;: [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;],
+   &quot;likes&quot;: &quot;100&quot;
+}
+&gt;
+</code></pre><p>对于上面给出的例子相当于where子句：' where by=&lsquo;yiibai tutorials&rsquo; AND title=&lsquo;MongoDB Overview&rsquo; &lsquo;。可以传递任何数目的键-值对在find子句。</p>
+<h4 id="or-在-mongodb">OR 在 MongoDB</h4>
+<h5 id="语法-8">语法</h5>
+<p>要查询基于OR条件的文件，需要使用$or关键字。OR的基本语法如下所示：</p>
+<pre><code>&gt;db.mycol.find(
+   {
+      $or: [
+	     {key1: value1}, {key2:value2}
+      ]
+   }
+).pretty()
+</code></pre><h5 id="例子-7">例子</h5>
+<p>下面给出的例子将显示所有撰写含有 &lsquo;yiibai tutorials&rsquo; 或是标题为 &lsquo;MongoDB Overview&rsquo; 的教程</p>
+<pre><code>&gt;db.mycol.find({$or:[{&quot;by&quot;:&quot;tutorials point&quot;},{&quot;title&quot;: &quot;MongoDB Overview&quot;}]}).pretty()
+{
+   &quot;_id&quot;: ObjectId(7df78ad8902c),
+   &quot;title&quot;: &quot;MongoDB Overview&quot;, 
+   &quot;description&quot;: &quot;MongoDB is no sql database&quot;,
+   &quot;by&quot;: &quot;yiibai tutorials&quot;,
+   &quot;url&quot;: &quot;https://www.yiibai.com&quot;,
+   &quot;tags&quot;: [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;],
+   &quot;likes&quot;: &quot;100&quot;
+}
+&gt;
+</code></pre><h4 id="使用-and-和-or-在一起">使用 AND 和 OR 在一起</h4>
+<h5 id="例子-8">例子</h5>
+<p>下面给出的例子显示有喜欢数大于100 的文档，其标题要么是 &lsquo;MongoDB Overview&rsquo; 或 &lsquo;yiibai tutorials&rsquo;. 等效于SQL的where子句：&lsquo;where likes&gt;10 AND (by = &lsquo;yiibai tutorials&rsquo; OR title = &lsquo;MongoDB Overview&rsquo;)&rsquo;</p>
+<pre><code>&gt;db.mycol.find(&quot;likes&quot;: {$gt:10}, $or: [{&quot;by&quot;: &quot;yiibai tutorials&quot;}, {&quot;title&quot;: &quot;MongoDB Overview&quot;}] }).pretty()
+{
+   &quot;_id&quot;: ObjectId(7df78ad8902c),
+   &quot;title&quot;: &quot;MongoDB Overview&quot;, 
+   &quot;description&quot;: &quot;MongoDB is no sql database&quot;,
+   &quot;by&quot;: &quot;yiibai tutorials&quot;,
+   &quot;url&quot;: &quot;https://www.yiibai.com&quot;,
+   &quot;tags&quot;: [&quot;mongodb&quot;, &quot;database&quot;, &quot;NoSQL&quot;],
+   &quot;likes&quot;: &quot;100&quot;
+}
+&gt;
+</code></pre><h4 id="更新文档">更新文档</h4>
+<p>MongoDB的update()和save()方法用于更新文档到一个集合。 update()方法将现有的文档中的值更新，而save()方法使用传递到save()方法的文档替换现有的文档。</p>
+<h4 id="mongodb-update-方法">MongoDB Update() 方法</h4>
+<h5 id="语法-9">语法</h5>
+<p>update()方法的基本语法如下</p>
+<pre><code>&gt;db.COLLECTION_NAME.update(SELECTIOIN_CRITERIA, UPDATED_DATA)
+</code></pre><h5 id="例子-9">例子</h5>
+<p>考虑mycol集合有如下数据。</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;MongoDB Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+</code></pre><p>下面的例子将设置其标题“MongoDB Overview”的文件为新标题为“New MongoDB Tutorial”</p>
+<pre><code>&gt;db.mycol.update({'title':'MongoDB Overview'},{$set:{'title':'New MongoDB Tutorial'}})
+&gt;db.mycol.find()
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;New MongoDB Tutorial&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Tutorial Overview&quot;}
+&gt;
+
+</code></pre><p>默认情况下，MongoDB将只更新单一文件，更新多，需要一个参数 &lsquo;multi&rsquo; 设置为 true。</p>
+<pre><code>&gt;db.mycol.update({'title':'MongoDB Overview'},{$set:{'title':'New MongoDB Tutorial'}},{multi:true})
+</code></pre><h4 id="mongodb-save-方法">MongoDB Save() 方法</h4>
+<p>save() 方法取代，通过新文档到 save()方法</p>
+<h5 id="语法-10">语法</h5>
+<p>mongodb 的 save()方法如下所示的基本语法：
+<code>&gt;db.COLLECTION_NAME.save({_id:ObjectId(),NEW_DATA})</code></p>
+<h5 id="例子-10">例子</h5>
+<p>下面的例子将替换该文件_id &lsquo;5983548781331adf45ec7&rsquo;</p>
+<pre><code>&gt;db.mycol.save(
+   {
+      &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai New Topic&quot;, &quot;by&quot;:&quot;Yiibai Yiibai&quot;
+   }
+)
+&gt;db.mycol.find()
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;Yiibai Yiibai New Topic&quot;, &quot;by&quot;:&quot;Yiibai Yiibai&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+&gt;
+</code></pre><h4 id="删除文档">删除文档</h4>
+<p>MongoDB 的 remove()方法用于从集合中删除文档。remove()方法接受两个参数。一个是标准缺失，第二是justOne标志
+deletion criteria : 根据文件（可选）删除条件将被删除。
+justOne : （可选）如果设置为true或1，然后取出只有一个文档。</p>
+<h6 id="语法-11">语法</h6>
+<p>remove()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)</code></p>
+<h6 id="例子-11">例子</h6>
+<p>考虑mycol集合有如下数据。</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;MongoDB Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+</code></pre><p>下面的例子将删除所有的文件，其标题为 &lsquo;MongoDB Overview&rsquo;</p>
+<pre><code>&gt;db.mycol.remove({'title':'MongoDB Overview'})
+&gt;db.mycol.find()
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Toturials Overview&quot;}
+&gt;
+</code></pre><h5 id="只删除一个">只删除一个</h5>
+<p>如果有多个记录，并要删除仅第一条记录，然后在 remove()方法设置参数 justOne 。
+<code>&gt;db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)</code></p>
+<h5 id="删除所有文件">删除所有文件</h5>
+<p>如果没有指定删除条件，则MongoDB将从集合中删除整个文件。这相当于SQL的 truncate 命令。</p>
+<pre><code>&gt;db.mycol.remove()
+&gt;db.mycol.find()
+&gt;
+</code></pre><h4 id="mongodb投影">MongoDB投影</h4>
+<p>mongodb投影意义是只选择需要的数据，而不是选择整个一个文档的数据。如果一个文档有5个字段，只需要显示3个，只从中选择3个字段。</p>
+<p>MongoDB的find()方法，解释了MongoDB中查询文档接收的第二个可选的参数是要检索的字段列表。在MongoDB中，当执行find()方法，那么它会显示一个文档的所有字段。要限制这一点，需要设置字段列表值为1或0。1是用来显示字段，而0被用来隐藏字段。</p>
+<p>语法</p>
+<p>find()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.find({},{KEY:1})</code></p>
+<p>例子</p>
+<p>考虑集合 myycol 有下列数据</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;MongoDB Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+</code></pre><p>下面的例子将显示文档的标题，在查询文档时。</p>
+<pre><code>&gt;db.mycol.find({},{&quot;title&quot;:1,_id:0})
+{&quot;title&quot;:&quot;MongoDB Overview&quot;}
+{&quot;title&quot;:&quot;NoSQL Overview&quot;}
+{&quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+&gt;
+</code></pre><p>请注意在执行find()方法时_id字段始终显示，如果不想要显示这个字段，那么需要将其设置为0</p>
+<h5 id="限制文档">限制文档</h5>
+<p>MongoDB Limit() 方法</p>
+<p>要在MongoDB中限制记录，需要使用limit()方法。 limit() 方法接受一个数字类型的参数，这是要显示的文档数量。</p>
+<h6 id="语法-12">语法</h6>
+<p>limit()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.find().limit(NUMBER)</code></p>
+<p>例子</p>
+<p>考虑集合 myycol 有下列数据</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;MongoDB Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+</code></pre><p>下面的例子将只显示2个文档，在查询文档时。</p>
+<pre><code>&gt;db.mycol.find({},{&quot;title&quot;:1,_id:0}).limit(2)
+{&quot;title&quot;:&quot;MongoDB Overview&quot;}
+{&quot;title&quot;:&quot;NoSQL Overview&quot;}
+&gt;
+</code></pre><p>如果不指定 limit()方法的参数数量，然后它会显示集合中的所有文档。</p>
+<p>MongoDB Skip() 方法</p>
+<p>除了 limit()方法还有一个方法 skip()也接受数字类型参数并用于跳过文件数。</p>
+<p>语法</p>
+<p>skip() 方法的基础语法如下所示：
+<code>&gt;db.COLLECTION_NAME.find().limit(NUMBER).skip(NUMBER)</code></p>
+<p>例子：</p>
+<p>下面的例子将仅显示第二个文档。</p>
+<pre><code>&gt;db.mycol.find({},{&quot;title&quot;:1,_id:0}).limit(1).skip(1)
+{&quot;title&quot;:&quot;NoSQL Overview&quot;}
+&gt;
+</code></pre><p>请注意，skip() 方法的默认值是 0</p>
+<h4 id="文档排序">文档排序</h4>
+<p>要排序MongoDB中的文档，需要使用 sort()方法。 sort() 方法接受一个包含字段列表以及排序顺序的文档。 要使用1和-1指定排序顺序。1用于升序，而-1是用于降序。</p>
+<p>语法</p>
+<p>sort()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.find().sort({KEY:1})</code></p>
+<p>例子</p>
+<p>考虑集合 myycol 有如下数据</p>
+<pre><code>{ &quot;_id&quot; : ObjectId(5983548781331adf45ec5), &quot;title&quot;:&quot;MongoDB Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec6), &quot;title&quot;:&quot;NoSQL Overview&quot;}
+{ &quot;_id&quot; : ObjectId(5983548781331adf45ec7), &quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+</code></pre><p>下面的例子将显示的文件排序按标题降序排序。</p>
+<pre><code>&gt;db.mycol.find({},{&quot;title&quot;:1,_id:0}).sort({&quot;title&quot;:-1})
+{&quot;title&quot;:&quot;Yiibai Yiibai Overview&quot;}
+{&quot;title&quot;:&quot;NoSQL Overview&quot;}
+{&quot;title&quot;:&quot;MongoDB Overview&quot;}
+&gt;
+</code></pre><p>请注意，如果不指定排序类型，那么 sort() 方法将以升序排列文档。</p>
+<h4 id="mongodb索引">MongoDB索引</h4>
+<p>索引支持查询高效率执行。如果没有索引，MongoDB必须扫描集合中的每一个文档，然后选择那些符合查询语句的文档。若需要 mongod 来处理大量数据，扫描是非常低效的。</p>
+<p>索引是特殊的数据结构，存储在一个易于设置遍历形式的数据的一小部分。索引存储在索引中指定特定字段的值或一组字段，并排序字段的值。</p>
+<p>要创建索引，需要使用MongoDB的ensureIndex()方法。</p>
+<p>语法</p>
+<p>ensureIndex()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.ensureIndex({KEY:1})</code></p>
+<p>这里键是要创建索引字段，1是按名称升序排序。若以按降序创建索引，需要使用 -1.</p>
+<p>例子</p>
+<pre><code>&gt;db.mycol.ensureIndex({&quot;title&quot;:1})
+&gt;
+
+在 ensureIndex()方法，可以通过多个字段，来创建多个字段索引。
+&gt;db.mycol.ensureIndex({&quot;title&quot;:1,&quot;description&quot;:-1})
+&gt;
+</code></pre><p>ensureIndex() 方法还接受选项列表（这是可选），其列表如下：
+<img src="/post-images/1561132706992.png" alt=""></p>
+<h4 id="mongodb-聚合">MongoDB 聚合</h4>
+<p>聚合操作处理数据记录并返回计算结果。从多个文档聚合分组操作数值，并可以执行多种对分组数据业务返回一个结果。 在SQL中的count(*)，使用group by 与mongodb的聚合是等效的。 对于MongoDB的聚合，使用的是aggregate()方法。</p>
+<p>语法</p>
+<p>aggregate()方法的基本语法如下
+<code>&gt;db.COLLECTION_NAME.aggregate(AGGREGATE_OPERATION)</code></p>
+<p>例子：</p>
+<p>在集合中有以下数据：</p>
+<pre><code>{
+   _id: ObjectId(7df78ad8902c)
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by_user: 'Yiibai Yiibai ',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100
+},
+{
+   _id: ObjectId(7df78ad8902d)
+   title: 'NoSQL Overview', 
+   description: 'No sql database is very fast',
+   by_user: 'Yiibai Yiibai',
+   url: 'https://www.yiibai.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 10
+},
+{
+   _id: ObjectId(7df78ad8902e)
+   title: 'Neo4j Overview', 
+   description: 'Neo4j is no sql database',
+   by_user: 'Neo4j',
+   url: 'https://www.neo4j.com',
+   tags: ['neo4j', 'database', 'NoSQL'],
+   likes: 750
+},
+</code></pre><p>现在从上面的集合，如果想知道每一个用户编写的教程是多少，那么使用aggregate()方法，如下图所示的列表：</p>
+<pre><code>&gt; db.mycol.aggregate([{$group : {_id : &quot;$by_user&quot;, num_tutorial : {$sum : 1}}}])
+{
+   &quot;result&quot; : [
+      {
+         &quot;_id&quot; : &quot;Yiibai Yiibai&quot;,
+         &quot;num_tutorial&quot; : 2
+      },
+      {
+         &quot;_id&quot; : &quot;Neo4j&quot;,
+         &quot;num_tutorial&quot; : 1
+      }
+   ],
+   &quot;ok&quot; : 1
+}
+&gt;
+</code></pre><pre><code>用于上述用途将等效于sql查询： select by_user, count(*) from mycol group by by_user
+</code></pre>
+<p>另外，在上述例子中，我们已经使用字段by_user进行分组并计算总和，也就是by_user 出现各个次数。一个列表中可用的聚集表达式。
+<img src="/post-images/1561132965786.png" alt=""></p>
+<h4 id="mongodb-复制">MongoDB 复制</h4>
+<p>复制是同步在多个服务器上的数据过程。复制提供了冗余和数据在不同的数据库服务器上的多个副本提高数据的可用性，复制防止在单个服务器上丢失数据库。 复制也可以从硬件故障和服务中断中恢复。带有数据的其他副本，可以选择其中一个灾难恢复，报告或备份。</p>
+<h6 id="为什么要复制">为什么要复制？</h6>
+<blockquote>
+<pre><code>  为了让数据安全
+
+  数据的高（24*7）可用性
+
+  灾难恢复
+
+  无停机维护（如备份，索引重建，压缩）
+
+  读取缩放（额外的副本来读取）
+
+  副本集是透明的应用
+</code></pre>
+</blockquote>
+<h5 id="mongodb复制的工作原理">MongoDB复制的工作原理</h5>
+<p>MongoDB通过使用副本集的复制来实现。副本集是一组承载同一个数据集的mongod实例。在副本的一个节点是接收所有的写操作主节点。所有的实例，次级，应用操作从主以便它们具有相同的数据集。副本集只能有一个主节点。</p>
+<blockquote>
+<pre><code>  副本集是一组两个或更多个节点（通常至少3节点是必需的）。
+
+  在副本集一个节点是主节点和其余的节点都是次要的。
+
+  所有的数据复制是从主到次节点。
+
+  在自动故障转移或维护时，选建立了主要和一个新的主节点被选择。
+
+  故障节点的恢复后，再次加入副本集，并可以作为一个辅助节点。
+</code></pre>
+</blockquote>
+<p>mongodb复制的典型图如下图，其中客户端应用程序总是与主节点和主节点交互，然后将数据复制到辅助节点。
+<img src="/post-images/1561133216694.png" alt="">
+副本集特征</p>
+<ul>
+<li>
+<pre><code>  N个节点的集群
+</code></pre>
+</li>
+<li>
+<pre><code>  任何节点可为原发/主节点
+</code></pre>
+</li>
+<li>
+<pre><code>  所有的写操作进入到主节点
+</code></pre>
+</li>
+<li>
+<pre><code>  自动故障转移
+</code></pre>
+</li>
+<li>
+<pre><code>  自动恢复</code></pre>
+</li>
+</ul>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>MongoDB</p>
+        <p><a href="https://blog.policx.com/posts/mongodb/">https://blog.policx.com/posts/mongodb/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2018-05-02</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2018-05-02</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+            <div class="article-tags size-small mb-4">
+                <span class="mr-2">#</span><a class="link-muted mr-2" href="/tags/Linux" rel="tag">Linux</a></div>
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/pymongo/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">python3 与 MongoDB 之间的交互</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/pymysql/">
+                    <span class="level-item">python3 与 MySQL 之间的交互</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "1f7705418c194d6682d63324b3e7f5ae",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

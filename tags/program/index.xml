@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>program on 数字人生</title>
+    <link>https://blog.policx.com/tags/program/</link>
+    <description>Recent content in program on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Fri, 16 Aug 2019 16:14:18 +0000</lastBuildDate><atom:link href="https://blog.policx.com/tags/program/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dice 称这  5 种编程语言未来可能各自成王</title>
+      <link>https://blog.policx.com/posts/five_a/</link>
+      <pubDate>Fri, 16 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_a/</guid>
+      <description>上个月，我们曾报道过一篇&amp;quot;Dice 称这 5 种编程语言可能衰落&amp;ldquo;的文章，它基于 RedMonk 和 TIOBE 等公司的数据推测的，结果引起了广泛讨论</description>
+    </item>
+    
+    <item>
+      <title>Dice 称这 5 种编程语言可能衰落</title>
+      <link>https://blog.policx.com/posts/five_b/</link>
+      <pubDate>Sat, 10 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_b/</guid>
+      <description>Dice Insights 是为北美的科技专业人士提供见解和分析的网站，目的是帮助他们找到工作和发展事业，并且报道就业趋势、新技术等内容。 根据 Dice 报道，并不是所有的编</description>
+    </item>
+    
+  </channel>
+</rss>

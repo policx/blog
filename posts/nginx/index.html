@@ -1,0 +1,1891 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="什么是Nginx? Nginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP/POP3）代理服务器。 什么是反向代理？ 反向代理（Re"/>
+<meta name="keywords" content=""/>
+
+<title>Nginx - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/nginx\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2018-02-03T17:11:38Z",
+    "dataModified": "2018-02-03T17:11:38Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "什么是Nginx? Nginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP\/POP3）代理服务器。 什么是反向代理？ 反向代理（Re"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/nginx/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="Nginx" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-02-03T17:11:38Z"
+                                  title="2018-02-03T17:11:38Z">2018-02-03</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-02-03T17:11:38Z"
+                                  title="2018-02-03T17:11:38Z">2018-02-03</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">5 分钟读完 (大约2226个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">Nginx</h1>
+        <div class="content"><h3 id="什么是nginx">什么是Nginx?</h3>
+<p>Nginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP/POP3）代理服务器。</p>
+<!-- more -->
+<h3 id="什么是反向代理">什么是反向代理？</h3>
+<p>反向代理（Reverse Proxy）方式是指以代理服务器来接受internet上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给internet上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。
+<img src="/post-images/1560762929102.jpg" alt=""></p>
+<h3 id="安装与使用">安装与使用</h3>
+<h4 id="安装">安装</h4>
+<p>nginx官网下载地址：https://nginx.org，发布版本分为 Linux 和 windows 版本。</p>
+<p>也可以下载源码，编译后运行。</p>
+<p>从源代码编译 Nginx</p>
+<p>把源码解压缩之后，在终端里运行如下命令：</p>
+<p><img src="/post-images/1560763025695.png" alt=""></p>
+<p>默认情况下，Nginx 会被安装在 /usr/local/nginx。通过设定编译选项，你可以改变这个设定。</p>
+<p>Windows 安装</p>
+<p>为了安装 Nginx / Win32，需先下载它。然后解压之，然后运行即可。下面以 C 盘根目录为例说明下：
+<img src="/post-images/1560763082984.png" alt=""></p>
+<p>Nginx / Win32 是运行在一个控制台程序，而非 windows 服务方式的。服务器方式目前还是开发尝试中。</p>
+<h4 id="使用">使用</h4>
+<p>nginx 的使用比较简单，就是几条命令。</p>
+<p>常用到的命令如下：</p>
+<pre><code>nginx -s stop ：快速关闭Nginx，可能不保存相关信息，并迅速终止web服务。
+
+nginx -s quit ：平稳关闭Nginx，保存相关信息，有安排的结束web服务。
+
+nginx -s reload ：因改变了Nginx相关配置，需要重新加载配置而重载。
+
+nginx -s reopen ：重新打开日志文件。
+
+nginx -c filename ：为 Nginx 指定一个配置文件，来代替缺省的。
+
+nginx -t ：不运行，而仅仅测试配置文件。nginx 将检查配置文件的语法的正确性，并尝试打开配置文件中所引用到的文件。
+
+nginx -v：显示 nginx 的版本。
+
+nginx -V：显示 nginx 的版本，编译器版本和配置参数。
+</code></pre><p>如果不想每次都敲命令，可以在nginx安装目录下新添一个启动批处理文件startup.bat，双击即可运行。内容如下：</p>
+<p><img src="/post-images/1560763707256.png" alt=""></p>
+<p>如果是运行在 Linux 下，写一个 shell 脚本，大同小异。</p>
+<h3 id="nginx-配置实战">nginx 配置实战</h3>
+<p>我始终认为，各种开发工具的配置还是结合实战来讲述，会让人更易理解。</p>
+<p>http反向代理配置</p>
+<p>我们先实现一个小目标：不考虑复杂的配置，仅仅是完成一个 http 反向代理。</p>
+<p>nginx.conf 配置文件如下：</p>
+<p>注：conf / nginx.conf 是 nginx 的默认配置文件。你也可以使用 nginx -c 指定你的配置文件
+<img src="/post-images/1560763254253.png" alt="">
+<img src="/post-images/1560763292164.png" alt="">
+<img src="/post-images/1560763319108.png" alt=""></p>
+<p>好了，让我们来试试吧：</p>
+<p>启动 webapp，注意启动绑定的端口要和nginx中的 upstream 设置的端口保持一致。</p>
+<p>更改 host：</p>
+<p>在 C:Windows\System32\drivers\etc 目录下的host文件中添加一条DNS 记录127.0.0.1 <a href="http://www.javastack.cn">www.javastack.cn</a> 启动前文中 startup.bat 的命令</p>
+<p>在浏览器中访问 <a href="http://www.javastack.cn">www.javastack.cn</a>，不出意外，已经可以访问了。</p>
+<p>负载均衡配置</p>
+<p>上一个例子中，代理仅仅指向一个服务器。</p>
+<p>但是，网站在实际运营过程中，多半都是有多台服务器运行着同样的app，这时需要使用负载均衡来分流。</p>
+<p>nginx也可以实现简单的负载均衡功能。</p>
+<p>假设这样一个应用场景：将应用部署在 192.168.1.11:80、192.168.1.12:80、192.168.1.13:80 三台linux环境的服务器上。网站域名叫 <a href="http://www.javastack.cn">www.javastack.cn</a>，公网IP为 192.168.1.11。在公网IP所在的服务器上部署 nginx，对所有请求做负载均衡处理。</p>
+<p>nginx.conf 配置如下：
+<img src="/post-images/1560763351082.png" alt="">
+<img src="/post-images/1560763380502.png" alt=""></p>
+<p>网站有多个webapp的配置</p>
+<p>当一个网站功能越来越丰富时，往往需要将一些功能相对独立的模块剥离出来，独立维护。这样的话，通常，会有多个 webapp。</p>
+<p>举个例子：假如 <a href="http://www.javastack.cn">www.javastack.cn</a> 站点有好几个webapp，finance（金融）、product（产品）、admin（用户中心）。访问这些应用的方式通过上下文(context)来进行区分:</p>
+<p><a href="http://www.javastack.cn/finance/">www.javastack.cn/finance/</a></p>
+<p><a href="http://www.javastack.cnproduct/">www.javastack.cnproduct/</a></p>
+<p><a href="http://www.javastack.cn/admin/">www.javastack.cn/admin/</a></p>
+<p>我们知道，http的默认端口号是80，如果在一台服务器上同时启动这3个 webapp 应用，都用80端口，肯定是不成的。所以，这三个应用需要分别绑定不同的端口号。</p>
+<p>那么，问题来了，用户在实际访问 <a href="http://www.javastack.cn">www.javastack.cn</a> 站点时，访问不同 webapp，总不会还带着对应的端口号去访问吧。所以，你再次需要用到反向代理来做处理。</p>
+<p>配置也不难，来看看怎么做吧：
+<img src="/post-images/1560764455305.png" alt="">
+https反向代理配置</p>
+<p>一些对安全性要求比较高的站点，可能会使用 HTTPS（一种使用ssl通信标准的安全HTTP协议）。</p>
+<p>这里不科普 HTTP 协议和 SSL 标准。但是，使用 nginx 配置 https 需要知道几点：</p>
+<p>HTTPS 的固定端口号是 443，不同于 HTTP 的 80 端口</p>
+<p>SSL 标准需要引入安全证书，所以在 nginx.conf 中你需要指定证书和它对应的 key</p>
+<p>其他和 http 反向代理基本一样，只是在 Server 部分配置有些不同。
+<img src="/post-images/1560763429270.png" alt=""></p>
+<p>静态站点配置</p>
+<p>有时候，我们需要配置静态站点(即 html 文件和一堆静态资源)。</p>
+<p>举例来说：如果所有的静态资源都放在了 /app/dist 目录下，我们只需要在 nginx.conf 中指定首页以及这个站点的 host 即可。</p>
+<p>配置如下：
+<img src="/post-images/1560764012451.png" alt="">
+然后，添加 HOST：</p>
+<p>127.0.0.1 static.zp.cn，此时，在本地浏览器访问 static.zp.cn ，就可以访问静态站点了。</p>
+<p>跨域解决方案</p>
+<p>web 领域开发中，经常采用前后端分离模式。这种模式下，前端和后端分别是独立的 web 应用程序，例如：后端是 Java 程序，前端是 React 或 Vue 应用</p>
+<p>各自独立的 web app 在互相访问时，势必存在跨域问题。解决跨域问题一般有两种思路：</p>
+<p>CORS</p>
+<p>在后端服务器设置 HTTP 响应头，把你需要运行访问的域名加入加入 Access-Control-Allow-Origin 中。</p>
+<p>jsonp</p>
+<p>把后端根据请求，构造json数据，并返回，前端用 jsonp 跨域。</p>
+<p>这两种思路，本文不展开讨论。</p>
+<p>需要说明的是，nginx 根据第一种思路，也提供了一种解决跨域的解决方案。</p>
+<p>举例：www.javastack.cn 网站是由一个前端 app ，一个后端 app 组成的。前端端口号为 9000， 后端端口号为 8080。</p>
+<p>前端和后端如果使用 http 进行交互时，请求会被拒绝，因为存在跨域问题。来看看，nginx 是怎么解决的吧：</p>
+<p>首先，在 enable-cors.conf 文件中设置 cors ：
+<img src="/post-images/1560764290710.png" alt="">
+接下来，在你的服务器中 include enable-cors.conf 来引入跨域配置：
+<img src="/post-images/1560764335044.png" alt="">
+到此，就完成了。</p>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>Nginx</p>
+        <p><a href="https://blog.policx.com/posts/nginx/">https://blog.policx.com/posts/nginx/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2018-02-03</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2018-02-03</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+            <div class="article-tags size-small mb-4">
+                <span class="mr-2">#</span><a class="link-muted mr-2" href="/tags/Linux" rel="tag">Linux</a></div>
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/crash/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">连续启动 crash 自修复技术实现与原理解析</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/bye/">
+                    <span class="level-item">告别</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "9e4769c6e8a31619c2182b5eaba3d6f5",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

@@ -1,0 +1,2782 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="文中较详细介绍GCD队列，各种GCD使用方法，实例如何使用Dispatch Source监听系统底层对象，分析不同锁的性能对比，实例GCD死锁"/>
+<meta name="keywords" content=""/>
+
+<title>细说GCD（Grand Central Dispatch）如何用 - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/gcd\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2016-06-18T09:28:07Z",
+    "dataModified": "2016-06-18T09:28:07Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "文中较详细介绍GCD队列，各种GCD使用方法，实例如何使用Dispatch Source监听系统底层对象，分析不同锁的性能对比，实例GCD死锁"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/gcd/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="细说GCD（Grand Central Dispatch）如何用" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                    <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                        <i class="fas fa-list-ul"></i>
+                    </a>
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2016-06-18T09:28:07Z"
+                                  title="2016-06-18T09:28:07Z">2016-06-18</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2016-06-18T09:28:07Z"
+                                  title="2016-06-18T09:28:07Z">2016-06-18</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">21 分钟读完 (大约10085个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">细说GCD（Grand Central Dispatch）如何用</h1>
+        <div class="content"><p>文中较详细介绍GCD队列，各种GCD使用方法，实例如何使用Dispatch Source监听系统底层对象，分析不同锁的性能对比，实例GCD死锁情况。文中的Demo在这里 <a href="https://github.com/ming1016/GCDDemo">https://github.com/ming1016/GCDDemo</a> 对着文章试着来调demo体会更深哦，细细嚼消化好:)
+*</p>
+<!-- more -->
+<h1 id="gcdgrand-central-dispatch-介绍">GCD（Grand Central Dispatch） 介绍</h1>
+<p>GCD属于系统级的线程管理，在Dispatch queue中执行需要执行的任务性能非常的高。GCD这块已经开源，地址<a href="https://libdispatch.macosforge.org">https://libdispatch.macosforge.org</a>。GCD中的FIFO队列称为dispatch queue，用来保证先进来的任务先得到执行。</p>
+<h2 id="gcd概要">GCD概要</h2>
+<ul>
+<li>和operation queue一样都是基于队列的并发编程API，他们通过集中管理大家协同使用的线程池。</li>
+<li>公开的5个不同队列：运行在主线程中的main queue，3个不同优先级的后台队列（High Priority Queue，Default Priority Queue，Low Priority Queue），以及一个优先级更低的后台队列Background Priority Queue（用于I/O）</li>
+<li>可创建自定义队列：串行或并列队列。自定义一般放在Default Priority Queue和Main Queue里。</li>
+<li>操作是在多线程上还是单线程主要是看队列的类型和执行方法，并行队列异步执行才能在多线程，并行队列同步执行就只会在这个并行队列在队列中被分配的那个线程执行。（<a href="https://github.com/TorchLennon">TorchLennon</a> 指出先前文中此句一处<a href="https://github.com/ming1016/study/issues/3">错误</a>）</li>
+</ul>
+<h2 id="基本概念">基本概念</h2>
+<ul>
+<li>系统标准两个队列</li>
+</ul>
+<pre><code>//全局队列，一个并行的队列
+dispatch_get_global_queue
+//主队列，主线程中的唯一队列，一个串行队列
+dispatch_get_main_queue
+</code></pre><ul>
+<li>自定义队列</li>
+</ul>
+<pre><code>//串行队列
+dispatch_queue_create(&quot;com.starming.serialqueue&quot;, DISPATCH_QUEUE_SERIAL)
+//并行队列
+dispatch_queue_create(&quot;com.starming.concurrentqueue&quot;, DISPATCH_QUEUE_CONCURRENT)
+</code></pre><ul>
+<li>同步异步线程创建</li>
+</ul>
+<pre><code>//同步线程
+dispatch_sync(..., ^(block))
+//异步线程
+dispatch_async(..., ^(block))
+</code></pre><h1 id="队列dispatch-queue">队列（dispatch queue）</h1>
+<ul>
+<li>Serial：又叫private dispatch queues，同时只执行一个任务。Serial queue常用于同步访问特定的资源或数据。当你创建多个Serial queue时，虽然各自是同步，但serial queue之间是并发执行。</li>
+<li>Main dispatch queue：全局可用的serial queue，在应用程序主线程上执行任务。</li>
+<li>Concurrent：又叫global dispatch queue，可以并发的执行多个任务，但执行完成顺序是随机的。系统提供四个全局并发队列，这四个队列有这对应的优先级，用户是不能够创建全局队列的，只能获取。</li>
+</ul>
+<pre><code>dipatch_queue_t queue;
+queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH,0);
+</code></pre><ul>
+<li>user create queue：创建自己定义的队列，可以用dispatch_queue_create函数，函数有两个参数，第一个自定义的队列名，第二个参数是队列类型，默认NULL或者DISPATCH_QUEUE_SERIAL的是串行，参数为DISPATCH_QUEUE_CONCURRENT为并行队列。</li>
+</ul>
+<pre><code>dispatch_queue_t queue
+queue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+</code></pre><ul>
+<li>自定义队列的优先级：可以通过dipatch_queue_attr_make_with_qos_class或dispatch_set_target_queue方法设置队列的优先级</li>
+</ul>
+<pre><code>//dipatch_queue_attr_make_with_qos_class
+dispatch_queue_attr_t attr = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, -1);
+dispatch_queue_t queue = dispatch_queue_create(&quot;com.starming.gcddemo.qosqueue&quot;, attr);
+
+//dispatch_set_target_queue
+dispatch_queue_t queue = dispatch_queue_create(&quot;com.starming.gcddemo.settargetqueue&quot;,NULL); //需要设置优先级的queue
+dispatch_queue_t referQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0); //参考优先级
+dispatch_set_target_queue(queue, referQueue); //设置queue和referQueue的优先级一样
+</code></pre><ul>
+<li>dispatch_set_target_queue：可以设置优先级，也可以设置队列层级体系，比如让多个串行和并行队列在统一一个串行队列里串行执行，如下</li>
+</ul>
+<pre><code>dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.starming.gcddemo.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t firstQueue = dispatch_queue_create(&quot;com.starming.gcddemo.firstqueue&quot;, DISPATCH_QUEUE_SERIAL);
+dispatch_queue_t secondQueue = dispatch_queue_create(&quot;com.starming.gcddemo.secondqueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+
+dispatch_set_target_queue(firstQueue, serialQueue);
+dispatch_set_target_queue(secondQueue, serialQueue);
+
+dispatch_async(firstQueue, ^{
+    NSLog(@&quot;1&quot;);
+    [NSThread sleepForTimeInterval:3.f];
+});
+dispatch_async(secondQueue, ^{
+    NSLog(@&quot;2&quot;);
+    [NSThread sleepForTimeInterval:2.f];
+});
+dispatch_async(secondQueue, ^{
+    NSLog(@&quot;3&quot;);
+    [NSThread sleepForTimeInterval:1.f];
+});
+</code></pre><h2 id="队列类型">队列类型</h2>
+<p>队列默认是串行的，如果设置改参数为NULL会按串行处理，只能执行一个单独的block，队列也可以是并行的，同一时间执行多个block</p>
+<pre><code>- (id)init;
+{
+     self = [super init];
+     if (self != nil) {
+          NSString *label = [NSString stringWithFormat:@&quot;%@.isolation.%p&quot;, [self class], self];
+          self.isolationQueue = dispatch_queue_create([label UTF8String], 0);
+
+          label = [NSString stringWithFormat:@&quot;%@.work.%p&quot;, [self class], self];
+          self.workQueue = dispatch_queue_create([label UTF8String], 0);
+     }
+     return self;
+}
+</code></pre><p>5种队列，主队列（main queue）,四种通用调度队列，自己定制的队列。四种通用调度队列为</p>
+<ul>
+<li>QOS_CLASS_USER_INTERACTIVE：user interactive等级表示任务需要被立即执行提供好的体验，用来更新UI，响应事件等。这个等级最好保持小规模。</li>
+<li>QOS_CLASS_USER_INITIATED：user initiated等级表示任务由UI发起异步执行。适用场景是需要及时结果同时又可以继续交互的时候。</li>
+<li>QOS_CLASS_UTILITY：utility等级表示需要长时间运行的任务，伴有用户可见进度指示器。经常会用来做计算，I/O，网络，持续的数据填充等任务。这个任务节能。</li>
+<li>QOS_CLASS_BACKGROUND：background等级表示用户不会察觉的任务，使用它来处理预加载，或者不需要用户交互和对时间不敏感的任务。</li>
+</ul>
+<p>示例：后台加载显示图片</p>
+<pre><code>override func viewDidLoad() {
+     super.viewDidLoad()
+
+     dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)) { // 将工作从主线程转移到全局队列中，这是dispatch_async调用，异步提交保证调用线程会继续执行下去，这样viewDidLoad在主线程上能够更早完成，
+          let overlayImage = self.faceOverlayImageFromImage(self.image)
+          dispatch_async(dispatch_get_main_queue()) { // 新图完成，把一个闭包加入主线程用来更新UIImageView，只有在主线程能操作UIKit。
+               self.fadeInNewImage(overlayImage) // 更新UI
+          }
+     }
+}
+</code></pre><p>何时使用何种队列类型</p>
+<ul>
+<li>主队列（顺序）：队列中有任务完成需要更新UI时，dispatch_after在这种类型中使用。</li>
+<li>并发队列：用来执行与UI无关的后台任务，dispatch_sync放在这里，方便等待任务完成进行后续处理或和dispatch barrier同步。dispatch groups放在这里也不错。</li>
+<li>自定义顺序队列：顺序执行后台任务并追踪它时。这样做同时只有一个任务在执行可以防止资源竞争。dipatch barriers解决读写锁问题的放在这里处理。dispatch groups也是放在这里。</li>
+</ul>
+<p>可以使用下面的方法简化QoS等级参数的写法</p>
+<pre><code>var GlobalMainQueue: dispatch_queue_t {
+     return dispatch_get_main_queue()
+}
+var GlobalUserInteractiveQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_USER_INTERACTIVE.value), 0)
+}
+var GlobalUserInitiatedQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_USER_INITIATED.value), 0)
+}
+var GlobalUtilityQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.value), 0)
+}
+var GlobalBackgroundQueue: dispatch_queue_t {
+     return dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
+}
+
+//使用起来就是这样，易读而且容易看出在使用哪个队列
+dispatch_async(GlobalUserInitiatedQueue) {
+     let overlayImage = self.faceOverlayImageFromImage(self.image)
+     dispatch_async(GlobalMainQueue) {
+          self.fadeInNewImage(overlayImage)
+     }
+}
+</code></pre><h2 id="dispatch_once用法">dispatch_once用法</h2>
+<p>dispatch_once_t要是全局或static变量，保证dispatch_once_t只有一份实例</p>
+<pre><code>+ (UIColor *)boringColor;
+{
+     static UIColor *color;
+     //只运行一次
+     static dispatch_once_t onceToken;
+     dispatch_once(&amp;onceToken, ^{
+          color = [UIColor colorWithRed:0.380f green:0.376f blue:0.376f alpha:1.000f];
+     });
+     return color;
+}
+</code></pre><h2 id="dispatch_async">dispatch_async</h2>
+<p>设计一个异步的API调用dispatch_async()，这个调用放在API的方法或函数中做。让API的使用者设置一个回调处理队列</p>
+<pre><code>- (void)processImage:(UIImage *)image completionHandler:(void(^)(BOOL success))handler;
+{
+     dispatch_async(self.isolationQueue, ^(void){
+          // do actual processing here
+          dispatch_async(self.resultQueue, ^(void){
+               handler(YES);
+          });
+     });
+}
+</code></pre><p>可以避免界面会被一些耗时的操作卡死，比如读取网络数据，大数据IO，还有大量数据的数据库读写，这时需要在另一个线程中处理，然后通知主线程更新界面，GCD使用起来比NSThread和NSOperation方法要简单方便。</p>
+<pre><code>//代码框架
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     // 耗时的操作
+     dispatch_async(dispatch_get_main_queue(), ^{
+          // 更新界面
+     });
+});
+
+//下载图片的示例
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+     NSURL * url = [NSURL URLWithString:@&quot;https://avatar.csdn.net/2/C/D/1_totogo2010.jpg&quot;];
+     NSData * data = [[NSData alloc]initWithContentsOfURL:url];
+     UIImage *image = [[UIImage alloc]initWithData:data];
+     if (data != nil) {
+          dispatch_async(dispatch_get_main_queue(), ^{
+               self.imageView.image = image;
+          });
+     }
+});
+</code></pre><h2 id="dispatch_after延后执行">dispatch_after延后执行</h2>
+<p>dispatch_after只是延时提交block，不是延时立刻执行。</p>
+<pre><code>- (void)foo
+{
+     double delayInSeconds = 2.0;
+     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t) (delayInSeconds * NSEC_PER_SEC));
+     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+          [self bar];
+     });
+}
+</code></pre><p>范例，实现一个推迟出现弹出框提示，比如说提示用户评价等功能。</p>
+<pre><code>func showOrHideNavPrompt() {
+     let delayInSeconds = 1.0
+     let popTime = dispatch_time(DISPATCH_TIME_NOW,
+          Int64(delayInSeconds * Double(NSEC_PER_SEC))) // 在这里声明推迟的时间
+     dispatch_after(popTime, GlobalMainQueue) { // 等待delayInSeconds将闭包异步到主队列
+          let count = PhotoManager.sharedManager.photos.count
+          if count &gt; 0 {
+               self.navigationItem.prompt = nil
+          } else {
+               self.navigationItem.prompt = &quot;Add photos with faces to Googlyify them!&quot;
+          }
+     }
+}
+</code></pre><p>例子中的dispatch time的参数，可以先看看函数原型</p>
+<pre><code>dispatch_time_t dispatch_time ( dispatch_time_t when, int64_t delta );
+</code></pre><p>第一个参数为DISPATCH_TIME_NOW表示当前。第二个参数的delta表示纳秒，一秒对应的纳秒为1000000000，系统提供了一些宏来简化</p>
+<pre><code> #define NSEC_PER_SEC 1000000000ull //每秒有多少纳秒
+ #define USEC_PER_SEC 1000000ull    //每秒有多少毫秒
+ #define NSEC_PER_USEC 1000ull      //每毫秒有多少纳秒
+</code></pre><p>这样如果要表示一秒就可以这样写</p>
+<pre><code>dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC);
+dispatch_time(DISPATCH_TIME_NOW, 1000 * USEC_PER_SEC);
+dispatch_time(DISPATCH_TIME_NOW, USEC_PER_SEC * NSEC_PER_USEC);
+</code></pre><h2 id="dispatch_barrier_async使用barrier-task方法dispatch-barrier解决多线程并发读写同一个资源发生死锁">dispatch_barrier_async使用Barrier Task方法Dispatch Barrier解决多线程并发读写同一个资源发生死锁</h2>
+<p>Dispatch Barrier确保提交的闭包是指定队列中在特定时段唯一在执行的一个。在所有先于Dispatch Barrier的任务都完成的情况下这个闭包才开始执行。轮到这个闭包时barrier会执行这个闭包并且确保队列在此过程不会执行其它任务。闭包完成后队列恢复。需要注意dispatch_barrier_async只在自己创建的队列上有这种作用，在全局并发队列和串行队列上，效果和dispatch_sync一样</p>
+<pre><code>//创建队列
+self.isolationQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_CONCURRENT);
+//改变setter
+- (void)setCount:(NSUInteger)count forKey:(NSString *)key
+{
+     key = [key copy];
+     //确保所有barrier都是async异步的
+     dispatch_barrier_async(self.isolationQueue, ^(){
+          if (count == 0) {
+               [self.counts removeObjectForKey:key];
+          } else {
+               self.counts[key] = @(count);
+          }
+     });
+}
+- (void)dispatchBarrierAsyncDemo {
+    //防止文件读写冲突，可以创建一个串行队列，操作都在这个队列中进行，没有更新数据读用并行，写用串行。
+    dispatch_queue_t dataQueue = dispatch_queue_create(&quot;com.starming.gcddemo.dataqueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(dataQueue, ^{
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@&quot;read data 1&quot;);
+    });
+    dispatch_async(dataQueue, ^{
+        NSLog(@&quot;read data 2&quot;);
+    });
+    //等待前面的都完成，在执行barrier后面的
+    dispatch_barrier_async(dataQueue, ^{
+        NSLog(@&quot;write data 1&quot;);
+        [NSThread sleepForTimeInterval:1];
+    });
+    dispatch_async(dataQueue, ^{
+        [NSThread sleepForTimeInterval:1.f];
+        NSLog(@&quot;read data 3&quot;);
+    });
+    dispatch_async(dataQueue, ^{
+        NSLog(@&quot;read data 4&quot;);
+    });
+}
+</code></pre><p>swift示例</p>
+<pre><code>//使用dispatch_queue_create初始化一个并发队列。第一个参数遵循反向DNS命名习惯，方便描述，第二个参数是指出是并发还是顺序。
+private let concurrentPhotoQueue = dispatch_queue_create(
+&quot;com.raywenderlich.GooglyPuff.photoQueue&quot;, DISPATCH_QUEUE_CONCURRENT)
+
+func addPhoto(photo: Photo) {
+     dispatch_barrier_async(concurrentPhotoQueue) { // 将写操作加入到自定义的队列。开始执行时这个就是队列中唯一的一个在执行的任务。
+          self._photos.append(photo) // barrier能够保障不会和其他任务同时进行。
+          dispatch_async(GlobalMainQueue) { // 涉及到UI所以这个通知应该在主线程中，所以分派另一个异步任务到主队列中。
+               self.postContentAddedNotification()
+          }
+     }
+}
+
+//上面是解决了写可能发生死锁，下面是使用dispatch_sync解决读时可能会发生的死锁。
+var photos: [Photo] {
+     var photosCopy: [Photo]!
+     dispatch_sync(concurrentPhotoQueue) { // 同步调度到concurrentPhotoQueue队列执行读操作
+          photosCopy = self._photos // 保存
+     }
+     return photosCopy
+}
+//这样读写问题都解决了。
+</code></pre><p>都用异步处理避免死锁，异步的缺点在于调试不方便，但是比起同步容易产生死锁这个副作用还算小的。</p>
+<h2 id="dispatch_apply进行快速迭代">dispatch_apply进行快速迭代</h2>
+<p>类似for循环，但是在并发队列的情况下dispatch_apply会并发执行block任务。</p>
+<pre><code>for (size_t y = 0; y &lt; height; ++y) {
+     for (size_t x = 0; x &lt; width; ++x) {
+          // Do something with x and y here
+     }
+}
+//因为可以并行执行，所以使用dispatch_apply可以运行的更快
+- (void)dispatchApplyDemo {
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;, DISPATCH_QUEUE_CONCURRENT);
+    dispatch_apply(10, concurrentQueue, ^(size_t i) {
+        NSLog(@&quot;%zu&quot;,i);
+    });
+    NSLog(@&quot;The end&quot;); //这里有个需要注意的是，dispatch_apply这个是会阻塞主线程的。这个log打印会在dispatch_apply都结束后才开始执行
+}
+</code></pre><p>dispatch_apply能避免线程爆炸，因为GCD会管理并发</p>
+<pre><code>- (void)dealWiththreadWithMaybeExplode:(BOOL)explode {
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;,DISPATCH_QUEUE_CONCURRENT);
+    if (explode) {
+        //有问题的情况，可能会死锁
+        for (int i = 0; i &lt; 999 ; i++) {
+            dispatch_async(concurrentQueue, ^{
+                NSLog(@&quot;wrong %d&quot;,i);
+                //do something hard
+            });
+        }
+    } else {
+        //会优化很多，能够利用GCD管理
+        dispatch_apply(999, concurrentQueue, ^(size_t i){
+            NSLog(@&quot;correct %zu&quot;,i);
+            //do something hard
+        });
+    }
+}
+</code></pre><p>示例：</p>
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     var storedError: NSError!
+     var downloadGroup = dispatch_group_create()
+     let addresses = [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+
+     dispatch_apply(UInt(addresses.count), GlobalUserInitiatedQueue) {
+          i in
+          let index = Int(i)
+          let address = addresses[index]
+          let url = NSURL(string: address)
+          dispatch_group_enter(downloadGroup)
+          let photo = DownloadPhoto(url: url!) {
+               image, error in
+               if let error = error {
+                    storedError = error
+               }
+               dispatch_group_leave(downloadGroup)
+          }
+          PhotoManager.sharedManager.addPhoto(photo)
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) {
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre><h2 id="block组合dispatch_groups">Block组合Dispatch_groups</h2>
+<p>dispatch groups是专门用来监视多个异步任务。dispatch_group_t实例用来追踪不同队列中的不同任务。</p>
+<p>当group里所有事件都完成GCD API有两种方式发送通知，第一种是dispatch_group_wait，会阻塞当前进程，等所有任务都完成或等待超时。第二种方法是使用dispatch_group_notify，异步执行闭包，不会阻塞。</p>
+<p>第一种使用dispatch_group_wait的swift的例子：</p>
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     dispatch_async(GlobalUserInitiatedQueue) { // 因为dispatch_group_wait会租塞当前进程，所以要使用dispatch_async将整个方法要放到后台队列才能够保证主线程不被阻塞
+          var storedError: NSError!
+          var downloadGroup = dispatch_group_create() // 创建一个dispatch group
+
+          for address in [OverlyAttachedGirlfriendURLString,
+               SuccessKidURLString,
+               LotsOfFacesURLString]
+          {
+               let url = NSURL(string: address)
+               dispatch_group_enter(downloadGroup) // dispatch_group_enter是通知dispatch group任务开始了，dispatch_group_enter和dispatch_group_leave是成对调用，不然程序就崩溃了。
+               let photo = DownloadPhoto(url: url!) {
+                    image, error in
+                    if let error = error {
+                         storedError = error
+                    }
+                    dispatch_group_leave(downloadGroup) // 保持和dispatch_group_enter配对。通知任务已经完成
+               }
+               PhotoManager.sharedManager.addPhoto(photo)
+          }
+
+          dispatch_group_wait(downloadGroup, DISPATCH_TIME_FOREVER) // dispatch_group_wait等待所有任务都完成直到超时。如果任务完成前就超时了，函数会返回一个非零值，可以通过返回值判断是否超时。也可以用DISPATCH_TIME_FOREVER表示一直等。
+          dispatch_async(GlobalMainQueue) { // 这里可以保证所有图片任务都完成，然后在main queue里加入完成后要处理的闭包，会在main queue里执行。
+               if let completion = completion { // 执行闭包内容
+                    completion(error: storedError)
+               }
+          }
+     }
+}
+</code></pre><p>oc例子</p>
+<pre><code>- (void)dispatchGroupWaitDemo {
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;,DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    //在group中添加队列的block
+    dispatch_group_async(group, concurrentQueue, ^{
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@&quot;1&quot;);
+    });
+    dispatch_group_async(group, concurrentQueue, ^{
+        NSLog(@&quot;2&quot;);
+    });
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    NSLog(@&quot;go on&quot;);
+}
+</code></pre><p>第二种使用dispatch_group_notify的swift的例子：</p>
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     // 不用加dispatch_async，因为没有阻塞主进程
+     var storedError: NSError!
+     var downloadGroup = dispatch_group_create()
+
+     for address in [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+     {
+          let url = NSURL(string: address)
+          dispatch_group_enter(downloadGroup)
+          let photo = DownloadPhoto(url: url!) {
+               image, error in
+               if let error = error {
+                    storedError = error
+               }
+               dispatch_group_leave(downloadGroup)
+          }
+          PhotoManager.sharedManager.addPhoto(photo)
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) { // dispatch_group_notify和dispatch_group_wait的区别就是是异步执行闭包的，当dispatch groups中没有剩余的任务时闭包才执行。这里是指明在主队列中执行。
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre><p>oc例子</p>
+<pre><code>//dispatch_group_notify
+- (void)dispatchGroupNotifyDemo {
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;,DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_async(group, concurrentQueue, ^{
+        NSLog(@&quot;1&quot;);
+    });
+    dispatch_group_async(group, concurrentQueue, ^{
+        NSLog(@&quot;2&quot;);
+    });
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        NSLog(@&quot;end&quot;);
+    });
+    NSLog(@&quot;can continue&quot;);
+
+}
+
+//dispatch_group_wait
+- (void)dispatchGroupWaitDemo {
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;,DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t group = dispatch_group_create();
+    //在group中添加队列的block
+    dispatch_group_async(group, concurrentQueue, ^{
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@&quot;1&quot;);
+    });
+    dispatch_group_async(group, concurrentQueue, ^{
+        NSLog(@&quot;2&quot;);
+    });
+    dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+    NSLog(@&quot;can continue&quot;);
+}
+
+</code></pre><p>如何对现有API使用dispatch_group_t</p>
+<pre><code>//给Core Data的-performBlock:添加groups。组合完成任务后使用dispatch_group_notify来运行一个block即可。
+- (void)withGroup:(dispatch_group_t)group performBlock:(dispatch_block_t)block
+{
+     if (group == NULL) {
+          [self performBlock:block];
+     } else {
+          dispatch_group_enter(group);
+          [self performBlock:^(){
+               block();
+               dispatch_group_leave(group);
+          }];
+     }
+}
+
+//NSURLConnection也可以这样做
++ (void)withGroup:(dispatch_group_t)group
+     sendAsynchronousRequest:(NSURLRequest *)request
+     queue:(NSOperationQueue *)queue
+     completionHandler:(void (^)(NSURLResponse*, NSData*, NSError*))handler
+{
+     if (group == NULL) {
+          [self sendAsynchronousRequest:request
+               queue:queue
+               completionHandler:handler];
+     } else {
+          dispatch_group_enter(group);
+          [self sendAsynchronousRequest:request
+                    queue:queue
+                    completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
+               handler(response, data, error);
+               dispatch_group_leave(group);
+          }];
+     }
+}
+</code></pre><p>注意事项</p>
+<ul>
+<li>dispatch_group_async等价于dispatch_group_enter() 和 dispatch_group_leave()的组合。</li>
+<li>dispatch_group_enter() 必须运行在 dispatch_group_leave() 之前。</li>
+<li>dispatch_group_enter() 和 dispatch_group_leave() 需要成对出现的</li>
+</ul>
+<h2 id="dispatch-block">Dispatch Block</h2>
+<p>队列执行任务都是block的方式，</p>
+<ul>
+<li>创建block</li>
+</ul>
+<pre><code>- (void)createDispatchBlock {
+    //normal way
+    dispatch_queue_t concurrentQueue = dispatch_queue_create(&quot;com.starming.gcddemo.concurrentqueue&quot;,DISPATCH_QUEUE_CONCURRENT);
+    dispatch_block_t block = dispatch_block_create(0, ^{
+        NSLog(@&quot;run block&quot;);
+    });
+    dispatch_async(concurrentQueue, block);
+
+    //QOS way
+    dispatch_block_t qosBlock = dispatch_block_create_with_qos_class(0, QOS_CLASS_USER_INITIATED, -1, ^{
+        NSLog(@&quot;run qos block&quot;);
+    });
+    dispatch_async(concurrentQueue, qosBlock);
+}
+</code></pre><ul>
+<li>dispatch_block_wait：可以根据dispatch block来设置等待时间，参数DISPATCH_TIME_FOREVER会一直等待block结束</li>
+</ul>
+<pre><code>- (void)dispatchBlockWaitDemo {
+    dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.starming.gcddemo.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);
+    dispatch_block_t block = dispatch_block_create(0, ^{
+        NSLog(@&quot;star&quot;);
+        [NSThread sleepForTimeInterval:5.f];
+        NSLog(@&quot;end&quot;);
+    });
+    dispatch_async(serialQueue, block);
+    //设置DISPATCH_TIME_FOREVER会一直等到前面任务都完成
+    dispatch_block_wait(block, DISPATCH_TIME_FOREVER);
+    NSLog(@&quot;ok, now can go on&quot;);
+}
+</code></pre><ul>
+<li>dispatch_block_notify：可以监视指定dispatch block结束，然后再加入一个block到队列中。三个参数分别为，第一个是需要监视的block，第二个参数是需要提交执行的队列，第三个是待加入到队列中的block</li>
+</ul>
+<pre><code>- (void)dispatchBlockNotifyDemo {
+    dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.starming.gcddemo.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);
+    dispatch_block_t firstBlock = dispatch_block_create(0, ^{
+        NSLog(@&quot;first block start&quot;);
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@&quot;first block end&quot;);
+    });
+    dispatch_async(serialQueue, firstBlock);
+    dispatch_block_t secondBlock = dispatch_block_create(0, ^{
+        NSLog(@&quot;second block run&quot;);
+    });
+    //first block执行完才在serial queue中执行second block
+    dispatch_block_notify(firstBlock, serialQueue, secondBlock);
+}
+</code></pre><ul>
+<li>dispatch_block_cancel：iOS8后GCD支持对dispatch block的取消</li>
+</ul>
+<pre><code>- (void)dispatchBlockCancelDemo {
+    dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.starming.gcddemo.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);
+    dispatch_block_t firstBlock = dispatch_block_create(0, ^{
+        NSLog(@&quot;first block start&quot;);
+        [NSThread sleepForTimeInterval:2.f];
+        NSLog(@&quot;first block end&quot;);
+    });
+    dispatch_block_t secondBlock = dispatch_block_create(0, ^{
+        NSLog(@&quot;second block run&quot;);
+    });
+    dispatch_async(serialQueue, firstBlock);
+    dispatch_async(serialQueue, secondBlock);
+    //取消secondBlock
+    dispatch_block_cancel(secondBlock);
+}
+</code></pre><h2 id="使用dispatch-block-object调度块在任务执行前进行取消">使用dispatch block object（调度块）在任务执行前进行取消</h2>
+<p>dispatch block object可以为队列中的对象设置
+示例，下载图片中途进行取消</p>
+<pre><code>func downloadPhotosWithCompletion(completion: BatchPhotoDownloadingCompletionClosure?) {
+     var storedError: NSError!
+     let downloadGroup = dispatch_group_create()
+     var addresses = [OverlyAttachedGirlfriendURLString,
+          SuccessKidURLString,
+          LotsOfFacesURLString]
+     addresses += addresses + addresses // 扩展address数组，复制3份
+     var blocks: [dispatch_block_t] = [] // 一个保存block的数组
+
+     for i in 0 ..&lt; addresses.count {
+          dispatch_group_enter(downloadGroup)
+          let block = dispatch_block_create(DISPATCH_BLOCK_INHERIT_QOS_CLASS) { // 创建一个block，block的标志是DISPATCH_BLOCK_INHERIT_QOS_CLASS
+               let index = Int(i)
+               let address = addresses[index]
+               let url = NSURL(string: address)
+               let photo = DownloadPhoto(url: url!) {
+                    image, error in
+                    if let error = error {
+                         storedError = error
+                    }
+                    dispatch_group_leave(downloadGroup)
+               }
+               PhotoManager.sharedManager.addPhoto(photo)
+          }
+          blocks.append(block)
+          dispatch_async(GlobalMainQueue, block) // 把这个block放到GlobalMainQueue上异步调用。因为全局队列是一个顺序队列所以方便取消对象block，同时可以保证下载任务在downloadPhotosWithCompletion返回后才开始执行。
+     }
+
+     for block in blocks[3 ..&lt; blocks.count] {
+          let cancel = arc4random_uniform(2) // 随机返回一个整数，会返回0或1
+          if cancel == 1 {
+               dispatch_block_cancel(block) // 如果是1就取消block，这个只能发生在block还在队列中并没有开始的情况下。因为把block已经放到了GlobalMainQueue中，所以这个地方会先执行，执行完了才会执行block。
+               dispatch_group_leave(downloadGroup) // 因为已经dispatch_group_enter了，所以取消时也要将其都leave掉。
+          }
+     }
+
+     dispatch_group_notify(downloadGroup, GlobalMainQueue) {
+          if let completion = completion {
+               completion(error: storedError)
+          }
+     }
+}
+</code></pre><h2 id="dispatch-io-文件操作">Dispatch IO 文件操作</h2>
+<p>dispatch io读取文件的方式类似于下面的方式，多个线程去读取文件的切片数据，对于大的数据文件这样会比单线程要快很多。</p>
+<pre><code>dispatch_async(queue,^{/*read 0-99 bytes*/});
+dispatch_async(queue,^{/*read 100-199 bytes*/});
+dispatch_async(queue,^{/*read 200-299 bytes*/});
+</code></pre><ul>
+<li>dispatch_io_create：创建dispatch io</li>
+<li>dispatch_io_set_low_water：指定切割文件大小</li>
+<li>dispatch_io_read：读取切割的文件然后合并。</li>
+</ul>
+<p>苹果系统日志API里用到了这个技术，可以在这里查看：<a href="https://github.com/Apple-FOSS-Mirror/Libc/blob/2ca2ae74647714acfc18674c3114b1a5d3325d7d/gen/asl.c">https://github.com/Apple-FOSS-Mirror/Libc/blob/2ca2ae74647714acfc18674c3114b1a5d3325d7d/gen/asl.c</a></p>
+<pre><code>pipe_q = dispatch_queue_create(&quot;PipeQ&quot;, NULL);
+//创建
+pipe_channel = dispatch_io_create(DISPATCH_IO_STREAM, fd, pipe_q, ^(int err){
+    close(fd);
+});
+
+*out_fd = fdpair[1];
+//设置切割大小
+dispatch_io_set_low_water(pipe_channel, SIZE_MAX);
+
+dispatch_io_read(pipe_channel, 0, SIZE_MAX, pipe_q, ^(bool done, dispatch_data_t pipedata, int err){
+    if (err == 0)
+    {
+        size_t len = dispatch_data_get_size(pipedata);
+        if (len &gt; 0)
+        {
+            //对每次切块数据的处理
+            const char *bytes = NULL;
+            char *encoded;
+            uint32_t eval;
+
+            dispatch_data_t md = dispatch_data_create_map(pipedata, (const void **)&amp;bytes, &amp;len);
+            encoded = asl_core_encode_buffer(bytes, len);
+            asl_msg_set_key_val(aux, ASL_KEY_AUX_DATA, encoded);
+            free(encoded);
+            eval = _asl_evaluate_send(NULL, (aslmsg)aux, -1);
+            _asl_send_message(NULL, eval, aux, NULL);
+            asl_msg_release(aux);
+            dispatch_release(md);
+        }
+    }
+
+    if (done)
+    {
+        //semaphore +1使得不需要再等待继续执行下去。
+        dispatch_semaphore_signal(sem);
+        dispatch_release(pipe_channel);
+        dispatch_release(pipe_q);
+    }
+});
+
+</code></pre><h2 id="dispatch-source-用gcd监视进程">Dispatch Source 用GCD监视进程</h2>
+<p>Dispatch Source用于监听系统的底层对象，比如文件描述符，Mach端口，信号量等。主要处理的事件如下表</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">方法</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_DATA_ADD</td>
+<td style="text-align:left">数据增加</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_DATA_OR</td>
+<td style="text-align:left">数据OR</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_MACH_SEND</td>
+<td style="text-align:left">Mach端口发送</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_MACH_RECV</td>
+<td style="text-align:left">Mach端口接收</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_MEMORYPRESSURE</td>
+<td style="text-align:left">内存情况</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_PROC</td>
+<td style="text-align:left">进程事件</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_READ</td>
+<td style="text-align:left">读数据</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_SIGNAL</td>
+<td style="text-align:left">信号</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_TIMER</td>
+<td style="text-align:left">定时器</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_VNODE</td>
+<td style="text-align:left">文件系统变化</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_SOURCE_TYPE_WRITE</td>
+<td style="text-align:left">文件写入</td>
+</tr>
+</tbody>
+</table>
+<p>方法</p>
+<ul>
+<li>dispatch_source_create：创建dispatch source，创建后会处于挂起状态进行事件接收，需要设置事件处理handler进行事件处理。</li>
+<li>dispatch_source_set_event_handler：设置事件处理handler</li>
+<li>dispatch_source_set_cancel_handler：事件取消handler，就是在dispatch source释放前做些清理的事。</li>
+<li>dispatch_source_cancel：关闭dispatch source，设置的事件处理handler不会被执行，已经执行的事件handler不会取消。</li>
+</ul>
+<pre><code>NSRunningApplication *mail = [NSRunningApplication runningApplicationsWithBundleIdentifier:@&quot;com.apple.mail&quot;];
+if (mail == nil) {
+     return;
+}
+pid_t const pid = mail.processIdentifier;
+self.source = dispatch_source_create(DISPATCH_SOURCE_TYPE_PROC, pid, DISPATCH_PROC_EXIT, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(self.source, ^(){
+     NSLog(@&quot;Mail quit.&quot;);
+});
+//在事件源传到你的事件处理前需要调用dispatch_resume()这个方法
+dispatch_resume(self.source);
+</code></pre><p>监视文件夹内文件变化</p>
+<pre><code>NSURL *directoryURL; // assume this is set to a directory
+int const fd = open([[directoryURL path] fileSystemRepresentation], O_EVTONLY);
+if (fd &lt; 0) {
+     char buffer[80];
+     strerror_r(errno, buffer, sizeof(buffer));
+     NSLog(@&quot;Unable to open \&quot;%@\&quot;: %s (%d)&quot;, [directoryURL path], buffer, errno);
+     return;
+}
+dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE, fd,
+DISPATCH_VNODE_WRITE | DISPATCH_VNODE_DELETE, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(source, ^(){
+     unsigned long const data = dispatch_source_get_data(source);
+     if (data &amp; DISPATCH_VNODE_WRITE) {
+          NSLog(@&quot;The directory changed.&quot;);
+     }
+     if (data &amp; DISPATCH_VNODE_DELETE) {
+          NSLog(@&quot;The directory has been deleted.&quot;);
+     }
+});
+dispatch_source_set_cancel_handler(source, ^(){
+     close(fd);
+});
+self.source = source;
+dispatch_resume(self.source);
+//还要注意需要用DISPATCH_VNODE_DELETE 去检查监视的文件或文件夹是否被删除，如果删除了就停止监听
+</code></pre><p>NSTimer在主线程的runloop里会在runloop切换其它模式时停止，这时就需要手动在子线程开启一个模式为NSRunLoopCommonModes的runloop，如果不想开启一个新的runloop可以用不跟runloop关联的dispatch source timer，如下。</p>
+<pre><code>dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(source, ^(){
+     NSLog(@&quot;Time flies.&quot;);
+});
+dispatch_time_t start
+dispatch_source_set_timer(source, DISPATCH_TIME_NOW, 5ull * NSEC_PER_SEC,100ull * NSEC_PER_MSEC);
+self.source = source;
+dispatch_resume(self.source);
+</code></pre><h2 id="dispatch-semaphore和的介绍">Dispatch Semaphore和的介绍</h2>
+<p>另外一种保证同步的方法。使用dispatch_semaphore_signal加1dispatch_semaphore_wait减1，为0时等待的设置方式来达到线程同步的目的和同步锁一样能够解决资源抢占的问题。</p>
+<pre><code>//dispatch semaphore
+- (void)dispatchSemaphoreDemo {
+    //创建semaphore
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@&quot;start&quot;);
+        [NSThread sleepForTimeInterval:1.f];
+        NSLog(@&quot;semaphore +1&quot;);
+        dispatch_semaphore_signal(semaphore); //+1 semaphore
+    });
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    NSLog(@&quot;continue&quot;);
+}
+</code></pre><h2 id="锁">锁</h2>
+<p>这里简单介绍下iOS中常用的各种锁和他们的性能。</p>
+<ul>
+<li>NSRecursiveLock：递归锁，可以在一个线程中反复获取锁不会造成死锁，这个过程会记录获取锁和释放锁的次数来达到何时释放的作用。</li>
+<li>NSDistributedLock：分布锁，基于文件方式的锁机制，可以跨进程访问。</li>
+<li>NSConditionLock：条件锁，用户定义条件，确保一个线程可以获取满足一定条件的锁。因为线程间竞争会涉及到条件锁检测，系统调用上下切换频繁导致耗时是几个锁里最长的。</li>
+<li>OSSpinLock：自旋锁，不进入内核，减少上下文切换，性能最高，但抢占多时会占用较多cpu，好点多，这时使用pthread_mutex较好。</li>
+<li>pthread_mutex_t：同步锁基于C语言，底层api性能高，使用方法和其它的类似。</li>
+<li>@synchronized：更加简单。</li>
+</ul>
+<h2 id="dispatch_suspend和dispatch_resume挂起和恢复队列">dispatch_suspend和dispatch_resume挂起和恢复队列</h2>
+<p>dispatch_suspend这里挂起不会暂停正在执行的block，只是能够暂停还没执行的block。</p>
+<h2 id="dispatch_set_context和dispatch_get_context">dispatch_set_context和dispatch_get_context</h2>
+<h2 id="gcd深入操作">GCD深入操作</h2>
+<ul>
+<li>缓冲区：dispatch_data_t基于零碎的内存区域，使用dispatch_data_apply来遍历，还可以用dispatch_data_create_subrange来创建一个不做任何拷贝的子区域</li>
+<li>I/O调度：使用GCD提供的dispatch_io_read，dispatch_io_write和dispatch_io_close</li>
+<li>测试：使用dispatch_benchmark小工具</li>
+<li>原子操作： libkern/OSAtomic.h里可以查看那些函数，用于底层多线程编程。</li>
+</ul>
+<h2 id="gcd死锁">GCD死锁</h2>
+<p>当前串行队列里面同步执行当前串行队列就会死锁，解决的方法就是将同步的串行队列放到另外一个线程就能够解决。</p>
+<pre><code>- (void)deadLockCase1 {
+    NSLog(@&quot;1&quot;);
+    //主队列的同步线程，按照FIFO的原则（先入先出），2排在3后面会等3执行完，但因为同步线程，3又要等2执行完，相互等待成为死锁。
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        NSLog(@&quot;2&quot;);
+    });
+    NSLog(@&quot;3&quot;);
+}
+- (void)deadLockCase2 {
+    NSLog(@&quot;1&quot;);
+    //3会等2，因为2在全局并行队列里，不需要等待3，这样2执行完回到主队列，3就开始执行
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSLog(@&quot;2&quot;);
+    });
+    NSLog(@&quot;3&quot;);
+}
+- (void)deadLockCase3 {
+    dispatch_queue_t serialQueue = dispatch_queue_create(&quot;com.starming.gcddemo.serialqueue&quot;, DISPATCH_QUEUE_SERIAL);
+    NSLog(@&quot;1&quot;);
+    dispatch_async(serialQueue, ^{
+        NSLog(@&quot;2&quot;);
+        //串行队列里面同步一个串行队列就会死锁
+        dispatch_sync(serialQueue, ^{
+            NSLog(@&quot;3&quot;);
+        });
+        NSLog(@&quot;4&quot;);
+    });
+    NSLog(@&quot;5&quot;);
+}
+- (void)deadLockCase4 {
+    NSLog(@&quot;1&quot;);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@&quot;2&quot;);
+        //将同步的串行队列放到另外一个线程就能够解决
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSLog(@&quot;3&quot;);
+        });
+        NSLog(@&quot;4&quot;);
+    });
+    NSLog(@&quot;5&quot;);
+}
+- (void)deadLockCase5 {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSLog(@&quot;1&quot;);
+        //回到主线程发现死循环后面就没法执行了
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            NSLog(@&quot;2&quot;);
+        });
+        NSLog(@&quot;3&quot;);
+    });
+    NSLog(@&quot;4&quot;);
+    //死循环
+    while (1) {
+        //
+    }
+}
+</code></pre><h1 id="gcd实际使用">GCD实际使用</h1>
+<h2 id="fmdb如何使用dispatch_queue_set_specific和dispatch_get_specific来防止死锁">FMDB如何使用dispatch_queue_set_specific和dispatch_get_specific来防止死锁</h2>
+<p>作用类似objc_setAssociatedObject跟objc_getAssociatedObject</p>
+<pre><code>static const void * const kDispatchQueueSpecificKey = &amp;kDispatchQueueSpecificKey;
+//创建串行队列，所有数据库的操作都在这个队列里
+_queue = dispatch_queue_create([[NSString stringWithFormat:@&quot;fmdb.%@&quot;, self] UTF8String], NULL);
+//标记队列
+dispatch_queue_set_specific(_queue, kDispatchQueueSpecificKey, (__bridge void *)self, NULL);
+
+//检查是否是同一个队列来避免死锁的方法
+- (void)inDatabase:(void (^)(FMDatabase *db))block {
+    FMDatabaseQueue *currentSyncQueue = (__bridge id)dispatch_get_specific(kDispatchQueueSpecificKey);
+    assert(currentSyncQueue != self &amp;&amp; &quot;inDatabase: was called reentrantly on the same queue, which would lead to a deadlock&quot;);
+}
+</code></pre><h2 id="dtcoretext使用gcd加快解析速度">DTCoreText使用GCD加快解析速度</h2>
+<p>DTCoreText采用的是SAX解析，iOS自带了XML/HTML的解析引擎libxml，提供了两个解析接口，DOM解析和SAX解析，前者使用简单但是占用内存多，SAX解析由于不会返回一个dom树，采用的是查到一个标签比如<a>回调startElement方法碰到内容就回调_characters碰到类似</a>就回调endElement这样的方式。</p>
+<p>根据这种解析方式DTCoreText使用多线程解析能够更快的解析，DTHTMLAttributedStringBuilder使用三个dispatch_queue</p>
+<ul>
+<li>_dataParsingQueue：解析html的</li>
+<li>_treeBuildingQueue：生成dom树的</li>
+<li>_stringAssemblyQueue：组装NSAttributeString的
+获取三个队列全部完成采用了dispatch_group的dispatch_group_wait这种阻塞同步方式来返回结果。</li>
+</ul>
+<h1 id="ios系统版本新特性">iOS系统版本新特性</h1>
+<h2 id="ios8">iOS8</h2>
+<p>iOS8新加了一个功能叫Quality of Service(QoS)，里面提供了一下几个更容易理解的枚举名来使用user interactive，user initiated，utility和background。下面的表做了对比</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Global queue</th>
+<th style="text-align:left">Corresponding QoS class</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Main thread</td>
+<td style="text-align:left">NSQualityOfServiceUserInteractive</td>
+<td style="text-align:left">UI相关，交互等</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_QUEUE_PRIORITY_HIGH</td>
+<td style="text-align:left">NSQualityOfServiceUserInitiated</td>
+<td style="text-align:left">用户发起需要马上得到结果进行后续任务</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_QUEUE_PRIORITY_DEFAULT</td>
+<td style="text-align:left">NSQualityOfServiceDefault</td>
+<td style="text-align:left">默认的不应该使用这个设置任务</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_QUEUE_PRIORITY_LOW</td>
+<td style="text-align:left">NSQualityOfServiceUtility</td>
+<td style="text-align:left">花费时间稍多比如下载，需要几秒或几分钟的</td>
+</tr>
+<tr>
+<td style="text-align:left">DISPATCH_QUEUE_PRIORITY_BACKGROUND</td>
+<td style="text-align:left">NSQualityOfServiceBackground</td>
+<td style="text-align:left">不可见在后台的操作可能需要好几分钟甚至几小时的</td>
+</tr>
+</tbody>
+</table>
+<h1 id="参考资料">参考资料</h1>
+<h2 id="wwdc">WWDC</h2>
+<ul>
+<li>Building Responsive and Efficient Apps with GCD：<a href="https://developer.apple.com/videos/play/wwdc2015-718/">https://developer.apple.com/videos/play/wwdc2015-718/</a></li>
+</ul>
+<h2 id="文档">文档</h2>
+<ul>
+<li>官方文档：<a href="https://developer.apple.com/library/prerelease/ios/documentation/Performance/Reference/GCD_libdispatch_Ref/">https://developer.apple.com/library/prerelease/ios/documentation/Performance/Reference/GCD_libdispatch_Ref/</a></li>
+</ul>
+<p><a href="https://github.com/ming1016/study/wiki"><img src="https://i.loli.net/2019/07/17/5d2ecfa7074a070306.jpg" alt="作者"></a></p>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>细说GCD（Grand Central Dispatch）如何用</p>
+        <p><a href="https://blog.policx.com/posts/gcd/">https://blog.policx.com/posts/gcd/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2016-06-18</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2016-06-18</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/cfrunloop/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">CFRunLoop </span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/ios-bing-fa/">
+                    <span class="level-item">iOS并发编程</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "538424431f1c4d0959b348fdc8e2346f",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+    <div class="card widget" id="toc" data-type="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">目录</h3>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#gcd概要">GCD概要</a></li>
+    <li><a href="#基本概念">基本概念</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#队列类型">队列类型</a></li>
+    <li><a href="#dispatch_once用法">dispatch_once用法</a></li>
+    <li><a href="#dispatch_async">dispatch_async</a></li>
+    <li><a href="#dispatch_after延后执行">dispatch_after延后执行</a></li>
+    <li><a href="#dispatch_barrier_async使用barrier-task方法dispatch-barrier解决多线程并发读写同一个资源发生死锁">dispatch_barrier_async使用Barrier Task方法Dispatch Barrier解决多线程并发读写同一个资源发生死锁</a></li>
+    <li><a href="#dispatch_apply进行快速迭代">dispatch_apply进行快速迭代</a></li>
+    <li><a href="#block组合dispatch_groups">Block组合Dispatch_groups</a></li>
+    <li><a href="#dispatch-block">Dispatch Block</a></li>
+    <li><a href="#使用dispatch-block-object调度块在任务执行前进行取消">使用dispatch block object（调度块）在任务执行前进行取消</a></li>
+    <li><a href="#dispatch-io-文件操作">Dispatch IO 文件操作</a></li>
+    <li><a href="#dispatch-source-用gcd监视进程">Dispatch Source 用GCD监视进程</a></li>
+    <li><a href="#dispatch-semaphore和的介绍">Dispatch Semaphore和的介绍</a></li>
+    <li><a href="#锁">锁</a></li>
+    <li><a href="#dispatch_suspend和dispatch_resume挂起和恢复队列">dispatch_suspend和dispatch_resume挂起和恢复队列</a></li>
+    <li><a href="#dispatch_set_context和dispatch_get_context">dispatch_set_context和dispatch_get_context</a></li>
+    <li><a href="#gcd深入操作">GCD深入操作</a></li>
+    <li><a href="#gcd死锁">GCD死锁</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#fmdb如何使用dispatch_queue_set_specific和dispatch_get_specific来防止死锁">FMDB如何使用dispatch_queue_set_specific和dispatch_get_specific来防止死锁</a></li>
+    <li><a href="#dtcoretext使用gcd加快解析速度">DTCoreText使用GCD加快解析速度</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#ios8">iOS8</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#wwdc">WWDC</a></li>
+    <li><a href="#文档">文档</a></li>
+  </ul>
+</nav>
+            </div>
+        </div>
+        <style>
+        .menu-list > li > a.is-active + .menu-list {display: block;}
+        .menu-list > li > a + .menu-list {display: none;}
+        </style>
+        <script type="text/javascript" src="/js/toc.js" defer></script>
+    </div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

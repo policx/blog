@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>数字人生</title>
+    <link>https://blog.policx.com/about/</link>
+    <description>Recent content on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster><atom:link href="https://blog.policx.com/about/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

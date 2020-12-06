@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 数字人生</title>
+    <link>https://blog.policx.com/categories/</link>
+    <description>Recent content in Categories on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Tue, 23 Jun 2020 11:06:39 +0000</lastBuildDate><atom:link href="https://blog.policx.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>wwdc</title>
+      <link>https://blog.policx.com/categories/wwdc/</link>
+      <pubDate>Tue, 23 Jun 2020 11:06:39 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/categories/wwdc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>program</title>
+      <link>https://blog.policx.com/categories/program/</link>
+      <pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/categories/program/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>news</title>
+      <link>https://blog.policx.com/categories/news/</link>
+      <pubDate>Sun, 25 Aug 2019 09:20:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/categories/news/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Software</title>
+      <link>https://blog.policx.com/categories/software/</link>
+      <pubDate>Fri, 26 Jul 2019 22:19:21 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/categories/software/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>notes</title>
+      <link>https://blog.policx.com/categories/notes/</link>
+      <pubDate>Thu, 04 Jul 2019 22:59:09 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/categories/notes/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

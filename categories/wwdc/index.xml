@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>wwdc on 数字人生</title>
+    <link>https://blog.policx.com/categories/wwdc/</link>
+    <description>Recent content in wwdc on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Tue, 23 Jun 2020 11:06:39 +0000</lastBuildDate><atom:link href="https://blog.policx.com/categories/wwdc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WWDC 2020</title>
+      <link>https://blog.policx.com/posts/2020/</link>
+      <pubDate>Tue, 23 Jun 2020 11:06:39 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2020/</guid>
+      <description>Do you want to spend the rest of your life selling sugared water or do you want a chance to change the world? 你想用卖糖水来度过余生，还是想要一个机会来改变世界？</description>
+    </item>
+    
+    <item>
+      <title>WWDC 2018</title>
+      <link>https://blog.policx.com/posts/2018/</link>
+      <pubDate>Tue, 05 Jun 2018 00:59:59 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2018/</guid>
+      <description>Being the richest man in the cemetery doesn&amp;rsquo;t matter to me &amp;hellip; Going to bed at night saying we&amp;rsquo;ve done something wonderful&amp;hellip; that&amp;rsquo;s what matters to me。 是否能成为墓地里最富有的人，对我而言无足轻重。重要的是，当我晚上睡觉时，我可以说：</description>
+    </item>
+    
+    <item>
+      <title>WWDC 2015</title>
+      <link>https://blog.policx.com/posts/2015/</link>
+      <pubDate>Fri, 05 Jun 2015 01:02:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2015/</guid>
+      <description>I think the greatest value of learning how to think&amp;hellip;. I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches</description>
+    </item>
+    
+  </channel>
+</rss>

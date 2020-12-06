@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 数字人生</title>
+    <link>https://blog.policx.com/posts/</link>
+    <description>Recent content in Posts on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Tue, 23 Jun 2020 11:06:39 +0000</lastBuildDate><atom:link href="https://blog.policx.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WWDC 2020</title>
+      <link>https://blog.policx.com/posts/2020/</link>
+      <pubDate>Tue, 23 Jun 2020 11:06:39 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2020/</guid>
+      <description>Do you want to spend the rest of your life selling sugared water or do you want a chance to change the world? 你想用卖糖水来度过余生，还是想要一个机会来改变世界？</description>
+    </item>
+    
+    <item>
+      <title>Linux 桌面进化史</title>
+      <link>https://blog.policx.com/posts/linuxdesktop/</link>
+      <pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/linuxdesktop/</guid>
+      <description>本周 Linux 刚刚迎来它的 28 岁生日。自 20 世纪 90 年代初期以来，Linux 桌面也已从简单的窗口管理器发展为成熟、完整的桌面。那么它究竟是如何一步步发展至</description>
+    </item>
+    
+    <item>
+      <title>关于知识产权、知识共享与文章翻译</title>
+      <link>https://blog.policx.com/posts/knowledge/</link>
+      <pubDate>Sun, 25 Aug 2019 09:20:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/knowledge/</guid>
+      <description>作者简介： 豌豆花下猫，生于广东毕业于武大，现为苏漂程序员，有一些极客思维，也有一些人文情怀，有一些温度，还有一些态度。公众号：Python猫</description>
+    </item>
+    
+    <item>
+      <title>2020年顶级编程语言的统计数据和调查结果如何？</title>
+      <link>https://blog.policx.com/posts/2020dev/</link>
+      <pubDate>Mon, 19 Aug 2019 08:21:23 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2020dev/</guid>
+      <description>比较编程语言是一件非常复杂的事情，所以有许多图形插图/笑话试图象征编程语言 。 我发现很少，我正在开始这篇文章。 简单来说， 编程语言使人类能够指导</description>
+    </item>
+    
+    <item>
+      <title>Dice 称这  5 种编程语言未来可能各自成王</title>
+      <link>https://blog.policx.com/posts/five_a/</link>
+      <pubDate>Fri, 16 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_a/</guid>
+      <description>上个月，我们曾报道过一篇&amp;quot;Dice 称这 5 种编程语言可能衰落&amp;ldquo;的文章，它基于 RedMonk 和 TIOBE 等公司的数据推测的，结果引起了广泛讨论</description>
+    </item>
+    
+    <item>
+      <title>Dice 称这 5 种编程语言可能衰落</title>
+      <link>https://blog.policx.com/posts/five_b/</link>
+      <pubDate>Sat, 10 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_b/</guid>
+      <description>Dice Insights 是为北美的科技专业人士提供见解和分析的网站，目的是帮助他们找到工作和发展事业，并且报道就业趋势、新技术等内容。 根据 Dice 报道，并不是所有的编</description>
+    </item>
+    
+    <item>
+      <title>「拖放」Mac 的底层能力，也是效率神技</title>
+      <link>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E6%8B%96%E6%94%BE/</link>
+      <pubDate>Fri, 26 Jul 2019 22:19:21 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E6%8B%96%E6%94%BE/</guid>
+      <description>个人惯用 Mac 拖放，但每每身边同事看我的操作习惯，都大惊失色，感叹 Mac 还有这种操作，所以决定单独讲一篇 Mac 拖放。 Mac的拖放几乎是全局的，比如你可以</description>
+    </item>
+    
+    <item>
+      <title>Python导图</title>
+      <link>https://blog.policx.com/posts/python-mind/</link>
+      <pubDate>Sun, 21 Jul 2019 14:03:24 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-mind/</guid>
+      <description>推荐：XMind 一个全功能的思维导图和头脑风暴软件。 Python应用领域和数据结构 *点击图片查看原文 Python 系列 (一) 核心知识 *点击图片查看原文 核</description>
+    </item>
+    
+    <item>
+      <title>《Python札记》1_列表list</title>
+      <link>https://blog.policx.com/posts/python3-notes01/</link>
+      <pubDate>Thu, 18 Jul 2019 22:55:41 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python3-notes01/</guid>
+      <description>写于开始之前 笔者即将开始写一个系列的《Python札记》。本系列的札记主要是自学齐伟老师《跟老齐学Python轻松入门》一书整理而来。书第一</description>
+    </item>
+    
+    <item>
+      <title>Flutter的环境配置 for Mac</title>
+      <link>https://blog.policx.com/posts/flutter/</link>
+      <pubDate>Tue, 16 Jul 2019 18:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/flutter/</guid>
+      <description>&lt;h1 id=&#34;前言&#34;&gt;前言&lt;/h1&gt;
+&lt;p&gt;最近Flutter已经疯狂的刷屏了各个技术博客、技术网站，完全有一统天下的气势。所以最近也决定开始尝尝鲜，从零开始一步步的来探索Flutter的世界。就从环境搭建开始，记录一下自己探索Flutter的过程。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python爬虫</title>
+      <link>https://blog.policx.com/posts/spider/</link>
+      <pubDate>Mon, 15 Jul 2019 10:06:04 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/spider/</guid>
+      <description>现在Python语言大火，在网络爬虫、人工智能、大数据等领域都有很好的应用。今天我向大家介绍一下Python爬虫的一些知识和常用类库的用法，</description>
+    </item>
+    
+    <item>
+      <title>DDoS（分布式拒绝服务）攻击是无解的吗？</title>
+      <link>https://blog.policx.com/posts/ddos/</link>
+      <pubDate>Sun, 14 Jul 2019 15:26:43 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ddos/</guid>
+      <description>“ DDOS？ 一言难尽啊！ ” 先说结论，DDoS是近年来网络攻击中的一棵“常青树”，的确很难缠，但说它是无解的，那也有点太看得起它了。虽然DDo</description>
+    </item>
+    
+    <item>
+      <title>未来五年，iOS 开发如何前行？</title>
+      <link>https://blog.policx.com/posts/five_c/</link>
+      <pubDate>Thu, 11 Jul 2019 19:44:45 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_c/</guid>
+      <description>【CSDN 编者按】技术圈里一直倡导一句话，那便是“拥抱变化”，因为技术始终在飞速地更新迭代，过去掌握的技能可能突然之间就过时了。在近几年，移</description>
+    </item>
+    
+    <item>
+      <title>BT 种子和磁力链接是如何工作的？</title>
+      <link>https://blog.policx.com/posts/bittorrent/</link>
+      <pubDate>Fri, 05 Jul 2019 21:06:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/bittorrent/</guid>
+      <description>链接：回形针PaperClip</description>
+    </item>
+    
+    <item>
+      <title>中国合伙人</title>
+      <link>https://blog.policx.com/posts/partner/</link>
+      <pubDate>Thu, 04 Jul 2019 22:59:09 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/partner/</guid>
+      <description>利益小的时候，什么都好说。利益大到一定程度，就超越了人性。 记：539天，失败的创业 ⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇</description>
+    </item>
+    
+    <item>
+      <title>你的硬盘是如何存储数据的？</title>
+      <link>https://blog.policx.com/posts/harddisk/</link>
+      <pubDate>Tue, 18 Jun 2019 23:04:41 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/harddisk/</guid>
+      <description>链接：回形针PaperClip</description>
+    </item>
+    
+    <item>
+      <title>git如何删除已经提交的文件夹</title>
+      <link>https://blog.policx.com/posts/git-del/</link>
+      <pubDate>Mon, 17 Sep 2018 16:02:32 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/git-del/</guid>
+      <description>在上传项目到github时,忘记忽略了某个文件夹.idea,就直接push上去了, 最后意识到了此问题,决定删除掉远程仓库中的.idea文件夹</description>
+    </item>
+    
+    <item>
+      <title>西安</title>
+      <link>https://blog.policx.com/posts/xian/</link>
+      <pubDate>Sat, 08 Sep 2018 23:57:48 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/xian/</guid>
+      <description>合作公司项目</description>
+    </item>
+    
+    <item>
+      <title>Python利用openpyxl来操作Excel</title>
+      <link>https://blog.policx.com/posts/python-excel/</link>
+      <pubDate>Tue, 19 Jun 2018 16:39:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-excel/</guid>
+      <description>自动化的工作是为了从繁琐重复的劳动中挣脱出来，把精力用在数据分析上。自动化方面python是在好不过了，不过既然要提交报表， 就不免要美观什么</description>
+    </item>
+    
+    <item>
+      <title>python操作excel的包(openpyxl、xlsxwriter)</title>
+      <link>https://blog.policx.com/posts/python-writer/</link>
+      <pubDate>Sun, 17 Jun 2018 18:28:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-writer/</guid>
+      <description>现在支持python操作excel的包有下列这些 官网上最推荐的是openpyxl，其他包支持较老的excel版本。 xlsxwriter无法对</description>
+    </item>
+    
+    <item>
+      <title>WWDC 2018</title>
+      <link>https://blog.policx.com/posts/2018/</link>
+      <pubDate>Tue, 05 Jun 2018 00:59:59 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2018/</guid>
+      <description>Being the richest man in the cemetery doesn&amp;rsquo;t matter to me &amp;hellip; Going to bed at night saying we&amp;rsquo;ve done something wonderful&amp;hellip; that&amp;rsquo;s what matters to me。 是否能成为墓地里最富有的人，对我而言无足轻重。重要的是，当我晚上睡觉时，我可以说：</description>
+    </item>
+    
+    <item>
+      <title>python3 与 MongoDB 之间的交互</title>
+      <link>https://blog.policx.com/posts/pymongo/</link>
+      <pubDate>Wed, 02 May 2018 15:27:47 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/pymongo/</guid>
+      <description>MongoDB是由C++语言编写的非关系型数据库，是一个基于分布式文件存储的开源数据库系统，其内容存储形式类似JSON对象，它的字段值可以包</description>
+    </item>
+    
+    <item>
+      <title>MongoDB</title>
+      <link>https://blog.policx.com/posts/mongodb/</link>
+      <pubDate>Wed, 02 May 2018 14:11:11 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/mongodb/</guid>
+      <description>MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。 数据库 数据库是一个</description>
+    </item>
+    
+    <item>
+      <title>python3 与 MySQL 之间的交互</title>
+      <link>https://blog.policx.com/posts/pymysql/</link>
+      <pubDate>Wed, 02 May 2018 11:14:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/pymysql/</guid>
+      <description>什么是 PyMySQL？ PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。 PyMySQL 遵循 Python 数据库 API v2.0 规范，并包含了 pure-Python MySQL 客户</description>
+    </item>
+    
+    <item>
+      <title>Django笔记</title>
+      <link>https://blog.policx.com/posts/django-bi-ji/</link>
+      <pubDate>Wed, 18 Apr 2018 01:00:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/django-bi-ji/</guid>
+      <description>Django是一个开放源代码的Web应用框架，由Python写成。采用了MTV的框架模式，即模型M，视图V和模版T。它最初是被开发来用于管理</description>
+    </item>
+    
+    <item>
+      <title>Django部署——uwsgi&#43;Nginx</title>
+      <link>https://blog.policx.com/posts/django/</link>
+      <pubDate>Tue, 17 Apr 2018 17:42:04 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/django/</guid>
+      <description>用Django写了个小网站，只能在自己本地跑一跑！这怎么行？听说可以部署在云服务器上，这样别人就可以访问了! 环境： python3.6 centos 7 Django1.11 1、本地跑起来Dj</description>
+    </item>
+    
+    <item>
+      <title>2018创业记：如何选择合伙人？</title>
+      <link>https://blog.policx.com/posts/chuangye/</link>
+      <pubDate>Sun, 25 Mar 2018 21:02:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/chuangye/</guid>
+      <description>创业路上危机四伏，如何破局？ 很多朋友在2018年做出了改变，迈出了新的一步。比如身边几位朋友正摩拳擦掌准备创业。然而，看别人创业和自己创业完</description>
+    </item>
+    
+    <item>
+      <title>Markdown 的设计哲学</title>
+      <link>https://blog.policx.com/posts/markdown/</link>
+      <pubDate>Thu, 22 Mar 2018 19:32:01 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/markdown/</guid>
+      <description>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。 主要内容 Markdown</description>
+    </item>
+    
+    <item>
+      <title>数据类型和变量</title>
+      <link>https://blog.policx.com/posts/python-type/</link>
+      <pubDate>Thu, 01 Mar 2018 04:28:19 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-type/</guid>
+      <description>Python 数据类型和变量 数据类型 计算机顾名思义就是可以做数学计算的机器，因此，计算机程序理所当然地可以处理各种数值。但是，计算机能处理的远不止数值，</description>
+    </item>
+    
+    <item>
+      <title>字典、列表、数组和字符串</title>
+      <link>https://blog.policx.com/posts/python/</link>
+      <pubDate>Fri, 16 Feb 2018 12:28:24 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python/</guid>
+      <description>Python 字典、列表、数组和字符串 字典 1 2 3 4 5 6 7 # -*- coding: UTF-8 -*- dict_1 = {&amp;#39;1&amp;#39;: &amp;#39;a&amp;#39;, &amp;#39;2&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;3&amp;#39;: &amp;#39;c&amp;#39;} print(dict_1) # 打印字典 print(type(dict_1)) # 打印新赋值的字典的类型 print(str(dict_1), end=&amp;#39;字符串\n&amp;</description>
+    </item>
+    
+    <item>
+      <title>HTTP状态码汇总</title>
+      <link>https://blog.policx.com/posts/http/</link>
+      <pubDate>Tue, 06 Feb 2018 16:32:20 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/http/</guid>
+      <description>HTTP状态码 HTTP状态码（英语：HTTP Status Code）是用以表示网页服务器超文本传输协议响应状态的3位数字代码。它由 RFC 2616 规范定义的，并得到</description>
+    </item>
+    
+    <item>
+      <title>连续启动 crash 自修复技术实现与原理解析</title>
+      <link>https://blog.policx.com/posts/crash/</link>
+      <pubDate>Tue, 06 Feb 2018 15:21:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/crash/</guid>
+      <description>前言 实现原理 优化：降低50%以上误报机率 对原有API设计的几点优化意见 机制状态应当用枚举来做为API透出 关键数值应当做为初始化参数供用户设置</description>
+    </item>
+    
+    <item>
+      <title>Nginx</title>
+      <link>https://blog.policx.com/posts/nginx/</link>
+      <pubDate>Sat, 03 Feb 2018 17:11:38 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/nginx/</guid>
+      <description>什么是Nginx? Nginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP/POP3）代理服务器。 什么是反向代理？ 反向代理（Re</description>
+    </item>
+    
+    <item>
+      <title>告别</title>
+      <link>https://blog.policx.com/posts/bye/</link>
+      <pubDate>Thu, 11 Jan 2018 22:48:52 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/bye/</guid>
+      <description>告别工作多年的公司，我要有自己公司了。</description>
+    </item>
+    
+    <item>
+      <title>避免使用 GCD Global队列创建Runloop常驻线程</title>
+      <link>https://blog.policx.com/posts/gcd-global/</link>
+      <pubDate>Wed, 06 Sep 2017 19:30:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/gcd-global/</guid>
+      <description>本文对应 Demo 以及 Markdown 文件在仓库中，文中的错误可以提 PR 到这个文件，我会及时更改。 目录 避免使用 GCD Global队列创建Runloop常驻线程 GCD Glob</description>
+    </item>
+    
+    <item>
+      <title>善用佳软 预览</title>
+      <link>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E9%A2%84%E8%A7%88/</link>
+      <pubDate>Fri, 28 Jul 2017 12:11:04 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF-%E9%A2%84%E8%A7%88/</guid>
+      <description>「预览」作为 Mac 自带的 PDF&amp;amp;图片 应用，大都数用户只是拿来当 图像查看器 使用，而并不了解它的诸多功能。Mac 很多系统级应用都有很好的体验</description>
+    </item>
+    
+    <item>
+      <title>融贝三周年</title>
+      <link>https://blog.policx.com/posts/3year/</link>
+      <pubDate>Sun, 19 Mar 2017 23:29:12 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/3year/</guid>
+      <description>三周年庆典🎉</description>
+    </item>
+    
+    <item>
+      <title>王者荣耀</title>
+      <link>https://blog.policx.com/posts/applesupport/</link>
+      <pubDate>Thu, 16 Mar 2017 22:50:50 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/applesupport/</guid>
+      <description>🤔</description>
+    </item>
+    
+    <item>
+      <title>下雪了</title>
+      <link>https://blog.policx.com/posts/xue/</link>
+      <pubDate>Tue, 21 Feb 2017 21:46:58 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/xue/</guid>
+      <description>雪下的那么深，下的那么认真。</description>
+    </item>
+    
+    <item>
+      <title>有一种 Block 叫 Callback，有一种 Callback 叫 CompletionHandler</title>
+      <link>https://blog.policx.com/posts/block-callback/</link>
+      <pubDate>Mon, 06 Feb 2017 19:07:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/block-callback/</guid>
+      <description>iOS10推送部分的API，大量使用了 CompletionHandler 这种命名方式，那么本文我们将对比下这种 Block 的特殊性，以便更好的理解和在自己的项目中实践 CompletionHandler 样式的 Blco</description>
+    </item>
+    
+    <item>
+      <title>机械键盘</title>
+      <link>https://blog.policx.com/posts/jianpan/</link>
+      <pubDate>Thu, 01 Dec 2016 22:18:25 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/jianpan/</guid>
+      <description>工欲善其事必先利其器! 废话不多说, 总结下XCode快捷键: 关于以上技术符号是如何打出来的, 也有一个快捷键: ⌃⌘spacing 即可唤出 特殊符号</description>
+    </item>
+    
+    <item>
+      <title>programming</title>
+      <link>https://blog.policx.com/posts/programming/</link>
+      <pubDate>Sun, 23 Oct 2016 23:38:08 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/programming/</guid>
+      <description>红牛陪伴！</description>
+    </item>
+    
+    <item>
+      <title>搬家</title>
+      <link>https://blog.policx.com/posts/banjia/</link>
+      <pubDate>Mon, 08 Aug 2016 13:38:50 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/banjia/</guid>
+      <description>三年，再见。</description>
+    </item>
+    
+    <item>
+      <title>深入剖析-iOS-编译-Clang---LLVM</title>
+      <link>https://blog.policx.com/posts/clang-llvm/</link>
+      <pubDate>Sat, 18 Jun 2016 09:58:47 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/clang-llvm/</guid>
+      <description>前言 2000年，伊利诺伊大学厄巴纳－香槟分校（University of Illinois at Urbana-Champaign 简称UIUC）这所享有世界声望的一流公立研究型大学的 Chris Lattne</description>
+    </item>
+    
+    <item>
+      <title>iOS函数响应式编程以及ReactiveCocoa的使用</title>
+      <link>https://blog.policx.com/posts/ios-han/</link>
+      <pubDate>Sat, 18 Jun 2016 09:55:45 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-han/</guid>
+      <description>打算在项目中大面积使用RAC来开发，所以整理一些常用的实践范例和比较完整的api说明方便开发时随时查阅 * 声明式编程泛型Declarative</description>
+    </item>
+    
+    <item>
+      <title>GPU处理图像</title>
+      <link>https://blog.policx.com/posts/gpu/</link>
+      <pubDate>Sat, 18 Jun 2016 09:53:56 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/gpu/</guid>
+      <description>Shader着色器 Shader出现在OpenGL ES 2.0中，允许创建自己的Shader。必须同时创建两个Shader，分别是Vertex sh</description>
+    </item>
+    
+    <item>
+      <title>Camera</title>
+      <link>https://blog.policx.com/posts/camera/</link>
+      <pubDate>Sat, 18 Jun 2016 09:48:48 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/camera/</guid>
+      <description>相机原理 感光度(ISO) ISO也叫胶卷速度，衡量图像传感器对光的敏感程度。亮的时候需要的ISO就越小，暗的时候相反ISO就高噪点会多。 光圈 光</description>
+    </item>
+    
+    <item>
+      <title>iOS字符串 </title>
+      <link>https://blog.policx.com/posts/ios-string/</link>
+      <pubDate>Sat, 18 Jun 2016 09:44:49 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-string/</guid>
+      <description>搜索 在一个字符串中搜索子字符串 最灵活的方法 - (NSRange)rangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask range:(NSRange)searchRange locale:(NSLocale *)locale 格式化字符串 3个方法 -initWithFormat: -initWithFormat:arguments: +stringWithFormat: 整数 可以同时工作在32位和64位的 uint64_t p = 2305843009213693951; NSString *s = [NSString stringWithFormat:@&amp;quot;The ninth Mersenne prime</description>
+    </item>
+    
+    <item>
+      <title>构建iOS稳定应用架构时方案选择的思考</title>
+      <link>https://blog.policx.com/posts/gou-jian/</link>
+      <pubDate>Sat, 18 Jun 2016 09:38:01 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/gou-jian/</guid>
+      <description>工程结构架构，减少耦合混乱以及防治需求大改造成结构重构，如何构建稳定可扩展可变换的工程结构的思考 我打算采用Information flow的方</description>
+    </item>
+    
+    <item>
+      <title>iOS设计模式</title>
+      <link>https://blog.policx.com/posts/ios-design-pattern/</link>
+      <pubDate>Sat, 18 Jun 2016 09:35:39 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-design-pattern/</guid>
+      <description>iOS 设计模式 MVC Model：模型 View：视图 Controller：控制器 单例 单例使用懒加载方式在第一次实例时创建，如[NSUserDefaul</description>
+    </item>
+    
+    <item>
+      <title>iOS Background Tasks</title>
+      <link>https://blog.policx.com/posts/ios-background-tasks/</link>
+      <pubDate>Sat, 18 Jun 2016 09:34:46 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-background-tasks/</guid>
+      <description>三种方式使得iOS程序即使在关闭或崩溃的情况下也能够在后台持续进行一些任务，比如更新程序界面快照，下载文件等。这三个方法分别是Backgro</description>
+    </item>
+    
+    <item>
+      <title>Block</title>
+      <link>https://blog.policx.com/posts/block/</link>
+      <pubDate>Sat, 18 Jun 2016 09:33:55 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/block/</guid>
+      <description>简介 block可以当做匿名函数，可以在两个对象间将语句当做数据来进行传递。具有封闭性closure，方便取得上下文相关状态信息。 Block的</description>
+    </item>
+    
+    <item>
+      <title>CFRunLoop </title>
+      <link>https://blog.policx.com/posts/cfrunloop/</link>
+      <pubDate>Sat, 18 Jun 2016 09:30:21 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/cfrunloop/</guid>
+      <description>简介 简单的说run loop是事件驱动的一个大循环，如下代码所示 int main(int argc, char * argv[]) { //程序一直运行状态 while (AppIsRunning) { //睡眠状态，等待唤醒事件 id whoWakesMe = SleepForWakingUp(); //</description>
+    </item>
+    
+    <item>
+      <title>细说GCD（Grand Central Dispatch）如何用</title>
+      <link>https://blog.policx.com/posts/gcd/</link>
+      <pubDate>Sat, 18 Jun 2016 09:28:07 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/gcd/</guid>
+      <description>文中较详细介绍GCD队列，各种GCD使用方法，实例如何使用Dispatch Source监听系统底层对象，分析不同锁的性能对比，实例GCD死锁</description>
+    </item>
+    
+    <item>
+      <title>iOS并发编程</title>
+      <link>https://blog.policx.com/posts/ios-bing-fa/</link>
+      <pubDate>Sat, 18 Jun 2016 07:06:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-bing-fa/</guid>
+      <description>线程 使用Instruments的CPU strategy view查看代码如何在多核CPU中执行。创建线程可以使用POSIX 线程API，或者NSThread（</description>
+    </item>
+    
+    <item>
+      <title>月薪多少能撑起一个家？</title>
+      <link>https://blog.policx.com/posts/beijing/</link>
+      <pubDate>Thu, 31 Mar 2016 16:12:17 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/beijing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>融贝二周年</title>
+      <link>https://blog.policx.com/posts/2year/</link>
+      <pubDate>Sun, 20 Mar 2016 22:34:45 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2year/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://blog.policx.com/posts/linux/</link>
+      <pubDate>Sun, 06 Mar 2016 09:20:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/linux/</guid>
+      <description>   </description>
+    </item>
+    
+    <item>
+      <title>诺基亚</title>
+      <link>https://blog.policx.com/posts/nokia/</link>
+      <pubDate>Wed, 24 Feb 2016 22:17:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/nokia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>iOS界面元素指南</title>
+      <link>https://blog.policx.com/posts/ios-zhinan/</link>
+      <pubDate>Tue, 23 Feb 2016 23:41:25 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-zhinan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GIT</title>
+      <link>https://blog.policx.com/posts/git/</link>
+      <pubDate>Tue, 26 Jan 2016 10:21:17 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/git/</guid>
+      <description>同生活中的许多伟大事件一样，Git 诞生于一个极富纷争大举创新的年代。Linux 内核开源项目有着为数众广的参与者。绝大多数的 Linux 内核维护工作都花</description>
+    </item>
+    
+    <item>
+      <title>iOS-制作Framework</title>
+      <link>https://blog.policx.com/posts/framework/</link>
+      <pubDate>Thu, 31 Dec 2015 22:04:46 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/framework/</guid>
+      <description>前言 之前有很多的大神们已经写过framework的制作，但最近由于Xcode7的出现，很多之前的教程内容已经不符，对于初学者来说，找到一篇能</description>
+    </item>
+    
+    <item>
+      <title>为什么成为一名程序员这么难？</title>
+      <link>https://blog.policx.com/posts/programmer/</link>
+      <pubDate>Tue, 01 Sep 2015 22:30:47 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/programmer/</guid>
+      <description>有人说，每个看起来与正常人无异的工程师，其实都是在学习程序开发的途中熬过、压抑过、而且创伤过的反社会人士(sociopaths)。 在学习程序</description>
+    </item>
+    
+    <item>
+      <title>Mac 技巧</title>
+      <link>https://blog.policx.com/posts/macbook/</link>
+      <pubDate>Sat, 06 Jun 2015 22:14:15 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/macbook/</guid>
+      <description>2015年1月14日 微软雷德蒙德公司总部，这里即将召开一场关于 WIN10 系统的发布会。然而微软新任CEO 萨蒂亚·纳德拉 却铁青着脸望向台下。 毕竟，几乎</description>
+    </item>
+    
+    <item>
+      <title>WWDC 2015</title>
+      <link>https://blog.policx.com/posts/2015/</link>
+      <pubDate>Fri, 05 Jun 2015 01:02:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2015/</guid>
+      <description>I think the greatest value of learning how to think&amp;hellip;. I think everybody in this country should learn how to program a computer, should learn a computer language, because it teaches you how to think, it’s like going to law school, I don’t think anybody should be a lawyer, but I think going to law school may actually be useful coz it teaches</description>
+    </item>
+    
+    <item>
+      <title>centos 6.5 网站建设</title>
+      <link>https://blog.policx.com/posts/centos/</link>
+      <pubDate>Mon, 10 Nov 2014 16:10:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/centos/</guid>
+      <description>Step 1、为centos配置rpmforge及epel源。centos官方的源其实也够用，不过像php的一些扩展如 php-mcrypt在官方源中</description>
+    </item>
+    
+    <item>
+      <title>告别</title>
+      <link>https://blog.policx.com/posts/juanshi/</link>
+      <pubDate>Mon, 29 Sep 2014 14:07:26 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/juanshi/</guid>
+      <description>告别工作多年的公司，我要去新的地方了。</description>
+    </item>
+    
+    <item>
+      <title>小米</title>
+      <link>https://blog.policx.com/posts/xiaomi/</link>
+      <pubDate>Sat, 20 Sep 2014 20:51:35 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/xiaomi/</guid>
+      <description>昨天，接到了小米的电话，这个刚刚满二十岁小伙子说自己有些感到孤单，我半开玩笑的说：去谈恋爱吧。 二十岁，一个多少人羡慕的年龄，我在二十岁的时候</description>
+    </item>
+    
+    <item>
+      <title>石家庄</title>
+      <link>https://blog.policx.com/posts/sjz/</link>
+      <pubDate>Sat, 20 Sep 2014 20:47:53 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/sjz/</guid>
+      <description>再次来到这座城，当火车到达车站的时候，我才意识到我很久没有来过了。火车站具体的位置没有弄清楚，但是真的很气派的建筑，恍惚间以为是北京南站。市</description>
+    </item>
+    
+    <item>
+      <title>1803的望京西</title>
+      <link>https://blog.policx.com/posts/wjx/</link>
+      <pubDate>Wed, 13 Aug 2014 21:14:48 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/wjx/</guid>
+      <description>1803的望京西，雨后的残云裹着斜阳，我眯着疲惫的双眼，抿嘴微笑，略带凉意的风吹过，此刻，就想这么走，一直走，走很久很久！</description>
+    </item>
+    
+    <item>
+      <title>iOS开发内存泄露修复</title>
+      <link>https://blog.policx.com/posts/ios-neicun/</link>
+      <pubDate>Sat, 07 Jun 2014 16:22:37 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ios-neicun/</guid>
+      <description>一：写在前面 请使用ARC！！！ 如果使用的第三方库不支持ARC机制，可以在target-&amp;gt;build phase-&amp;gt;compile sources中选择对应的源码文件</description>
+    </item>
+    
+    <item>
+      <title>iPhone</title>
+      <link>https://blog.policx.com/posts/iphone/</link>
+      <pubDate>Mon, 19 May 2014 21:30:47 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/iphone/</guid>
+      <description>故事的开始</description>
+    </item>
+    
+    <item>
+      <title>读书</title>
+      <link>https://blog.policx.com/posts/kindle/</link>
+      <pubDate>Fri, 14 Mar 2014 20:01:34 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/kindle/</guid>
+      <description>酒仙桥到立水桥的距离，一辆公交车。至此时此刻，我已经在上下班的路上看过三本书了，它们是《幸福了吗》《看见》《拖延心理学》和《美国记忆冠军》。</description>
+    </item>
+    
+    <item>
+      <title>培训</title>
+      <link>https://blog.policx.com/posts/training/</link>
+      <pubDate>Fri, 12 Jul 2013 11:13:53 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/training/</guid>
+      <description>入职培训</description>
+    </item>
+    
+    <item>
+      <title>2012</title>
+      <link>https://blog.policx.com/posts/2012/</link>
+      <pubDate>Mon, 31 Dec 2012 23:59:59 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2012/</guid>
+      <description>2012 一切都还好。 世界未末日 作词：方文山 作曲：周杰伦 演唱：周杰伦 这街道在下陷 我们就快失去了家园 你我却都没有埋怨 将眼泪停格瞬间 街景摧毁 我内心却不轻</description>
+    </item>
+    
+    <item>
+      <title>启程</title>
+      <link>https://blog.policx.com/posts/2011start/</link>
+      <pubDate>Fri, 11 Nov 2011 00:00:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2011start/</guid>
+      <description>故事的开始 歌曲：启程 作词\作曲：卢庚戌 演唱：水木年华 编曲：卢梁博 录音师：郝宇 混音师：颜仲坤 和声编配：缪杰 和声：缪杰 哈达 吉他：李延亮 班卓琴：李</description>
+    </item>
+    
+  </channel>
+</rss>

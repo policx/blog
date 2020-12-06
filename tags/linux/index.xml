@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on 数字人生</title>
+    <link>https://blog.policx.com/tags/linux/</link>
+    <description>Recent content in Linux on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Thu, 29 Aug 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.policx.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 桌面进化史</title>
+      <link>https://blog.policx.com/posts/linuxdesktop/</link>
+      <pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/linuxdesktop/</guid>
+      <description>本周 Linux 刚刚迎来它的 28 岁生日。自 20 世纪 90 年代初期以来，Linux 桌面也已从简单的窗口管理器发展为成熟、完整的桌面。那么它究竟是如何一步步发展至</description>
+    </item>
+    
+    <item>
+      <title>MongoDB</title>
+      <link>https://blog.policx.com/posts/mongodb/</link>
+      <pubDate>Wed, 02 May 2018 14:11:11 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/mongodb/</guid>
+      <description>MongoDB是一个跨平台，面向文档的数据库，提供高性能，高可用性和易于扩展。MongoDB是工作在集合和文档上一种概念。 数据库 数据库是一个</description>
+    </item>
+    
+    <item>
+      <title>Nginx</title>
+      <link>https://blog.policx.com/posts/nginx/</link>
+      <pubDate>Sat, 03 Feb 2018 17:11:38 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/nginx/</guid>
+      <description>什么是Nginx? Nginx (engine x) 是一款轻量级的Web 服务器 、反向代理服务器及电子邮件（IMAP/POP3）代理服务器。 什么是反向代理？ 反向代理（Re</description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://blog.policx.com/posts/linux/</link>
+      <pubDate>Sun, 06 Mar 2016 09:20:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/linux/</guid>
+      <description>   </description>
+    </item>
+    
+    <item>
+      <title>centos 6.5 网站建设</title>
+      <link>https://blog.policx.com/posts/centos/</link>
+      <pubDate>Mon, 10 Nov 2014 16:10:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/centos/</guid>
+      <description>Step 1、为centos配置rpmforge及epel源。centos官方的源其实也够用，不过像php的一些扩展如 php-mcrypt在官方源中</description>
+    </item>
+    
+  </channel>
+</rss>

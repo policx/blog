@@ -1,0 +1,2311 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="写于开始之前 笔者即将开始写一个系列的《Python札记》。本系列的札记主要是自学齐伟老师《跟老齐学Python轻松入门》一书整理而来。书第一"/>
+<meta name="keywords" content=""/>
+
+<title>《Python札记》1_列表list - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/python3-notes01\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2019-07-18T22:55:41Z",
+    "dataModified": "2019-07-18T22:55:41Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "写于开始之前 笔者即将开始写一个系列的《Python札记》。本系列的札记主要是自学齐伟老师《跟老齐学Python轻松入门》一书整理而来。书第一"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/python3-notes01/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="《Python札记》1_列表list" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                    <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                        <i class="fas fa-list-ul"></i>
+                    </a>
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2019-07-18T22:55:41Z"
+                                  title="2019-07-18T22:55:41Z">2019-07-18</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2019-07-18T22:55:41Z"
+                                  title="2019-07-18T22:55:41Z">2019-07-18</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">6 分钟读完 (大约2759个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">《Python札记》1_列表list</h1>
+        <div class="content"><h3 id="写于开始之前">写于开始之前</h3>
+<p>笔者即将开始写一个系列的《<code>Python</code>札记》。本系列的札记主要是自学<code>齐伟</code>老师《跟老齐学<code>Python</code>轻松入门》一书整理而来。书第一遍断断续续花了5个月，第二遍边看边整理，保守3个月。</p>
+<!-- more -->
+<p><strong>在此深深感谢齐伟老师带我入门<code>Python</code></strong>。<strong>工欲善其事，必先利其器</strong>，本札记的学习环境为：<code>Python3.7.2 + pycharm + jupyter notebook</code>：</p>
+<ul>
+<li><code>Python3</code>取代了<code>Python2</code>，成为主流</li>
+<li>针对<code>Python</code>语言，<code>Pycharm</code>是最好的<code>IDE</code></li>
+<li><code>Jupyter notebook</code>是利用<code>Python</code>进行机器学习的强大利器</li>
+</ul>
+<p><strong>本札记一定会在2个月之内完成</strong>，主要内容包含：</p>
+<ul>
+<li>学习笔记整理</li>
+<li>代码实战练习</li>
+<li>各种练习题</li>
+<li>利用<code>Python</code>实现常用算法 <a href="https://www.jianshu.com/c/7287d92c5db4">机器学习_Python算法</a></li>
+</ul>
+<p><strong>希望对<code>Python</code>感兴趣的朋友有所帮助，自己也在努力学习中，将来主要方向是：<code>机器学习+数据挖掘+量化投资</code></strong></p>
+<h4 id="良好的开始是成功的一半lets-go-go-go">良好的开始是成功的一半！Let`s go go go!!!</h4>
+<hr>
+<blockquote>
+<p>列表是<code>Python</code>中使用非常广泛的一种对象，用方括号<code>[ ]</code>来表示。括号里面可以是数字，字符串或者<code>True</code>，<code>False</code>的布尔值，或者是多种不同类型的对象，里面也可以嵌套列表。如果列表是空的，用<code>bool()</code>来进行判断，会返回 <code>False</code>。</p>
+</blockquote>
+<hr>
+<h3 id="一索引切片反转">一、索引、切片、反转</h3>
+<p>列表和字符串一样，都是序列，里面的元素是有序的，也有索引和切片。索引<code>index</code>左边从<code>0</code>开始，右边从<code>-1</code>开始，<code>index()</code>函数可以查看某个元素的索引编号。</p>
+<p><strong>索引</strong></p>
+<ul>
+<li>左边0开始，右边-1开始</li>
+<li>通过<code>index()</code>函数查看索引编号</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># lang = [&#39;python&#39;, &#39;java&#39;, &#39;html&#39;]</span>
+<span class="c1"># lang.index(&#39;python&#39;)</span>
+<span class="mi">0</span>  <span class="c1"># 索引从0开始</span>
+<span class="c1"># lang.index(&#39;html&#39;)</span>
+<span class="mi">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>切片</strong></p>
+<ul>
+<li>索引左边从0开始，右边-1开始</li>
+<li>含头不含尾</li>
+<li>步长可正可负</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[:])</span>     <span class="c1">#  相当于是复制 lst</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[::</span><span class="mi">2</span><span class="p">])</span>  <span class="c1">#  步长是2    [开始:结束:步长]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">5</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>     <span class="c1"># 常规用法</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>   <span class="c1"># 标号-5代表的是元素2，标号-2代表的是5，步长为2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:</span><span class="mi">4</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>反转</strong></p>
+<ul>
+<li>通过步长-1进行反转，[::-1]</li>
+<li>通过<code>reversed()</code>进行反转，得到的是<strong>可迭代对象</strong>，并且将迭代对象转为为<code>列表显示</code></li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># 反转1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># 通过步长为-1进行反转</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>   <span class="c1"># 不影响原来对象</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="c1"># 反转2</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">)))</span>  <span class="c1"># 通过reversed函数进行反转</span>
+<span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">)))</span>    <span class="c1"># 对字符串进行反转，列表显示</span>
+<span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<h3 id="二操作列表">二、操作列表</h3>
+<h4 id="基本操作">基本操作</h4>
+<ul>
+<li>len()：求长度</li>
+<li>+：连接两个序列</li>
+<li>*：复制序列</li>
+<li>in：判断元素是否在列表中</li>
+<li>max()、min()：按照元素的字典顺序进行排序</li>
+</ul>
+<p><strong>1、修改元素</strong></p>
+<blockquote>
+<p><strong>列表</strong>中的元素可以进行<strong>修改</strong>，但是字符串中的不能进行修改。列表中修改的时候，直接通过索引号进行指定：</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">lst</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">7</span>   <span class="c1"># 指定第三个元素为7</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>2、增加元素</strong><br>
+追加元素的方法有两种，都是追加在<strong>末尾</strong></p>
+<ul>
+<li>append()函数进行追加</li>
+<li>切片的方式进行追加：a[len(a):] = [ x ]</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>  
+<span class="n">lst</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">):]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>   <span class="c1"># 例子承接上面，第三个元素为7，不是3</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>3、列表函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>append</td>
+<td>将单个元素追加到列表的<strong>最右边</strong>，即末尾部分；<strong>list[len(list):] = [x]</strong>，x是待追加的元素；  <strong>没有返回值None</strong></td>
+</tr>
+<tr>
+<td>extend</td>
+<td>将<strong>两个列表进行合并</strong>，扩充列表的作用；  参数必须是<strong>可迭代对象</strong>；  <strong>list[len(list):] = L</strong>，L是待并入的列表；  完成追加过程，列表L不变，list发生变化；  <strong>没有返回值None</strong></td>
+</tr>
+<tr>
+<td>insert</td>
+<td>指定位置添加元素  格式：list.insert(i,x)，i是插入的位置，x是待追加元素 ；  i如果是0，相当于是插在首位；i如果是len(list)，相当于是插在最后面，则等价于append()函数</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># extend()函数</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>   <span class="c1"># 查看lst的内存地址</span>
+<span class="n">lst1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">]</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">lst</span><span class="p">))</span>   <span class="c1"># 查看追加列表之后的内存地址，与原来系相同的</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;lst:&#34;</span><span class="p">,</span> <span class="n">lst</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&#34;lst1:&#34;</span><span class="p">,</span> <span class="n">lst1</span><span class="p">)</span>
+
+<span class="mi">2435334264968</span>
+<span class="mi">2435334264968</span>
+<span class="n">lst</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">]</span>
+<span class="n">lst1</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">]</span>
+
+<span class="c1"># append与extend区别</span>
+<span class="n">lst1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">lst2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">]</span>
+<span class="n">lst1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lst2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">]]</span>   <span class="c1"># 整建制，将lst2当做一个整体</span>
+
+<span class="n">lst1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">lst2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">]</span>
+<span class="n">lst1</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">lst2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;java&#39;</span><span class="p">]</span>   <span class="c1"># 个体化，将lst2的每个元素进行追加</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>结论：</strong></p>
+<ul>
+<li>列表是可以进行<strong>修改</strong>的，原地修改</li>
+<li>append是将一个元素加到列表的末尾，<strong>整建制追加</strong></li>
+<li>extend将两个列表进行合并，<strong>个体化扩编</strong></li>
+<li>extend方法执行之后，<strong>内存中id不变</strong>，只是在该id上的内容发生了变化</li>
+<li>insert()函数中的i如果超过最大索引值，则自动追加到末尾，相当于是append()函数的作用</li>
+<li>三种方法均是原地修改，无返回值</li>
+</ul>
+<hr>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count</td>
+<td>查看元素重复出现的次数  <strong>如果不存在，返回0</strong>，而不是报错</td>
+</tr>
+<tr>
+<td>index</td>
+<td>查看索引编号，不存在则报错  检索的是元素<strong>第一次</strong>出现的位置</td>
+</tr>
+<tr>
+<td>remove</td>
+<td>删除元素，原地修改，无返回值；  list.remove(x)：如果x不存在，则会报错；  如果x出现多次，<strong>删除第一个x，剩下不变</strong></td>
+</tr>
+<tr>
+<td>pop</td>
+<td>pop([i]):参数是可选的；  为空，<strong>默认删除最后一个</strong>，并且将该元素作为返回值；  如果不为空，<strong>可删除索引为i的元素</strong>，并且将该元素作为返回值</td>
+</tr>
+<tr>
+<td>reverse</td>
+<td>原地反转，没有生成新的列表，没有返回值</td>
+</tr>
+<tr>
+<td>reversed</td>
+<td>类似reverse，区别：生成的列表能够<strong>用于迭代</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>remove和pop的区别</strong></p>
+<ul>
+<li>remove 没有返回值，pop有返回值</li>
+<li>remove的参数是元素，pop的参数是索引</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="n">lst1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">lst1</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+<span class="c1"># lst1.remove(7)</span>
+<span class="c1"># print(lst1)   ValueError: list.remove(x): x not in list</span>
+<span class="n">lst1</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>   <span class="c1"># 将元素2删除掉</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>      <span class="c1">#  将索引为2的元素3删除掉，本步骤是接在上面的执行，即在列表[1, 3, 4, 5, 6] 中删除4</span>
+
+<span class="c1"># 关于反转</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># 反转实现1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>          <span class="c1"># 原来的列表对象不改变</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>    <span class="c1"># 反转实现2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>          <span class="c1"># 原来的列表变成反转之后的新列表</span>
+<span class="n">lst1</span><span class="o">=</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>       <span class="c1"># lst1是一个列表反转迭代器对象：&lt;list_reverseiterator object at 0x00000233C677F320&gt;</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">lst1</span><span class="p">))</span>    <span class="c1"># 用list函数显示lst1的内容</span>
+</code></pre></td></tr></table>
+</div>
+</div><hr>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sort</td>
+<td>排序函数，用于<code>列表list</code>中，<strong>原地修改没有返回值</strong>；  <strong>默认从小到大</strong>；将<strong>reverse=True</strong>则变成从大到小排序sort(self, /, *, key=None, reverse=False)</td>
+</tr>
+<tr>
+<td>sorted</td>
+<td>对<code>所有可迭代对象</code>进行操作，返回一个新的 <code>list</code>，不是在原来的list上进行操作  sorted(iterable[, cmp[, key[, reverse]]])</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="c1"># sort()</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">lst</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="n">lst1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="err">‘</span><span class="n">Java</span><span class="err">’</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;php&#39;</span><span class="p">]</span>
+<span class="n">lst1</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>  <span class="c1"># 列表中的字符串进行排序；如果长度相同，则按照出现的先后顺序</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;php&#39;</span><span class="p">,</span> <span class="s1">&#39;Java&#39;</span><span class="p">,</span> <span class="s1">&#39;html&#39;</span><span class="p">,</span> <span class="s1">&#39;python&#39;</span><span class="p">]</span>
+
+<span class="c1"># sorted()</span>
+<span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">lst1</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>  <span class="c1"># 原对象不变</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst1</span><span class="p">)</span> <span class="c1"># 新列表为排序后的对象</span>
+
+<span class="n">lst2</span> <span class="o">=</span><span class="p">[(</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),(</span><span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),(</span><span class="s1">&#39;php&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">)]</span>
+<span class="n">lst3</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lst2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>   <span class="c1"># 由元组构成的复合列表，按照元组的第二个元素进行排序，通过匿名函数lamba()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst3</span><span class="p">)</span>
+<span class="p">[(</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;php&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)]</span>
+
+<span class="n">lst4</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">lst2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>   <span class="c1"># 通过元组中第一个元素的长度进行排序</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst4</span><span class="p">)</span>
+<span class="p">[(</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;php&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;java&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">)]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="自定义类中的元素进行排序">自定义类中的元素进行排序</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Python" data-lang="Python"><span class="k">class</span> <span class="nc">Student</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">grade</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span>  <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grade</span> <span class="o">=</span> <span class="n">grade</span>
+        
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span>  <span class="nb">repr</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">grade</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">age</span><span class="p">))</span>
+    
+<span class="n">students_objects</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;xiaoming&#39;</span><span class="p">,</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;xiaohong&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">Student</span><span class="p">(</span><span class="s1">&#39;Peter&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">lst5</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">students_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:</span><span class="n">t</span><span class="o">.</span><span class="n">age</span><span class="p">)</span>   <span class="c1"># 自定义类中，按照年龄进行排序</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst5</span><span class="p">)</span>
+<span class="n">lst6</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">students_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">t</span><span class="p">:(</span><span class="n">t</span><span class="o">.</span><span class="n">age</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">grade</span><span class="p">))</span>   <span class="c1"># 使用元组，先根据年龄排序，若年龄相同按照grade排序</span>
+<span class="k">print</span><span class="p">(</span><span class="n">lst6</span><span class="p">)</span>
+
+<span class="p">[(</span><span class="s1">&#39;xiaoming&#39;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;xiaohong&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Peter&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)]</span>
+<span class="p">[(</span><span class="s1">&#39;xiaoming&#39;</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="s1">&#39;A&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Tom&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;xiaohong&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Peter&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)]</span>
+</code></pre></td></tr></table>
+</div>
+</div><table>
+<thead>
+<tr>
+<th><strong>原文链接</strong><br>👇</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.jianshu.com/c/ab55c73e0037?utm_source=desktop&amp;utm_medium=notes-included-collection"><img src="https://i.loli.net/2019/07/20/5d32f16d5b0bf92604.jpg" alt=""></a></td>
+</tr>
+</tbody>
+</table>
+<br>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>《Python札记》1_列表list</p>
+        <p><a href="https://blog.policx.com/posts/python3-notes01/">https://blog.policx.com/posts/python3-notes01/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2019-07-18</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2019-07-18</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+            <div class="article-tags size-small mb-4">
+                <span class="mr-2">#</span><a class="link-muted mr-2" href="/tags/Python" rel="tag">Python</a></div>
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/python-mind/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">Python导图</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/flutter/">
+                    <span class="level-item">Flutter的环境配置 for Mac</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "8fcb4c44c73634ce1c6ac156540d1ca5",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+    <div class="card widget" id="toc" data-type="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">目录</h3>
+                <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#写于开始之前">写于开始之前</a>
+          <ul>
+            <li><a href="#良好的开始是成功的一半lets-go-go-go">良好的开始是成功的一半！Let`s go go go!!!</a></li>
+          </ul>
+        </li>
+        <li><a href="#一索引切片反转">一、索引、切片、反转</a></li>
+        <li><a href="#二操作列表">二、操作列表</a>
+          <ul>
+            <li><a href="#基本操作">基本操作</a></li>
+            <li><a href="#自定义类中的元素进行排序">自定义类中的元素进行排序</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+            </div>
+        </div>
+        <style>
+        .menu-list > li > a.is-active + .menu-list {display: block;}
+        .menu-list > li > a + .menu-list {display: none;}
+        </style>
+        <script type="text/javascript" src="/js/toc.js" defer></script>
+    </div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

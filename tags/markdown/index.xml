@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Markdown on 数字人生</title>
+    <link>https://blog.policx.com/tags/markdown/</link>
+    <description>Recent content in Markdown on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Thu, 22 Mar 2018 19:32:01 +0000</lastBuildDate><atom:link href="https://blog.policx.com/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Markdown 的设计哲学</title>
+      <link>https://blog.policx.com/posts/markdown/</link>
+      <pubDate>Thu, 22 Mar 2018 19:32:01 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/markdown/</guid>
+      <description>Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。 主要内容 Markdown</description>
+    </item>
+    
+  </channel>
+</rss>

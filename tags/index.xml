@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 数字人生</title>
+    <link>https://blog.policx.com/tags/</link>
+    <description>Recent content in Tags on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Tue, 23 Jun 2020 11:06:39 +0000</lastBuildDate><atom:link href="https://blog.policx.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>wwdc</title>
+      <link>https://blog.policx.com/tags/wwdc/</link>
+      <pubDate>Tue, 23 Jun 2020 11:06:39 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/wwdc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://blog.policx.com/tags/linux/</link>
+      <pubDate>Thu, 29 Aug 2019 00:00:00 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>program</title>
+      <link>https://blog.policx.com/tags/program/</link>
+      <pubDate>Fri, 16 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/program/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>善用佳软</title>
+      <link>https://blog.policx.com/tags/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF/</link>
+      <pubDate>Fri, 26 Jul 2019 22:19:21 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/%E5%96%84%E7%94%A8%E4%BD%B3%E8%BD%AF/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://blog.policx.com/tags/python/</link>
+      <pubDate>Sun, 21 Jul 2019 14:03:24 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>git</title>
+      <link>https://blog.policx.com/tags/git/</link>
+      <pubDate>Mon, 17 Sep 2018 16:02:32 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Django</title>
+      <link>https://blog.policx.com/tags/django/</link>
+      <pubDate>Wed, 18 Apr 2018 01:00:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Markdown</title>
+      <link>https://blog.policx.com/tags/markdown/</link>
+      <pubDate>Thu, 22 Mar 2018 19:32:01 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/tags/markdown/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

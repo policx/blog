@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on 数字人生</title>
+    <link>https://blog.policx.com/tags/python/</link>
+    <description>Recent content in Python on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Sun, 21 Jul 2019 14:03:24 +0000</lastBuildDate><atom:link href="https://blog.policx.com/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python导图</title>
+      <link>https://blog.policx.com/posts/python-mind/</link>
+      <pubDate>Sun, 21 Jul 2019 14:03:24 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-mind/</guid>
+      <description>推荐：XMind 一个全功能的思维导图和头脑风暴软件。 Python应用领域和数据结构 *点击图片查看原文 Python 系列 (一) 核心知识 *点击图片查看原文 核</description>
+    </item>
+    
+    <item>
+      <title>《Python札记》1_列表list</title>
+      <link>https://blog.policx.com/posts/python3-notes01/</link>
+      <pubDate>Thu, 18 Jul 2019 22:55:41 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python3-notes01/</guid>
+      <description>写于开始之前 笔者即将开始写一个系列的《Python札记》。本系列的札记主要是自学齐伟老师《跟老齐学Python轻松入门》一书整理而来。书第一</description>
+    </item>
+    
+    <item>
+      <title>Python利用openpyxl来操作Excel</title>
+      <link>https://blog.policx.com/posts/python-excel/</link>
+      <pubDate>Tue, 19 Jun 2018 16:39:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-excel/</guid>
+      <description>自动化的工作是为了从繁琐重复的劳动中挣脱出来，把精力用在数据分析上。自动化方面python是在好不过了，不过既然要提交报表， 就不免要美观什么</description>
+    </item>
+    
+    <item>
+      <title>python操作excel的包(openpyxl、xlsxwriter)</title>
+      <link>https://blog.policx.com/posts/python-writer/</link>
+      <pubDate>Sun, 17 Jun 2018 18:28:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-writer/</guid>
+      <description>现在支持python操作excel的包有下列这些 官网上最推荐的是openpyxl，其他包支持较老的excel版本。 xlsxwriter无法对</description>
+    </item>
+    
+    <item>
+      <title>python3 与 MongoDB 之间的交互</title>
+      <link>https://blog.policx.com/posts/pymongo/</link>
+      <pubDate>Wed, 02 May 2018 15:27:47 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/pymongo/</guid>
+      <description>MongoDB是由C++语言编写的非关系型数据库，是一个基于分布式文件存储的开源数据库系统，其内容存储形式类似JSON对象，它的字段值可以包</description>
+    </item>
+    
+    <item>
+      <title>python3 与 MySQL 之间的交互</title>
+      <link>https://blog.policx.com/posts/pymysql/</link>
+      <pubDate>Wed, 02 May 2018 11:14:27 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/pymysql/</guid>
+      <description>什么是 PyMySQL？ PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。 PyMySQL 遵循 Python 数据库 API v2.0 规范，并包含了 pure-Python MySQL 客户</description>
+    </item>
+    
+    <item>
+      <title>数据类型和变量</title>
+      <link>https://blog.policx.com/posts/python-type/</link>
+      <pubDate>Thu, 01 Mar 2018 04:28:19 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python-type/</guid>
+      <description>Python 数据类型和变量 数据类型 计算机顾名思义就是可以做数学计算的机器，因此，计算机程序理所当然地可以处理各种数值。但是，计算机能处理的远不止数值，</description>
+    </item>
+    
+    <item>
+      <title>字典、列表、数组和字符串</title>
+      <link>https://blog.policx.com/posts/python/</link>
+      <pubDate>Fri, 16 Feb 2018 12:28:24 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/python/</guid>
+      <description>Python 字典、列表、数组和字符串 字典 1 2 3 4 5 6 7 # -*- coding: UTF-8 -*- dict_1 = {&amp;#39;1&amp;#39;: &amp;#39;a&amp;#39;, &amp;#39;2&amp;#39;: &amp;#39;b&amp;#39;, &amp;#39;3&amp;#39;: &amp;#39;c&amp;#39;} print(dict_1) # 打印字典 print(type(dict_1)) # 打印新赋值的字典的类型 print(str(dict_1), end=&amp;#39;字符串\n&amp;</description>
+    </item>
+    
+  </channel>
+</rss>

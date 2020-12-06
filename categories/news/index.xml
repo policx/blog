@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>news on 数字人生</title>
+    <link>https://blog.policx.com/categories/news/</link>
+    <description>Recent content in news on 数字人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <managingEditor>heal@policx.com (江湖)</managingEditor>
+    <webMaster>heal@policx.com (江湖)</webMaster>
+    <lastBuildDate>Sun, 25 Aug 2019 09:20:42 +0000</lastBuildDate><atom:link href="https://blog.policx.com/categories/news/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>关于知识产权、知识共享与文章翻译</title>
+      <link>https://blog.policx.com/posts/knowledge/</link>
+      <pubDate>Sun, 25 Aug 2019 09:20:42 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/knowledge/</guid>
+      <description>作者简介： 豌豆花下猫，生于广东毕业于武大，现为苏漂程序员，有一些极客思维，也有一些人文情怀，有一些温度，还有一些态度。公众号：Python猫</description>
+    </item>
+    
+    <item>
+      <title>2020年顶级编程语言的统计数据和调查结果如何？</title>
+      <link>https://blog.policx.com/posts/2020dev/</link>
+      <pubDate>Mon, 19 Aug 2019 08:21:23 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/2020dev/</guid>
+      <description>比较编程语言是一件非常复杂的事情，所以有许多图形插图/笑话试图象征编程语言 。 我发现很少，我正在开始这篇文章。 简单来说， 编程语言使人类能够指导</description>
+    </item>
+    
+    <item>
+      <title>Dice 称这  5 种编程语言未来可能各自成王</title>
+      <link>https://blog.policx.com/posts/five_a/</link>
+      <pubDate>Fri, 16 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_a/</guid>
+      <description>上个月，我们曾报道过一篇&amp;quot;Dice 称这 5 种编程语言可能衰落&amp;ldquo;的文章，它基于 RedMonk 和 TIOBE 等公司的数据推测的，结果引起了广泛讨论</description>
+    </item>
+    
+    <item>
+      <title>Dice 称这 5 种编程语言可能衰落</title>
+      <link>https://blog.policx.com/posts/five_b/</link>
+      <pubDate>Sat, 10 Aug 2019 16:14:18 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_b/</guid>
+      <description>Dice Insights 是为北美的科技专业人士提供见解和分析的网站，目的是帮助他们找到工作和发展事业，并且报道就业趋势、新技术等内容。 根据 Dice 报道，并不是所有的编</description>
+    </item>
+    
+    <item>
+      <title>DDoS（分布式拒绝服务）攻击是无解的吗？</title>
+      <link>https://blog.policx.com/posts/ddos/</link>
+      <pubDate>Sun, 14 Jul 2019 15:26:43 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/ddos/</guid>
+      <description>“ DDOS？ 一言难尽啊！ ” 先说结论，DDoS是近年来网络攻击中的一棵“常青树”，的确很难缠，但说它是无解的，那也有点太看得起它了。虽然DDo</description>
+    </item>
+    
+    <item>
+      <title>未来五年，iOS 开发如何前行？</title>
+      <link>https://blog.policx.com/posts/five_c/</link>
+      <pubDate>Thu, 11 Jul 2019 19:44:45 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/five_c/</guid>
+      <description>【CSDN 编者按】技术圈里一直倡导一句话，那便是“拥抱变化”，因为技术始终在飞速地更新迭代，过去掌握的技能可能突然之间就过时了。在近几年，移</description>
+    </item>
+    
+    <item>
+      <title>BT 种子和磁力链接是如何工作的？</title>
+      <link>https://blog.policx.com/posts/bittorrent/</link>
+      <pubDate>Fri, 05 Jul 2019 21:06:16 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/bittorrent/</guid>
+      <description>链接：回形针PaperClip</description>
+    </item>
+    
+    <item>
+      <title>你的硬盘是如何存储数据的？</title>
+      <link>https://blog.policx.com/posts/harddisk/</link>
+      <pubDate>Tue, 18 Jun 2019 23:04:41 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/harddisk/</guid>
+      <description>链接：回形针PaperClip</description>
+    </item>
+    
+    <item>
+      <title>诺基亚</title>
+      <link>https://blog.policx.com/posts/nokia/</link>
+      <pubDate>Wed, 24 Feb 2016 22:17:03 +0000</pubDate>
+      <author>heal@policx.com (江湖)</author>
+      <guid>https://blog.policx.com/posts/nokia/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

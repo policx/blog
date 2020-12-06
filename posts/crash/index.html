@@ -1,0 +1,2352 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="前言 实现原理 优化：降低50%以上误报机率 对原有API设计的几点优化意见 机制状态应当用枚举来做为API透出 关键数值应当做为初始化参数供用户设置"/>
+<meta name="keywords" content=""/>
+
+<title>连续启动 crash 自修复技术实现与原理解析 - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/crash\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2018-02-06T15:21:18Z",
+    "dataModified": "2018-02-06T15:21:18Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "前言 实现原理 优化：降低50%以上误报机率 对原有API设计的几点优化意见 机制状态应当用枚举来做为API透出 关键数值应当做为初始化参数供用户设置"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/crash/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="连续启动 crash 自修复技术实现与原理解析" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+        <div class="card-image">
+            <span class="image is-7by3">
+                <img class="fill" src="https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="连续启动 crash 自修复技术实现与原理解析">
+            </span>
+        </div>
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-02-06T15:21:18Z"
+                                  title="2018-02-06T15:21:18Z">2018-02-06</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-02-06T15:21:18Z"
+                                  title="2018-02-06T15:21:18Z">2018-02-06</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">10 分钟读完 (大约4728个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">连续启动 crash 自修复技术实现与原理解析</h1>
+        <div class="content"><ul>
+<li>前言</li>
+<li>实现原理</li>
+<li>优化：降低50%以上误报机率</li>
+<li>对原有API设计的几点优化意见</li>
+<li>
+<ol>
+<li>机制状态应当用枚举来做为API透出</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>关键数值应当做为初始化参数供用户设置</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>修复、上报逻辑应当支持用户异步操作</li>
+</ol>
+</li>
+<li>什么时候会出现该异常？</li>
+<li>连续启动 crash 自修复技术实现与原理解析</li>
+</ul>
+<!-- more -->
+<h2 id="前言">前言</h2>
+<hr>
+<blockquote>
+<p>如果 app 连续 crash 两次无法启动，用户往往会选择卸载。</p>
+</blockquote>
+<p>连续启动 crash 应该是 crash 类型中最严重的一类，该问题常常与数据库操作有关，比如：数据库损坏、服务端返回数据错误，存入数据库，app 读取时产生数组越界、找不到方法。</p>
+<p>那么除了热修复，能否“自修复”该问题呢？</p>
+<p>在微信读书团队发布的<a href="https://wereadteam.github.io/2016/05/23/GYBootingProtection/">《iOS 启动连续闪退保护方案》</a> 一文中，给出了连续启动crash的自修复技术的思路讲解，并在GitHub上给出了技术实现，并开源了<a href="https://github.com/liuslevis/GYBootingProtection"> GYBootingProtection</a>。方案思路很好，很轻量级。</p>
+<h2 id="实现原理">实现原理</h2>
+<hr>
+<p>在微信读书团队给出的文章中已经有比较详细的阐述，在此不做赘述，实现的流程图如下所示：
+<a href=""></a>
+但有个实现上可以优化下，可以降低50%以上误报机率，监听用户手动划掉 APP 这个事件，其中一些特定场景，是可以获取的。另外在这里也给出对其 API 设计的建议。最后给出优化后的实现。</p>
+<h2 id="优化降低50以上误报机率">优化：降低50%以上误报机率</h2>
+<hr>
+<p>用户主动 kill 掉 APP 分为两种情况：</p>
+<ul>
+<li>App在前台时用户手动划掉APP的时候</li>
+<li>APP在后台时划掉APP</li>
+</ul>
+<p>第一种场景更为常见，可以通过监听 UIApplicationWillTerminateNotification 来捕获该动作，捕获后恢复计数。第二种情况，无法监听到。但也足以降低 50% 以上的误报机率。</p>
+<h3 id="对原有api设计的几点优化意见">对原有API设计的几点优化意见</h3>
+<h4 id="1-机制状态应当用枚举来做为api透出">1. 机制状态应当用枚举来做为API透出</h4>
+<p>该机制当前所处的状态，比如：NeedFix 、isFixing，建议用枚举来做为API透出。比如：</p>
+<ul>
+<li>APP 启动正常</li>
+<li>正在检测是否会在特定时间内是否会 Crash，注意：检测状态下“连续启动崩溃计数”个数小于或等于上限值</li>
+<li>APP 出现连续启动 Crash，需要采取修复措施</li>
+<li>APP 出现连续启动 Crash，正在修复中</li>
+</ul>
+<h4 id="2-关键数值应当做为初始化参数供用户设置">2. 关键数值应当做为初始化参数供用户设置</h4>
+<ul>
+<li>当前启动Crash的状态</li>
+<li>达到需要执行上报操作的“连续启动崩溃计数”个数。</li>
+<li>达到需要执行修复操作的“连续启动崩溃计数”个数。</li>
+<li>APP 启动后经过多少秒，可以将“连续启动崩溃计数”清零</li>
+</ul>
+<h4 id="3-修复上报逻辑应当支持用户异步操作">3. 修复、上报逻辑应当支持用户异步操作</h4>
+<p><code>reportBlock</code> 上报逻辑，
+<code>repairtBlock</code> 修复逻辑</p>
+<p>比如：</p>
+<pre><code>typedef void (^BoolCompletionHandler)(BOOL succeeded, NSError *error);
+typedef void (^RepairBlock)(ABSBoolCompletionHandler completionHandler);
+</code></pre><p>用户执行 BoolCompletionHandler 后即可知道是否执行完毕，并且支持异步操作。</p>
+<p>异步操作带来的问题，可以通过前面提到的枚举API来实时监测状态，来决定各种其他操作。</p>
+<h2 id="什么时候会出现该异常">什么时候会出现该异常？</h2>
+<h3 id="连续启动-crash-自修复技术实现与原理解析">连续启动 crash 自修复技术实现与原理解析</h3>
+<p>下面给出优化后的代码实现：</p>
+<pre><code>//
+//  CYLBootingProtection.h
+//  
+//
+//  Created by ChenYilong on 18/01/10.
+//  Copyright © 2018年 ChenYilong. All rights reserved.
+//
+
+#import &lt;Foundation/Foundation.h&gt;
+
+typedef void (^ABSBoolCompletionHandler)(BOOL succeeded, NSError *error);
+typedef void (^ABSRepairBlock)(ABSBoolCompletionHandler completionHandler);
+typedef void (^ABSReportBlock)(NSUInteger crashCounts);
+
+typedef NS_ENUM(NSInteger, BootingProtectionStatus) {
+   BootingProtectionStatusNormal,  /**&lt;  APP 启动正常 */
+   BootingProtectionStatusNormalChecking,  /**&lt; 正在检测是否会在特定时间内是否会 Crash，注意：检测状态下“连续启动崩溃计数”个数小于或等于上限值 */
+   BootingProtectionStatusNeedFix, /**&lt; APP 出现连续启动 Crash，需要采取修复措施 */
+   BootingProtectionStatusFixing,   /**&lt; APP 出现连续启动 Crash，正在修复中... */
+};
+
+/**
+* 启动连续 crash 保护。
+* 启动后 `_crashOnLaunchTimeIntervalThreshold` 秒内 crash，反复超过 `_continuousCrashOnLaunchNeedToReport` 次则上报日志，超过 `_continuousCrashOnLaunchNeedToFix` 则启动修复操作。
+*/
+@interface CYLBootingProtection : NSObject
+
+/**
+* 启动连续 crash 保护方法。
+* 前置条件：在 App 启动时注册 crash 处理函数，在 crash 时调用[CYLBootingProtection addCrashCountIfNeeded]。
+* 启动后一定时间内（`crashOnLaunchTimeIntervalThreshold`秒内）crash，反复超过一定次数（`continuousCrashOnLaunchNeedToReport`次）则上报日志，超过一定次数（`continuousCrashOnLaunchNeedToFix`次）则启动修复程序；在一定时间内（`crashOnLaunchTimeIntervalThreshold`秒） 秒后若没有 crash 将“连续启动崩溃计数”计数置零。
+ `reportBlock` 上报逻辑，
+ `repairtBlock` 修复逻辑，完成后执行 `[self setCrashCount:0]`
+
+*/
+- (void)launchContinuousCrashProtect;
+
+/*!
+* 当前启动Crash的状态
+*/
+@property (nonatomic, assign, readonly) BootingProtectionStatus bootingProtectionStatus;
+
+/*!
+* 达到需要执行上报操作的“连续启动崩溃计数”个数。
+*/
+@property (nonatomic, assign, readonly) NSUInteger continuousCrashOnLaunchNeedToReport;
+
+/*!
+* 达到需要执行修复操作的“连续启动崩溃计数”个数。
+*/
+@property (nonatomic, assign, readonly) NSUInteger continuousCrashOnLaunchNeedToFix;
+
+/*!
+* APP 启动后经过多少秒，可以将“连续启动崩溃计数”清零
+*/
+@property (nonatomic, assign, readonly) NSTimeInterval crashOnLaunchTimeIntervalThreshold;
+
+/*!
+* 借助 context 可以让多个模块注册事件，并且事件 block 能独立执行，互不干扰。
+*/
+@property (nonatomic, copy, readonly) NSString *context;
+
+/*!
+* @details 启动后kCrashOnLaunchTimeIntervalThreshold秒内crash，反复超过continuousCrashOnLaunchNeedToReport次则上报日志，超过continuousCrashOnLaunchNeedToFix则启动修复程序；当所有操作完成后，执行 completion。在 crashOnLaunchTimeIntervalThreshold 秒后若没有 crash 将 kContinuousCrashOnLaunchCounterKey 计数置零。
+* @param context 借助 context 可以让多个模块注册事件，并且事件 block 能独立执行，互不干扰。
+*/
+- (instancetype)initWithContinuousCrashOnLaunchNeedToReport:(NSUInteger)continuousCrashOnLaunchNeedToReport
+                          continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix
+                        crashOnLaunchTimeIntervalThreshold:(NSTimeInterval)crashOnLaunchTimeIntervalThreshold
+                                                   context:(NSString *)context;
+/*!
+* 当前“连续启动崩溃“的状态
+*/
++ (BootingProtectionStatus)bootingProtectionStatusWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix;
+
+/*!
+* 设置上报逻辑，参数 crashCounts 为启动连续 crash 次数
+*/
+- (void)setReportBlock:(ABSReportBlock)reportBlock;
+
+/*!
+* 设置修复逻辑
+*/
+- (void)setRepairBlock:(ABSRepairBlock)repairtBlock;
+
++ (void)setLogger:(void (^)(NSString *))logger;
+
+@end
+</code></pre><pre><code>//
+//  CYLBootingProtection.m
+//
+//
+//  Created by ChenYilong on 18/01/10.
+//  Copyright © 2018年 ChenYilong. All rights reserved.
+//
+
+#import &quot;CYLBootingProtection.h&quot;
+#import &lt;UIKit/UIKit.h&gt;
+
+static dispatch_queue_t _exceptionOperationQueue = 0;
+void (^Logger)(NSString *log);
+
+@interface CYLBootingProtection ()
+
+@property (nonatomic, assign) NSUInteger continuousCrashOnLaunchNeedToReport;
+@property (nonatomic, assign) NSUInteger continuousCrashOnLaunchNeedToFix;
+@property (nonatomic, assign) NSTimeInterval crashOnLaunchTimeIntervalThreshold;
+@property (nonatomic, copy) NSString *context;
+@property (nonatomic, copy) ABSReportBlock reportBlock;
+@property (nonatomic, copy) ABSRepairBlock repairBlock;
+
+/*!
+* 设置“连续启动崩溃计数”个数
+*/
+- (void)setCrashCount:(NSInteger)count;
+
+/*!
+* 设置“连续启动崩溃计数”个数
+*/
++ (void)setCrashCount:(NSUInteger)count context:(NSString *)context;
+
+/*!
+* “连续启动崩溃计数”个数
+*/
+- (NSUInteger)crashCount;
+
+/*!
+* “连续启动崩溃计数”个数
+*/
++ (NSUInteger)crashCountWithContext:(NSString *)context;
+
+@end
+
+@implementation CYLBootingProtection
++ (void)initialize {
+   static dispatch_once_t onceToken;
+   dispatch_once(&amp;onceToken, ^{
+       _exceptionOperationQueue = dispatch_queue_create(&quot;com.ChenYilong.CYLBootingProtection.fileCacheQueue&quot;, DISPATCH_QUEUE_SERIAL);
+   });
+}
+- (instancetype)initWithContinuousCrashOnLaunchNeedToReport:(NSUInteger)continuousCrashOnLaunchNeedToReport
+                          continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix
+                        crashOnLaunchTimeIntervalThreshold:(NSTimeInterval)crashOnLaunchTimeIntervalThreshold
+                                                   context:(NSString *)context {
+   if (!(self = [super init])) {
+       return nil;
+   }
+   _continuousCrashOnLaunchNeedToReport = continuousCrashOnLaunchNeedToReport;
+   _continuousCrashOnLaunchNeedToFix = continuousCrashOnLaunchNeedToFix;
+   _crashOnLaunchTimeIntervalThreshold = crashOnLaunchTimeIntervalThreshold;
+   _context = [context copy];
+   [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(applicationWillTerminate:)
+                                                name:UIApplicationWillTerminateNotification
+                                              object:[UIApplication sharedApplication]];
+   return self;
+}
+
+/*!
+* App在前台时用户手动划掉APP的时候，不计入检测。
+* 但是APP在后台时划掉APP，无法检测出来。
+* 见：https://stackoverflow.com/a/35041565/3395008
+*/
+- (void)applicationWillTerminate:(NSNotification *)note {
+   BOOL isNormalChecking = [self isNormalChecking];
+   if (isNormalChecking) {
+       [self decreaseCrashCount];
+   }
+}
+
+- (void)dealloc {
+   [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+/*
+支持同步修复、异步修复，两种修复方式
+- 异步修复，不卡顿主UI，但有修复未完成就被再次触发crash、或者用户kill掉的可能。需要用户手动根据修复状态，来选择性地进行操作，应该有回掉。
+- 同步修复，最简单直观，在主线程删除或者下载修复包。
+*/
+- (void)launchContinuousCrashProtect {
+   NSAssert(_repairBlock, @&quot;_repairBlock is nil!&quot;);
+   [[self class] Logger:@&quot;CYLBootingProtection: Launch continuous crash report&quot;];
+   [self resetBootingProtectionStatus];
+   
+   NSUInteger launchCrashes = [self crashCount];
+   // 上报
+   if (launchCrashes &gt;= self.continuousCrashOnLaunchNeedToReport) {
+       NSString *logString = [NSString stringWithFormat:@&quot;CYLBootingProtection: App has continuously crashed for %@ times. Now synchronize uploading crash report and begin fixing procedure.&quot;, @(launchCrashes)];
+       [[self class] Logger:logString];
+       if (_reportBlock) {
+           dispatch_async(dispatch_get_main_queue(),^{
+               _reportBlock(launchCrashes);
+           });
+       }
+   }
+   
+   // 修复
+   if ([self isUpToBootingProtectionCount]) {
+       [[self class] Logger:@&quot;need to repair&quot;];
+       [self setIsFixing:YES];
+       if (_repairBlock) {
+           ABSBoolCompletionHandler completionHandler = ^(BOOL succeeded, NSError *__nullable error){
+               if (succeeded) {
+                   [self resetCrashCount];
+               } else {
+                   [[self class] Logger:error.description];
+               }
+           };
+           dispatch_async(dispatch_get_main_queue(),^{
+               _repairBlock(completionHandler);
+           });
+       }
+   } else {
+       [self increaseCrashCount:launchCrashes];
+       // 正常流程，无需修复
+       [[self class] Logger:@&quot;need no repair&quot;];
+       
+       // 记录启动时刻，用于计算启动连续 crash
+       // 重置启动 crash 计数
+       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.crashOnLaunchTimeIntervalThreshold * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+           // APP活过了阈值时间，重置崩溃计数
+           NSString *logString = [NSString stringWithFormat:@&quot;CYLBootingProtection: long live the app ( more than %@ seconds ), now reset crash counts&quot;, @(self.crashOnLaunchTimeIntervalThreshold)];
+           [[self class] Logger:logString];
+           [self resetCrashCount];
+       });
+   }
+}
+
+//减少计数的时机：用户手动划掉APP
+- (void)decreaseCrashCount {
+   NSUInteger oldCrashCount = [self crashCount];
+   [self decreaseCrashCountWithOldCrashCount:oldCrashCount];
+}
+
+- (void)decreaseCrashCountWithOldCrashCount:(NSUInteger)oldCrashCount {
+   dispatch_sync(_exceptionOperationQueue, ^{
+       if (oldCrashCount &gt; 0) {
+           [self setCrashCount:oldCrashCount-1];
+       }
+       [self resetBootingProtectionStatus];
+   });
+}
+
+//重制计数的时机：修复完成、或者用户手动划掉APP
+- (void)resetCrashCount {
+   [self setCrashCount:0];
+   [self resetBootingProtectionStatus];
+}
+
+//只在未达到计数上限时才会增加计数
+- (void)increaseCrashCount:(NSUInteger)oldCrashCount {
+   dispatch_sync(_exceptionOperationQueue, ^{
+       [self setIsNormalChecking:YES];
+       [self setCrashCount:oldCrashCount+1];
+   });
+}
+
+- (void)resetBootingProtectionStatus {
+   [self setIsNormalChecking:NO];
+   [self setIsFixing:NO];
+}
+
+- (BootingProtectionStatus)bootingProtectionStatus {
+   return [[self class] bootingProtectionStatusWithContext:_context continuousCrashOnLaunchNeedToFix:_continuousCrashOnLaunchNeedToFix];
+}
+
+/*!
+*
+@attention 注意之所以要检查 `BootingProtectionStatusNormalChecking` 原因如下：
+
+`-launchContinuousCrashProtect` 方法与 `-bootingProtectionStatus` 方法，如果 `-launchContinuousCrashProtect` 先执行，那么会造成如下问题：
+假设n为上限，但crash（n-1）次，但是用 `-bootingProtectionStatus` 判断出来，当前已经处于n次了。原因如下：
+
+crash（n-1）次，正常流程，计数+1，变成n次，
+随后在检查 `-bootingProtectionStatus` 时，发现已经处于异常状态了，实际是正常状态。所以需要使用`BootingProtectionStatusNormalChecking` 来进行区分。
+*/
++ (BootingProtectionStatus)bootingProtectionStatusWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix {
+   
+   BOOL isNormalChecking = [self isNormalCheckingWithContext:context];
+   if (isNormalChecking) {
+       return BootingProtectionStatusNormalChecking;
+   }
+   
+   BOOL isUpToBootingProtectionCount = [self isUpToBootingProtectionCountWithContext:context
+                                                    continuousCrashOnLaunchNeedToFix:continuousCrashOnLaunchNeedToFix];
+   if (!isUpToBootingProtectionCount) {
+       return BootingProtectionStatusNormal;
+   }
+   
+   BootingProtectionStatus type;
+   BOOL isFixingCrash = [self isFixingCrashWithContext:context];
+   if (isFixingCrash) {
+       type = BootingProtectionStatusFixing;
+   } else {
+       type = BootingProtectionStatusNeedFix;
+   }
+   return type;
+}
+
+- (NSUInteger)crashCount {
+   return [[self class] crashCountWithContext:_context];
+}
+
+- (void)setCrashCount:(NSInteger)count {
+   if (count &gt;=0) {
+       [[self class] setCrashCount:count context:_context];
+   }
+}
+
+- (void)setIsFixing:(BOOL)isFixingCrash {
+   [[self class] setIsFixing:isFixingCrash context:_context];
+}
+
+/*!
+* 是否正在修复
+*/
+- (BOOL)isFixingCrash {
+   return [[self class] isFixingCrashWithContext:_context];
+}
+
+- (void)setIsNormalChecking:(BOOL)isNormalChecking {
+   [[self class] setIsNormalChecking:isNormalChecking context:_context];
+}
+
+/*!
+* 是否正在检查
+*/
+- (BOOL)isNormalChecking {
+   return [[self class] isNormalCheckingWithContext:_context];
+}
+
++ (NSUInteger)crashCountWithContext:(NSString *)context {
+   NSString *continuousCrashOnLaunchCounterKey = [self continuousCrashOnLaunchCounterKeyWithContext:context];
+   NSUInteger crashCount = [[NSUserDefaults standardUserDefaults] integerForKey:continuousCrashOnLaunchCounterKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;crashCount:%@&quot;, @(crashCount)];
+   [[self class] Logger:logString];
+   return crashCount;
+}
+
++ (void)setCrashCount:(NSUInteger)count context:(NSString *)context {
+   NSString *continuousCrashOnLaunchCounterKey = [self continuousCrashOnLaunchCounterKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setCrashCount:%@&quot;, @(count)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setInteger:count forKey:continuousCrashOnLaunchCounterKey];
+   [defaults synchronize];
+}
+
++ (void)setIsFixing:(BOOL)isFixingCrash context:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashFixingKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setisFixingCrash:{%@}&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setBool:isFixingCrash forKey:continuousCrashFixingKey];
+   [defaults synchronize];
+}
+
++ (BOOL)isFixingCrashWithContext:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashFixingKeyWithContext:context];
+   BOOL isFixingCrash = [[NSUserDefaults standardUserDefaults] boolForKey:continuousCrashFixingKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;isFixingCrash:%@&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   return isFixingCrash;
+}
+
++ (void)setIsNormalChecking:(BOOL)isNormalChecking context:(NSString *)context {
+   NSString *continuousCrashNormalCheckingKey = [[self class] continuousCrashNormalCheckingKeyWithContext:context];
+   NSString *logString = [NSString stringWithFormat:@&quot;setIsNormalChecking:{%@}&quot;, @(isNormalChecking)];
+   [[self class] Logger:logString];
+   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+   [defaults setBool:isNormalChecking forKey:continuousCrashNormalCheckingKey];
+   [defaults synchronize];
+}
+
++ (BOOL)isNormalCheckingWithContext:(NSString *)context {
+   NSString *continuousCrashFixingKey = [[self class] continuousCrashNormalCheckingKeyWithContext:context];
+   BOOL isFixingCrash = [[NSUserDefaults standardUserDefaults] boolForKey:continuousCrashFixingKey];
+   NSString *logString = [NSString stringWithFormat:@&quot;isIsNormalChecking:%@&quot;, @(isFixingCrash)];
+   [[self class] Logger:logString];
+   return isFixingCrash;
+}
+
+- (BOOL)isUpToBootingProtectionCount {
+   return [[self class] isUpToBootingProtectionCountWithContext:_context continuousCrashOnLaunchNeedToFix:_continuousCrashOnLaunchNeedToFix];
+}
+
++ (BOOL)isUpToBootingProtectionCountWithContext:(NSString *)context continuousCrashOnLaunchNeedToFix:(NSUInteger)continuousCrashOnLaunchNeedToFix {
+   BOOL isUpToCount = [self crashCountWithContext:context] &gt;= continuousCrashOnLaunchNeedToFix;
+   if (isUpToCount) {
+       return YES;
+   }
+   return NO;
+}
+
+- (void)setReportBlock:(ABSReportBlock)block {
+   _reportBlock = block;
+}
+
+- (void)setRepairBlock:(ABSRepairBlock)block {
+   _repairBlock = block;
+}
+
+/*!
+*  “连续启动崩溃计数”个数，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_COUNTER_KEY&quot;
+*/
++ (NSString *)continuousCrashOnLaunchCounterKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashOnLaunchCounterKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_COUNTER_KEY&quot;, validContext];
+   return continuousCrashOnLaunchCounterKey;
+}
+
+/*!
+*  是否正在修复记录，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_FIXING_KEY&quot;
+*/
++ (NSString *)continuousCrashFixingKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashFixingKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_FIXING_KEY&quot;, validContext];
+   return continuousCrashFixingKey;
+}
+
+/*!
+*  是否正在检查是否在特定时间内会Crash，对应的Key
+*  默认为 &quot;_CONTINUOUS_CRASH_CHECKING_KEY&quot;
+*/
++ (NSString *)continuousCrashNormalCheckingKeyWithContext:(NSString *)context {
+   BOOL isValid = [[self class] isValidString:context];
+   NSString *validContext = isValid ? context : @&quot;&quot;;
+   NSString *continuousCrashFixingKey = [NSString stringWithFormat:@&quot;%@_CONTINUOUS_CRASH_CHECKING_KEY&quot;, validContext];
+   return continuousCrashFixingKey;
+}
+
+#pragma mark -
+#pragma mark - log and util Methods
+
++ (void)setLogger:(void (^)(NSString *))logger {
+   Logger = [logger copy];
+}
+
++ (void)Logger:(NSString *)log {
+   if (Logger) Logger(log);
+}
+
++ (BOOL)isValidString:(id)notValidString {
+   if (!notValidString) {
+       return NO;
+   }
+   if (![notValidString isKindOfClass:[NSString class]]) {
+       return NO;
+   }
+   NSInteger stringLength = 0;
+   @try {
+       stringLength = [notValidString length];
+   } @catch (NSException *exception) {}
+   if (stringLength == 0) {
+       return NO;
+   }
+   return YES;
+}
+
+@end
+</code></pre><p>下面是相应的验证步骤：</p>
+<p>等待15秒会有对应计数清零的操作日志输出：</p>
+<pre><code>2018-01-18 16:25:37.162980+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：CYLBootingProtection: Launch continuous crash report
+2018-01-18 16:25:37.163140+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{0}
+2018-01-18 16:25:37.165738+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setisFixingCrash:{0}
+2018-01-18 16:25:37.166883+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：crashCount:0
+2018-01-18 16:25:37.167102+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：crashCount:0
+2018-01-18 16:25:37.167253+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{1}
+2018-01-18 16:25:37.167938+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setCrashCount:1
+2018-01-18 16:25:37.168806+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：need no repair
+
+
+
+2018-01-18 16:25:52.225197+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：CYLBootingProtection: long live the app ( more than 15 seconds ), now reset crash counts
+2018-01-18 16:25:52.225378+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setCrashCount:0
+2018-01-18 16:25:52.226234+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setIsNormalChecking:{0}
+2018-01-18 16:25:52.226595+0800 BootingProtection[89773:15553277] 🔴类名与方法名：-[AppDelegate onBeforeBootingProtection]_block_invoke（在第45行），描述：setisFixingCrash:{0}
+</code></pre><hr>
+<p>Posted by <a href="https://weibo.com/luohanchenyilong/">微博@iOS程序犭袁</a><br>
+原创文章，版权声明：自由转载-非商用-非衍生-保持署名 | <a href="https://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh">Creative Commons BY-NC-ND 3.0</a></p>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>连续启动 crash 自修复技术实现与原理解析</p>
+        <p><a href="https://blog.policx.com/posts/crash/">https://blog.policx.com/posts/crash/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2018-02-06</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2018-02-06</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+            <div class="article-tags size-small mb-4">
+                <span class="mr-2">#</span><a class="link-muted mr-2" href="/tags/%ef%a3%bf" rel="tag"></a></div>
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/http/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">HTTP状态码汇总</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/nginx/">
+                    <span class="level-item">Nginx</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "4ee1cd57e6d180b00c35fb9d65128055",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

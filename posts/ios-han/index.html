@@ -1,0 +1,2616 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="打算在项目中大面积使用RAC来开发，所以整理一些常用的实践范例和比较完整的api说明方便开发时随时查阅 * 声明式编程泛型Declarative"/>
+<meta name="keywords" content=""/>
+
+<title>iOS函数响应式编程以及ReactiveCocoa的使用 - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/ios-han\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2016-06-18T09:55:45Z",
+    "dataModified": "2016-06-18T09:55:45Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "打算在项目中大面积使用RAC来开发，所以整理一些常用的实践范例和比较完整的api说明方便开发时随时查阅 * 声明式编程泛型Declarative"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/ios-han/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="iOS函数响应式编程以及ReactiveCocoa的使用" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                    <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                        <i class="fas fa-list-ul"></i>
+                    </a>
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2016-06-18T09:55:45Z"
+                                  title="2016-06-18T09:55:45Z">2016-06-18</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2016-06-18T09:55:45Z"
+                                  title="2016-06-18T09:55:45Z">2016-06-18</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">13 分钟读完 (大约6430个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">iOS函数响应式编程以及ReactiveCocoa的使用</h1>
+        <div class="content"><p>打算在项目中大面积使用RAC来开发，所以整理一些常用的实践范例和比较完整的api说明方便开发时随时查阅
+*</p>
+<!-- more -->
+<h1 id="声明式编程泛型declarative-programming">声明式编程泛型Declarative programming</h1>
+<p>函数反应式编程是声明式编程的子编程范式之一</p>
+<h1 id="高阶函数">高阶函数</h1>
+<p>需要满足两个条件</p>
+<ul>
+<li>一个或者多个函数作为输入。</li>
+<li>有且仅有一个函数输出。</li>
+</ul>
+<p>Objective-c里使用block作为函数</p>
+<pre><code>[array enumerateObjectsUsingBlock:^(NSNumber *number, NSUInteger idx, BOOL *stop)
+{
+    NSLog(@&quot;%@&quot;,number);
+}];
+</code></pre><h2 id="映射map">映射map</h2>
+<pre><code>NSArray * mappedArray = [array rx_mapWithBlock:^id(id each){
+    return @(pow([each integerValue],2));
+}];
+</code></pre><h2 id="过滤filter">过滤filter</h2>
+<pre><code>NSArray *filteredArray = [array rx_filterWithBlock:^BOOL(id each){
+    return ([each integerValue] % 2 == 0);
+}]
+</code></pre><h2 id="折叠fold">折叠fold</h2>
+<pre><code>[[array rx_mapWithBlock:^id (id each){
+        return [each stringValue];
+    }] rx_foldInitialValue:@&quot;&quot; block:^id (id memo , id each){
+        return [memo stringByAppendingString:each];
+}];
+</code></pre><h2 id="currying">Currying</h2>
+<p>用函数生成另一个函数</p>
+<pre><code>func filterGenerator(lastnameCondition: String) -&gt; (Staff) -&gt; (Bool) { 
+    return {staff in 
+        return staff.lastname == lastnameCondition
+    }
+}
+
+let filterWang = filterGenerator(&quot;Wang&quot;) 
+let filterHu = filterGenerator(&quot;Hu&quot;)
+
+staffs.filter(filterHu)
+</code></pre><h1 id="rac中使用高阶函数">RAC中使用高阶函数</h1>
+<h2 id="映射">映射</h2>
+<pre><code>NSArray *array = @[ @1, @2, @3 ];
+RACSequence * stream = [array rac_sequence];
+//RACSequence是一个RACStream的子类。
+[stream map:^id (id value){
+    return @(pow([value integerValue], 2));
+}];
+//RACSequence有一个方法返回数组:array
+NSLog(@&quot;%@&quot;,[stream array]);
+
+//避免污染变量的作用域
+NSLog(@&quot;%@&quot;,[[[array rac_sequence] map:^id (id value){
+                    return @(pow([value integerValue], 2));
+                }] array]);
+</code></pre><h2 id="过滤">过滤</h2>
+<pre><code>NSLog(@&quot;%@&quot;, [[[array rac_sequence] filter:^BOOL (id value){
+                        return [value integerValue] % 2 == 0;
+                    }] array]);
+</code></pre><h2 id="折叠">折叠</h2>
+<pre><code>NSLog(@&quot;%@&quot;,[[[array rac_sequence] map:^id (id value){
+                    return [value stringValue];
+                }] foldLeftWithStart:@&quot;&quot; reduce:^id (id accumulator, id value){
+                    return [accumulator stringByAppendingString:value];
+            }]);
+</code></pre><h2 id="绑定键值">绑定键值</h2>
+<pre><code>RACSignal * validEmailSignal = [self.textField.rac_textSignal map:^id (NSString *value){
+    return @([value rangeOfString:@&quot;@&quot;].location != NSNotFound);
+}];
+
+RAC(self.button, enabled) = validEmailSignal;
+
+RAC(self.textField, textColor) = [validEmailSignal map: ^id (id value){
+    if([value boolValue]){
+        return [UIColor greenColor];
+    }else{
+        return [UIColor redColor];
+    }
+}];
+</code></pre><p><img src="https://github.com/ming1016/study/blob/master/pic/CombinePipeline.png?raw=true" alt="绑定键值图示"></p>
+<h2 id="实践">实践</h2>
+<p>比较好的一个完整的RAC实践的例子：<a href="https://github.com/ashfurrow/FunctionalReactivePixels">https://github.com/ashfurrow/FunctionalReactivePixels</a></p>
+<h3 id="网络请求生成对应model">网络请求生成对应model</h3>
+<pre><code>+ (RACSignal *)importPhotos{
+    RACReplaySubject * subject = [RACReplaySubject subject];
+    NSURLRequest * request = [self popularURLRequest];
+    [NSURLConnection sendAsynchronousRequest:request
+                                    queue:[NSOperationQueue mainQueue]
+                        completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError){
+                            if (data) {
+                                id results = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+                                [subject sendNext:[[[results[@&quot;photos&quot;] rac_sequence] map:^id(NSDictionary *photoDictionary){
+                                    FRPPhotoModel * model = [FRPPhotoModel new];
+
+                                    [self configurePhotoModel:model withDictionary:photoDictionary];
+                                    [self downloadThumbnailForPhotoModel:model];
+
+                                    return model;
+                                }] array]];
+
+                                [subject sendCompleted];
+                            }
+                            else{
+                                [subject sendError:connectionError];
+                            }
+    }];
+
+    return subject;
+
+}
+</code></pre><h3 id="过滤相同大小的图片取出他们的url返回第一个">过滤相同大小的图片，取出他们的url，返回第一个</h3>
+<pre><code>+ (NSString *)urlForImageSize:(NSInteger)size inDictionary:(NSArray *)array{
+    return [[[[[array rac_sequence] filter:^ BOOL (NSDictionary * value){
+        return [value[@&quot;size&quot;] integerValue] == size;
+    }] map:^id (id value){
+        return value[@&quot;url&quot;];
+    }] array] firstObject];
+}
+</code></pre><h3 id="观察model里的图片数据进行为空过滤判断将data转为uiimage再把绑定新信号的值给对象的关键路径">观察model里的图片数据，进行为空过滤判断，将data转为UIImage，再把绑定新信号的值给对象的关键路径</h3>
+<pre><code>- (void)setPhotoModel:(FRPPhotoModel *)photoModel{
+    self.subscription = [[[RACObserver(photoModel, thumbnailData)
+        filter:^ BOOL (id value){
+            return value != nil;
+        }] map:^id (id value){
+            return [UIImage imageWithData:value];
+        }] setKeyPath:@keypath(self.imageView, image) onObject:self.imageView];
+}
+</code></pre><h3 id="uitableviewcell复用时需要取消cell上各个组件的订阅">UITableViewCell复用时需要取消cell上各个组件的订阅</h3>
+<pre><code>- (void)perpareForReuse {
+    [super prepareForReuse];
+    [self.subscription dispose], self.subscription = nil;
+}
+</code></pre><h3 id="delegate的使用">Delegate的使用</h3>
+<pre><code>//注意：你必须retain这个delegate对象，否则他们将会被释放，你将会得到一个EXC_BAD_ACCESS异常。添加下列私有属性到画廊视图控制器：
+@property (nonatomic, strong) id collectionViewDelegate;
+
+//同时你也需要导入RACDelegateProxy.h，因为他不是ReactiveCocoa的核心部分，不包含在ReactiveCocoa.h中。
+RACDelegateProxy *viewControllerDelegate = [[RACDelegateProxy alloc]
+                                    initWithProtocol:@protocol(FRPFullSizePhotoViewControllerDelegate)];
+
+[[viewControllerDelegate rac_signalForSelector:@selector(userDidScroll:toPhotoAtIndex:)     fromProtocol:@protocol(FRPFullSizePhotoViewControllerDelegate)]
+        subscribeNext:^(RACTuple *value){
+            @strongify(self);
+            [self.collectionView
+                scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:[value.second integerValue] inSection:0]
+                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                animated:NO];
+        }];
+
+self.collectionViewDelegate = [[RACDelegateProxy alloc] initWithProtocol:@protocol(UICollectionViewDelegate)];
+
+[[self.collectionViewDelegate rac_signalForSelector:@selector(collectionView:didSelectItemAtIndexPath:)]
+        subscribeNext:^(RACTuple *arguments) {
+            @strongify(self);
+            FRPFullSizePhotoViewController *viewController = [[FRPFullSizePhotoViewController alloc] initWithPhotoModels:self.photosArray currentPhotoIndex:[(NSIndexPath *)arguments.second item]];
+            viewController.delegate = (id&lt;FRPFullSizePhotoViewControllerDelegate&gt;)viewControllerDelegate;
+
+            [self.navigationController pushViewController:viewController animated:YES];
+
+        }];
+</code></pre><h3 id="处理异常完成执行刷新操作异常打印日志执行对应方法">处理异常，完成执行刷新操作，异常打印日志，执行对应方法</h3>
+<pre><code>RAC(self, photosArray) = [[[[FRPPhotoImporter importPhotos]
+        doCompleted:^{
+            @strongify(self);
+            [self.collectionView reloadData];
+        }] logError] catchTo:[RACSignal empty]];
+</code></pre><h3 id="网络请求处理数据获取数据返回主线程">网络请求处理数据，获取数据返回主线程</h3>
+<pre><code>+ (RACSignal *)importPhotos {
+    NSURLRequest *request = [self popularURLRequest];
+
+    return [[[[[[NSURLConnection rac_sendAsynchronousRequest:request]
+                reduceEach:^id(NSURLResponse *response , NSData *data){
+                    //注意：我们可以用下面的reduceEach:替代使用RACTuple的第一个map:，以便提供编译时检查。
+                    return data;
+                }]
+                deliverOn:[RACScheduler mainThreadScheduler]]
+                map:^id (NSData *data) {
+                    id results = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    return [[[results[@&quot;photo&quot;] rac_sequence]
+                        map:^id (NSDictionary *photoDictionary) {
+                            FRPPhotoModel *model = [FRPPhotoModel new];
+                            [self configurePhotoModel:model withDictionary:photoDictionary];
+                            [self downloadThumbnailForPhotoModel:model];
+                            return model;
+                        }] array];
+                }] publish] autoconnect];
+    //信号链条最末端的信号操作publish. publish返回一个RACMulitcastConnection,当信号连接上时，他将订阅该接收信号。autoconnect为我们做的是：当它返回的信号被订阅，连接到 该(订阅背后的)信号（underly signal）。
+}
+</code></pre><h3 id="信号的信号signal-of-signals一个外部信号包含一个内部信号在输出信号的subscribenext块中订阅内部信号会引起嵌套麻烦使用flattenmap后会生成一个新的信号和先前信号平级订阅会订阅到返回的新信号里的值map方法也是创建一个新信号但是会将返回的信号也当做值这样就得不到真正需要的值了">信号的信号Signal of signals，一个外部信号包含一个内部信号，在输出信号的subscribeNext:块中订阅内部信号，会引起嵌套麻烦。使用flattenMap后会生成一个新的信号，和先前信号平级，订阅会订阅到返回的新信号里的值。map方法也是创建一个新信号，但是会将返回的信号也当做值，这样就得不到真正需要的值了。</h3>
+<pre><code>[[[self.signInButton rac_signalForControlEvents:UIControlEventTouchUpInside] flattenMap:^RACStream *(id value) {
+    return [self signInSignal];
+}] subscribeNext:^(id x) {
+    //x
+    NSLog(@&quot;Sign in result: %@&quot;, x);
+}];
+</code></pre><h3 id="不同信号顺序链接程序需要等待前一个信号发出完成事件sendcompleted然后再订阅下一个信号then">不同信号顺序链接，程序需要等待前一个信号发出完成事件（sendCompleted），然后再订阅下一个信号（then）</h3>
+<pre><code>- (RACSignal *)requestAccessToTwitterSignal
+{
+    // 定义一个错误，如果用户拒绝访问则发送
+    NSError *accessError = [NSError errorWithDomain:RWTwitterInstantDomain code:RWTwitterInstantErrorAccessDenied userInfo:nil];
+
+    // 创建并返回信号
+    @weakify(self)
+    return [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) {
+
+        // 请求访问twitter
+        @strongify(self)
+        [self.accountStore requestAccessToAccountsWithType:self.twitterAccountType
+                                                   options:nil
+                                                completion:^(BOOL granted, NSError *error) {
+                                                    // 处理响应
+                                                    if (!granted)
+                                                    {
+                                                        [subscriber sendError:accessError];
+                                                    }
+                                                    else
+                                                    {
+                                                        [subscriber sendNext:nil];
+                                                        [subscriber sendCompleted];
+                                                    }
+                                                }];
+        return nil;
+    }];
+}
+
+//throttle可以避免连续输入造成的不必要的请求，then会忽略前一个信号的值，底层的实现是先过滤之前信号发的值，再使用concat连接then返回的信号。
+[[[[[[[self requestAccessToTwitterSignal]
+      then:^RACSignal *{
+          @strongify(self)
+          return self.searchText.rac_textSignal;
+      }]
+     filter:^BOOL(NSString *text) {
+         @strongify(self)
+         return [self isValidSearchText:text];
+     }]
+    throttle:0.5]
+   flattenMap:^RACStream *(NSString *text) {
+       @strongify(self)
+       //flattenMap来将每个next事件映射到一个新的被订阅的信号
+       return [self signalForSearchWithText:text];
+   }]
+  deliverOn:[RACScheduler mainThreadScheduler]]
+ subscribeNext:^(NSDictionary *jsonSearchResult) {
+     NSArray *statuses = jsonSearchResult[@&quot;statuses&quot;];
+     NSArray *tweets = [statuses linq_select:^id(id tweet) {
+         return [RWTweet tweetWithStatus:tweet];
+     }];
+     [self.resultsViewController displayTweets:tweets];
+ } error:^(NSError *error) {
+     NSLog(@&quot;An error occurred: %@&quot;, error);
+ }];
+ - (RACSignal *)signalForSearchWithText:(NSString *)text { 
+    // 1 - define the errors 
+    NSError *noAccountsError = [NSError errorWithDomain:RWTwitterInstantDomain 
+                                                   code:RWTwitterInstantErrorNoTwitterAccounts 
+                                               userInfo:nil]; 
+    NSError *invalidResponseError = [NSError errorWithDomain:RWTwitterInstantDomain 
+                                                        code:RWTwitterInstantErrorInvalidResponse 
+                                                        userInfo:nil]; 
+    @weakify(self) 
+    return [RACSignal createSignal:^RACDisposable *(id subscriber) { 
+        @strongify(self); 
+        SLRequest *request = [self requestforTwitterSearchWithText:text]; 
+        NSArray *twitterAccounts = [self.accountStore accountsWithAccountType:self.twitterAccountType];         if (twitterAccounts.count == 0) { 
+            [subscriber sendError:noAccountsError]; 
+        } else { 
+            [request setAccount:[twitterAccounts lastObject]]; 
+        [request performRequestWithHandler: ^(NSData *responseData, 
+                NSHTTPURLResponse *urlResponse, NSError *error) { 
+            if (urlResponse.statusCode == 200) { 
+                NSDictionary *timelineData = [NSJSONSerialization JSONObjectWithData:responseData 
+                                                options:NSJSONReadingAllowFragments 
+                                                  error:nil]; 
+                [subscriber sendNext:timelineData]; 
+                [subscriber sendCompleted]; 
+            } else { 
+                [subscriber sendError:invalidResponseError]; 
+            } 
+        }]; 
+    } 
+    return nil; 
+    }];
+}
+</code></pre><p><img src="https://github.com/ming1016/study/blob/master/pic/CompletePipeline.png?raw=true" alt="不同信号顺序链接"></p>
+<h3 id="异步加载图片">异步加载图片</h3>
+<pre><code>-(RACSignal *)signalForLoadingImage:(NSString *)imageUrl {
+
+    RACScheduler *scheduler = [RACScheduler
+                               schedulerWithPriority:RACSchedulerPriorityBackground];
+
+    return [[RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) {
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageUrl]];
+        UIImage *image = [UIImage imageWithData:data];
+        [subscriber sendNext:image];
+        [subscriber sendCompleted];
+        return nil;
+    }] subscribeOn:scheduler];
+}
+
+cell.twitterAvatarView.image = nil;
+[[[self signalForLoadingImage:tweet.profileImageUrl]
+  deliverOn:[RACScheduler mainThreadScheduler]]
+  subscribeNext:^(UIImage *image) {
+   cell.twitterAvatarView.image = image;
+  }];
+</code></pre><h3 id="观察viewmodel里的tableview的数据键值和全部读取键值只要有一个有新值就会调用">观察viewModel里的tableView的数据键值和全部读取键值，只要有一个有新值就会调用</h3>
+<pre><code>@weakify(self);
+[[[RACSignal merge: @[RACObserve(self.viewModel,  tweets), 
+                     RACObserve(self.viewModel,  allTweetsLoaded)]]
+    bufferWithTime: 0 onScheduler: [RACScheduler mainThreadScheduler]]
+    subscribeNext: ^(id value) {
+        @strongify(self);
+        [self.tableView reloadData];
+    }];
+//bufferWithTime设置为0是为了避免同一时刻两个值被同时设置新值产生了table进行了两次reloadData
+</code></pre><h3 id="封装hook方法某个selector被调用时再执行一段指定代码和hook一样">封装hook方法，某个selector被调用时，再执行一段指定代码和hook一样。</h3>
+<pre><code>@weakify(self);
+[[tableView rac_signalForSelector:@selector(layoutSubviews)]subscribeNext:^(id x) {
+    @strongify(self);
+    [self doSomethingBeforeTableViewLayoutSubviews];
+}];
+</code></pre><h3 id="使用raccommand来实现按钮的状态根据输入邮箱判断邮箱是否非法还有提交到服务器后出错处理等">使用RACCommand来实现按钮的状态根据输入邮箱判断邮箱是否非法还有提交到服务器后出错处理等</h3>
+<p>Demo的github地址：<a href="https://github.com/olegam/RACCommandExample">https://github.com/olegam/RACCommandExample</a></p>
+<pre><code>- (void)bindWithViewModel {     
+  RAC(self.viewModel, email) =self.emailTextField.rac_textSignal;   
+  self.subscribeButton.rac_command = self.viewModel.subscribeCommand;     
+  RAC(self.statusLabel, text) =RACObserve(self.viewModel, statusMessage);   
+}
+
+@interface SubscribeViewModel :NSObject    
+  @property(nonatomic, strong)RACCommand *subscribeCommand;  // writeto this property  
+  @property(nonatomic, strong) NSString *email;  // read from this property  
+  @property(nonatomic, strong) NSString *statusMessage;    
+@end  
+
+#import &quot;SubscribeViewModel.h&quot;  
+#import &quot;AFHTTPRequestOperationManager+RACSupport.h&quot;  
+#import&quot;NSString+EmailAdditions.h&quot;  
+
+static NSString *const kSubscribeURL =@&quot;https://reactivetest.apiary.io/subscribers&quot;;  
+
+@interface SubscribeViewModel ()  
+@property(nonatomic, strong) RACSignal*emailValidSignal;  
+@end  
+
+@implementation SubscribeViewModel  
+
+- (id)init {  
+       self= [super init];  
+       if(self) {  
+            [self mapSubscribeCommandStateToStatusMessage];  
+       }  
+       returnself;  
+}  
+
+-(void)mapSubscribeCommandStateToStatusMessage {  
+       RACSignal *startedMessageSource = [self.subscribeCommand.executionSignals map:^id(RACSignal *subscribeSignal) {  
+              return NSLocalizedString(@&quot;Sending request...&quot;, nil);  
+       }];  
+
+       RACSignal *completedMessageSource = [self.subscribeCommand.executionSignals flattenMap:^RACStream *(RACSignal *subscribeSignal) {  
+              return[[[subscribeSignal materialize] filter:^BOOL(RACEvent *event) {  
+                     return event.eventType == RACEventTypeCompleted;  
+              }] map:^id(id value) {  
+                     return NSLocalizedString(@&quot;Thanks&quot;, nil);  
+              }];  
+       }];  
+
+       RACSignal*failedMessageSource = [[self.subscribeCommand.errors subscribeOn:[RACSchedulermainThreadScheduler]] map:^id(NSError *error) {  
+              return NSLocalizedString(@&quot;Error :(&quot;, nil);  
+       }];  
+
+       RAC(self,statusMessage) = [RACSignal merge:@[startedMessageSource, completedMessageSource, failedMessageSource]];  
+}  
+
+- (RACCommand *)subscribeCommand {  
+       if(!_subscribeCommand) {  
+              @weakify(self);  
+              _subscribeCommand = [[RACCommand alloc] initWithEnabled:self.emailValidSignal signalBlock:^RACSignal *(id input) {  
+                     @strongify(self);  
+                     return [SubscribeViewModel postEmail:self.email];  
+              }];  
+       }  
+       return _subscribeCommand;  
+}  
+
++ (RACSignal *)postEmail:(NSString *)email{  
+       AFHTTPRequestOperationManager*manager = [AFHTTPRequestOperationManager manager];  
+       manager.requestSerializer= [AFJSONRequestSerializer new];  
+       NSDictionary*body = @{@&quot;email&quot;: email ?: @&quot;&quot;};  
+       return [[[manager rac_POST:kSubscribeURL parameters:body] logError] replayLazily];  
+}  
+
+- (RACSignal *)emailValidSignal {  
+       if(!_emailValidSignal) {  
+              _emailValidSignal= [RACObserve(self, email) map:^id(NSString *email) {  
+                     return@([email isValidEmail]);  
+              }];  
+       }  
+       return _emailValidSignal;  
+}  
+
+@end
+</code></pre><h3 id="替换delegate直接使用racsubject">替换Delegate，直接使用RACSubject</h3>
+<h1 id="rac内存管理">RAC内存管理</h1>
+<p>RAC会维护一个全局的信号集合，一个或多于一个订阅者就可用，所有订阅者都被移除了，信号就被释放了。</p>
+<h1 id="rac需要注意的内存问题">RAC需要注意的内存问题</h1>
+<h2 id="宏定义">宏定义</h2>
+<pre><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) { //1
+        MTModel *model = [[MTModel alloc] init]; // MTModel有一个名为的title的属性
+        [subscriber sendNext:model];
+        [subscriber sendCompleted];
+        return nil;
+    }];
+    self.flattenMapSignal = [signal flattenMap:^RACStream *(MTModel *model) { //2
+        return RACObserve(model, title);
+    }];
+    [self.flattenMapSignal subscribeNext:^(id x) { //3
+        NSLog(@&quot;subscribeNext - %@&quot;, x);
+    }];
+}
+</code></pre><p>上面的RACObserve会引起引用不释放的问题，通过RACObserve的定义来看看，里面会对self进行持有。</p>
+<pre><code>#define RACObserve(TARGET, KEYPATH) \
+    ({ \
+        _Pragma(&quot;clang diagnostic push&quot;) \
+        _Pragma(&quot;clang diagnostic ignored \&quot;-Wreceiver-is-weak\&quot;&quot;) \
+        __weak id target_ = (TARGET); \
+        [target_ rac_valuesForKeyPath:@keypath(TARGET, KEYPATH) observer:self]; \
+        _Pragma(&quot;clang diagnostic pop&quot;) \
+    })
+</code></pre><h2 id="subject">Subject</h2>
+<p>对subject进行map这样的操作，这时就需要sendCompleted</p>
+<pre><code>- (void)viewDidLoad {
+    [super viewDidLoad];
+    RACSubject *subject = [RACSubject subject]; 
+    [subject.rac_willDeallocSignal subscribeCompleted:^{ 
+        NSLog(@&quot;subject dealloc&quot;);
+    }];
+
+    [[subject map:^id(NSNumber *value) { 
+        return @([value integerValue] * 3);
+    }] subscribeNext:^(id x) { 
+        NSLog(@&quot;next = %@&quot;, x);
+    }];
+    [subject sendNext:@1]; 
+}
+</code></pre><p>但是为什么signal进行map操作，不sendCompleted而不会内存泄漏呢。因为调到bind的比如map、filter、merge、combineLatest、flattenMap等操作如果是RACSubject这样会持有订阅者的信号会产生内存泄漏需要sendCompleted。可以先看看bind的实现</p>
+<pre><code>- (RACSignal *)bind:(RACStreamBindBlock (^)(void))block {
+    NSCParameterAssert(block != NULL);
+    /*
+     * -bind: should:
+     * 
+     * 1. Subscribe to the original signal of values.
+     * 2. Any time the original signal sends a value, transform it using the binding block.
+     * 3. If the binding block returns a signal, subscribe to it, and pass all of its values through to the subscriber as they're received.
+     * 4. If the binding block asks the bind to terminate, complete the _original_ signal.
+     * 5. When _all_ signals complete, send completed to the subscriber.
+     * 
+     * If any signal sends an error at any point, send that to the subscriber.
+     */
+    return [[RACSignal createSignal:^(id&lt;RACSubscriber&gt; subscriber) {
+        RACStreamBindBlock bindingBlock = block();
+        NSMutableArray *signals = [NSMutableArray arrayWithObject:self];
+        // 此处省略了80行代码
+        // ...
+    }] setNameWithFormat:@&quot;[%@] -bind:&quot;, self.name];
+}
+</code></pre><p>didSubscribe的开头，就创建了一个数组signals，并且持有了self，也就是源信号，也就是订阅者持有了信号，如果是Subject那么这种信号又会持有订阅者，这样就形成了循环引用。</p>
+<p>下面看看sendCompleted如何修复的内存泄漏</p>
+<pre><code>void (^completeSignal)(RACSignal *, RACDisposable *) = ^(RACSignal *signal, RACDisposable *finishedDisposable) {
+    BOOL removeDisposable = NO;
+    @synchronized (signals) {
+        [signals removeObject:signal]; //1
+        if (signals.count == 0) {
+            [subscriber sendCompleted]; //2
+            [compoundDisposable dispose]; //3
+        } else {
+            removeDisposable = YES;
+        }
+    }
+    if (removeDisposable) [compoundDisposable removeDisposable:finishedDisposable]; //4
+};
+</code></pre><p>从signals这个数组中移除传入的signal，也就是让订阅的signal不会持有subject这种信号。</p>
+<p>还有replay这样的操作，因为这个方法返回的是一个RACReplaySubject</p>
+<pre><code>RACSignal *signal = [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) {
+    [subscriber sendNext:@1];
+    [subscriber sendCompleted]; // 保证源信号发送完成
+    return nil;
+}];
+
+RACSignal *replaySignal = [signal replay]; // 这里返回的其实是一个RACReplaySubject
+
+[[replaySignal map:^id(NSNumber *value) {
+    return @([value integerValue] * 3);
+}] subscribeNext:^(id x) {
+    NSLog(@&quot;subscribeNext - %@&quot;, x);
+}];
+</code></pre><h1 id="热信号冷信号">热信号冷信号</h1>
+<ul>
+<li>热信号是主动的，不订阅也能够按时发送。冷信号是被动的，只有订阅才会发送。</li>
+<li>热信号可以有多个订阅者。冷信号只能够一对一，有不同订阅者，消息会从新完整发送。</li>
+</ul>
+<h1 id="rac的api手册">RAC的API手册</h1>
+<h2 id="常见类">常见类</h2>
+<h3 id="racsiganl-信号类">RACSiganl 信号类。</h3>
+<ul>
+<li>RACEmptySignal ：空信号，用来实现 RACSignal 的 +empty 方法；</li>
+<li>RACReturnSignal ：一元信号，用来实现 RACSignal 的 +return: 方法；</li>
+<li>RACDynamicSignal ：动态信号，使用一个 block - 来实现订阅行为，我们在使用 RACSignal 的 +createSignal: 方法时创建的就是该类的实例；</li>
+<li>RACErrorSignal ：错误信号，用来实现 RACSignal 的 +error: 方法；</li>
+<li>RACChannelTerminal ：通道终端，代表 RACChannel 的一个终端，用来实现双向绑定。</li>
+</ul>
+<h3 id="racsubscriber-订阅者">RACSubscriber 订阅者</h3>
+<h3 id="racdisposable-用于取消订阅或者清理资源当信号发送完成或者发送错误的时候就会自动触发它">RACDisposable 用于取消订阅或者清理资源，当信号发送完成或者发送错误的时候，就会自动触发它。</h3>
+<ul>
+<li>RACSerialDisposable ：作为 disposable 的容器使用，可以包含一个 disposable 对象，并且允许将这个 disposable 对象通过原子操作交换出来；</li>
+<li>RACKVOTrampoline ：代表一次 KVO 观察，并且可以用来停止观察；</li>
+<li>RACCompoundDisposable ：它可以包含多个 disposable 对象，并且支持手动添加和移除 disposable 对象</li>
+<li>RACScopedDisposable ：当它被 dealloc 的时候调用本身的 -dispose 方法。</li>
+</ul>
+<h3 id="racsubject-信号提供者自己可以充当信号又能发送信号订阅后发送">RACSubject 信号提供者，自己可以充当信号，又能发送信号。订阅后发送</h3>
+<ul>
+<li>RACGroupedSignal ：分组信号，用来实现 RACSignal 的分组功能；</li>
+<li>RACBehaviorSubject ：重演最后值的信号，当被订阅时，会向订阅者发送它最后接收到的值；</li>
+<li>RACReplaySubject ：重演信号，保存发送过的值，当被订阅时，会向订阅者重新发送这些值。可以先发送后订阅</li>
+</ul>
+<h3 id="ractuple-元组类类似nsarray用来包装值">RACTuple 元组类,类似NSArray,用来包装值.</h3>
+<h3 id="racsequence-rac中的集合类">RACSequence RAC中的集合类</h3>
+<h3 id="raccommand-rac中用于处理事件的类可以把事件如何处理事件中的数据如何传递包装到这个类中他可以很方便的监控事件的执行过程">RACCommand RAC中用于处理事件的类，可以把事件如何处理,事件中的数据如何传递，包装到这个类中，他可以很方便的监控事件的执行过程。</h3>
+<h3 id="racmulticastconnection-用于当一个信号被多次订阅时为了保证创建信号时避免多次调用创建信号中的block造成副作用可以使用这个类处理">RACMulticastConnection 用于当一个信号，被多次订阅时，为了保证创建信号时，避免多次调用创建信号中的block，造成副作用，可以使用这个类处理。</h3>
+<h3 id="racscheduler-rac中的队列用gcd封装的">RACScheduler RAC中的队列，用GCD封装的。</h3>
+<ul>
+<li>RACImmediateScheduler ：立即执行调度的任务，这是唯一一个支持同步执行的调度器；</li>
+<li>RACQueueScheduler ：一个抽象的队列调度器，在一个 GCD 串行列队中异步调度所有任务；</li>
+<li>RACTargetQueueScheduler ：继承自 RACQueueScheduler ，在一个以一个任意的 GCD 队列为 target 的串行队列中异步调度所有任务；</li>
+<li>RACSubscriptionScheduler ：一个只用来调度订阅的调度器。</li>
+</ul>
+<h2 id="常见用法">常见用法</h2>
+<ul>
+<li>rac_signalForSelector : 代替代理</li>
+<li>rac_valuesAndChangesForKeyPath: KVO</li>
+<li>rac_signalForControlEvents:监听事件</li>
+<li>rac_addObserverForName 代替通知</li>
+<li>rac_textSignal：监听文本框文字改变</li>
+<li>rac_liftSelector:withSignalsFromArray:Signals:当传入的Signals(信号数组)，每一个signal都至少sendNext过一次，就会去触发第一个selector参数的方法。</li>
+</ul>
+<h2 id="常见宏">常见宏</h2>
+<ul>
+<li>RAC(TARGET, [KEYPATH, [NIL_VALUE]])：用于给某个对象的某个属性绑定</li>
+<li>RACObserve(self, name) ：监听某个对象的某个属性,返回的是信号。</li>
+<li>@weakify(Obj)和@strongify(Obj)</li>
+<li>RACTuplePack ：把数据包装成RACTuple（元组类）</li>
+<li>RACTupleUnpack：把RACTuple（元组类）解包成对应的数据</li>
+<li>RACChannelTo 用于双向绑定的一个终端</li>
+</ul>
+<h2 id="常用操作方法">常用操作方法</h2>
+<ul>
+<li>flattenMap map 用于把源信号内容映射成新的内容。</li>
+<li>concat 组合 按一定顺序拼接信号，当多个信号发出的时候，有顺序的接收信号</li>
+<li>then 用于连接两个信号，当第一个信号完成，才会连接then返回的信号。</li>
+<li>merge 把多个信号合并为一个信号，任何一个信号有新值的时候就会调用</li>
+<li>zipWith 把两个信号压缩成一个信号，只有当两个信号同时发出信号内容时，并且把两个信号的内容合并成一个元组，才会触发压缩流的next事件。</li>
+<li>combineLatest:将多个信号合并起来，并且拿到各个信号的最新的值,必须每个合并的signal至少都有过一次sendNext，才会触发合并的信号。</li>
+<li>reduce聚合:用于信号发出的内容是元组，把信号发出元组的值聚合成一个值</li>
+<li>filter:过滤信号，使用它可以获取满足条件的信号.</li>
+<li>ignore:忽略完某些值的信号.</li>
+<li>distinctUntilChanged:当上一次的值和当前的值有明显的变化就会发出信号，否则会被忽略掉。</li>
+<li>take:从开始一共取N次的信号</li>
+<li>takeLast:取最后N次的信号,前提条件，订阅者必须调用完成，因为只有完成，就知道总共有多少信号.</li>
+<li>takeUntil:(RACSignal *):获取信号直到某个信号执行完成</li>
+<li>skip:(NSUInteger):跳过几个信号,不接受。</li>
+<li>switchToLatest:用于signalOfSignals（信号的信号），有时候信号也会发出信号，会在signalOfSignals中，获取signalOfSignals发送的最新信号。</li>
+<li>doNext: 执行Next之前，会先执行这个Block</li>
+<li>doCompleted: 执行sendCompleted之前，会先执行这个Block</li>
+<li>timeout：超时，可以让一个信号在一定的时间后，自动报错。</li>
+<li>interval 定时：每隔一段时间发出信号</li>
+<li>delay 延迟发送next。</li>
+<li>retry重试 ：只要失败，就会重新执行创建信号中的block,直到成功.</li>
+<li>replay重放：当一个信号被多次订阅,反复播放内容</li>
+<li>throttle节流:当某个信号发送比较频繁时，可以使用节流，在某一段时间不发送信号内容，过了一段时间获取信号的最新内容发出。</li>
+</ul>
+<h2 id="ui---category常用汇总">UI - Category（常用汇总）</h2>
+<h3 id="rac_prepareforreusesignal-需要复用时用">rac_prepareForReuseSignal： 需要复用时用</h3>
+<ul>
+<li>相关UI: MKAnnotationView、UICollectionReusableView、UITableViewCell、UITableViewHeaderFooterView</li>
+</ul>
+<h3 id="rac_buttonclickedsignal点击事件触发信号">rac_buttonClickedSignal：点击事件触发信号</h3>
+<ul>
+<li>相关UI：UIActionSheet、UIAlertView</li>
+</ul>
+<h3 id="rac_commandbutton类刷新类相关命令替换">rac_command：button类、刷新类相关命令替换</h3>
+<ul>
+<li>相关UI：UIBarButtonItem、UIButton、UIRefreshControl</li>
+</ul>
+<h3 id="rac_signalforcontrolevents-control-event-触发">rac_signalForControlEvents: control event 触发</h3>
+<ul>
+<li>相关UI：UIControl</li>
+</ul>
+<h3 id="rac_gesturesignal-uigesturerecognizer-事件处理信号">rac_gestureSignal UIGestureRecognizer 事件处理信号</h3>
+<ul>
+<li>相关UI：UIGestureRecognizer</li>
+</ul>
+<h3 id="rac_imageselectedsignal-选择图片的信号">rac_imageSelectedSignal 选择图片的信号</h3>
+<ul>
+<li>相关UI：UIImagePickerController</li>
+</ul>
+<h3 id="rac_textsignal">rac_textSignal</h3>
+<ul>
+<li>相关UI：UITextField、UITextView</li>
+</ul>
+<h3 id="可实现双向绑定的相关api">可实现双向绑定的相关API</h3>
+<ul>
+<li>rac_channelForControlEvents: key: nilValue:</li>
+<li>相关UI：UIControl类</li>
+<li>rac_newDateChannelWithNilValue:</li>
+<li>相关UI：UIDatePicker</li>
+<li>rac_newSelectedSegmentIndexChannelWithNilValue:</li>
+<li>相关UI：UISegmentedControl</li>
+<li>rac_newValueChannelWithNilValue:</li>
+<li>相关UI：UISlider、UIStepper</li>
+<li>rac_newOnChannel</li>
+<li>相关UI：UISwitch</li>
+<li>rac_newTextChannel</li>
+<li>相关UI：UITextField</li>
+</ul>
+<h2 id="foundation---category-常用汇总">Foundation - Category （常用汇总）</h2>
+<h3 id="nsdata">NSData</h3>
+<ul>
+<li>rac_readContentsOfURL: options: scheduler: 比oc多出线程设置</li>
+</ul>
+<h3 id="nsdictionary">NSDictionary</h3>
+<ul>
+<li>rac_sequence</li>
+<li>rac_keySequence key 集合</li>
+<li>rac_valueSequence value 集合</li>
+</ul>
+<h3 id="nsarray">NSArray</h3>
+<ul>
+<li>rac_sequence 信号集合</li>
+</ul>
+<h3 id="nsfilehandle">NSFileHandle</h3>
+<ul>
+<li>rac_readInBackground 后台线程读取</li>
+</ul>
+<h3 id="nsinvocation">NSInvocation</h3>
+<ul>
+<li>rac_setArgument: atIndex: 设置参数</li>
+<li>rac_argumentAtIndex 取某个参数</li>
+<li>rac_returnValue 所关联方法的返回值</li>
+</ul>
+<h3 id="nsnotificationcenter">NSNotificationCenter</h3>
+<ul>
+<li>rac_addObserverForName: object:注册通知</li>
+</ul>
+<h3 id="nsobject">NSObject</h3>
+<ul>
+<li>rac_willDeallocSignal 对象销毁时发动的信号</li>
+<li>rac_description debug用</li>
+<li>rac_observeKeyPath: options: observer: block:监听某个事件</li>
+<li>rac_liftSelector: withSignals: 全部信号都next在执行</li>
+<li>rac_signalForSelector: 代替某个方法</li>
+<li>rac_signalForSelector:(SEL)selector fromProtocol:代替代理</li>
+</ul>
+<h3 id="nsstring">NSString</h3>
+<ul>
+<li>rac_keyPathComponents 获取一个路径所有的部分</li>
+<li>rac_keyPathByDeletingLastKeyPathComponent 删除路径最后一部分</li>
+<li>rac_keyPathByDeletingFirstKeyPathComponent 删除路径第一部分</li>
+<li>rac_readContentsOfURL: usedEncoding: scheduler: 比之OC多线程调用</li>
+<li>rac_sequence</li>
+</ul>
+<h3 id="nsurlconnection">NSURLConnection</h3>
+<ul>
+<li>rac_sendAsynchronousRequest 发起异步请求</li>
+</ul>
+<h3 id="nsuserdefaults">NSUserDefaults</h3>
+<ul>
+<li>rac_channelTerminalForKey 用于双向绑定，此乃一</li>
+</ul>
+<h3 id="nsenumerator">NSEnumerator</h3>
+<ul>
+<li>rac_sequence</li>
+</ul>
+<h3 id="nsindexset">NSIndexSet</h3>
+<ul>
+<li>rac_sequence</li>
+</ul>
+<h3 id="nsorderedset">NSOrderedSet</h3>
+<ul>
+<li>rac_sequence</li>
+</ul>
+<h3 id="nsset">NSSet</h3>
+<ul>
+<li>rac_sequence</li>
+</ul>
+<h1 id="rac图片版的api手册">RAC图片版的API手册</h1>
+<h2 id="reactivecocoa-objective-c">ReactiveCocoa Objective-C</h2>
+<p><img src="https://github.com/ming1016/study/blob/master/pic/ReactiveCocoaOC.png?raw=true" alt="ReactiveCocoaObjective-C"></p>
+<h2 id="reactivecocoa-swift">ReactiveCocoa Swift</h2>
+<p><img src="https://github.com/ming1016/study/blob/master/pic/ReactiveCocoaSwift.png?raw=true" alt="ReactiveCocoaSwift"></p>
+<h2 id="rxswift">RXSwift</h2>
+<p><img src="https://github.com/ming1016/study/blob/master/pic/RXSwift.png?raw=true" alt="RXSwift"></p>
+<h1 id="本文参考整理自">本文参考整理自</h1>
+<ul>
+<li>ReactiveCocoa Tutorial – The Definitive Introduction: Part 1/2 <a href="https://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1">https://www.raywenderlich.com/62699/reactivecocoa-tutorial-pt1</a></li>
+<li>ReactiveCocoa Tutorial – The Definitive Introduction: Part 2/2 <a href="https://www.raywenderlich.com/62796/reactivecocoa-tutorial-pt2">https://www.raywenderlich.com/62796/reactivecocoa-tutorial-pt2</a></li>
+<li>iOS的函数响应型编程 <a href="https://www.gitbook.com/book/kevinhm/functionalreactiveprogrammingonios/details">https://www.gitbook.com/book/kevinhm/functionalreactiveprogrammingonios/details</a></li>
+<li>ReactiveCocoa Essentials: Understanding and Using RACCommand <a href="https://codeblog.shape.dk/blog/2013/12/05/reactivecocoa-essentials-understanding-and-using-raccommand/">https://codeblog.shape.dk/blog/2013/12/05/reactivecocoa-essentials-understanding-and-using-raccommand/</a></li>
+<li>iOS ReactiveCocoa 最全常用API整理（可做为手册查询）<a href="https://www.cocoachina.com/ios/20160729/17236.html">https://www.cocoachina.com/ios/20160729/17236.html</a></li>
+<li>ReactiveCocoa和RXSwift速查表 <a href="https://valiantcat.com/2016/07/22/ReactiveCocoa%E5%92%8CRXSwift%E9%80%9F%E6%9F%A5%E8%A1%A8/">https://valiantcat.com/2016/07/22/ReactiveCocoa和RXSwift速查表/</a></li>
+<li>ReactiveCocoa中潜在的内存泄漏及解决方案<a href="https://tech.meituan.com/potential-memory-leak-in-reactivecocoa.html?from=timeline&amp;isappinstalled=0">https://tech.meituan.com/potential-memory-leak-in-reactivecocoa.html?from=timeline&amp;isappinstalled=0</a></li>
+<li><a href="https://github.com/ming1016/study/wiki">ming1016</a></li>
+</ul>
+</div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>iOS函数响应式编程以及ReactiveCocoa的使用</p>
+        <p><a href="https://blog.policx.com/posts/ios-han/">https://blog.policx.com/posts/ios-han/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2016-06-18</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2016-06-18</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/clang-llvm/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">深入剖析-iOS-编译-Clang---LLVM</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/gpu/">
+                    <span class="level-item">GPU处理图像</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "bdd3a8c1c7fea4a41bc8c6ec62e9b233",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+    <div class="card widget" id="toc" data-type="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">目录</h3>
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#映射map">映射map</a></li>
+    <li><a href="#过滤filter">过滤filter</a></li>
+    <li><a href="#折叠fold">折叠fold</a></li>
+    <li><a href="#currying">Currying</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#映射">映射</a></li>
+    <li><a href="#过滤">过滤</a></li>
+    <li><a href="#折叠">折叠</a></li>
+    <li><a href="#绑定键值">绑定键值</a></li>
+    <li><a href="#实践">实践</a>
+      <ul>
+        <li><a href="#网络请求生成对应model">网络请求生成对应model</a></li>
+        <li><a href="#过滤相同大小的图片取出他们的url返回第一个">过滤相同大小的图片，取出他们的url，返回第一个</a></li>
+        <li><a href="#观察model里的图片数据进行为空过滤判断将data转为uiimage再把绑定新信号的值给对象的关键路径">观察model里的图片数据，进行为空过滤判断，将data转为UIImage，再把绑定新信号的值给对象的关键路径</a></li>
+        <li><a href="#uitableviewcell复用时需要取消cell上各个组件的订阅">UITableViewCell复用时需要取消cell上各个组件的订阅</a></li>
+        <li><a href="#delegate的使用">Delegate的使用</a></li>
+        <li><a href="#处理异常完成执行刷新操作异常打印日志执行对应方法">处理异常，完成执行刷新操作，异常打印日志，执行对应方法</a></li>
+        <li><a href="#网络请求处理数据获取数据返回主线程">网络请求处理数据，获取数据返回主线程</a></li>
+        <li><a href="#信号的信号signal-of-signals一个外部信号包含一个内部信号在输出信号的subscribenext块中订阅内部信号会引起嵌套麻烦使用flattenmap后会生成一个新的信号和先前信号平级订阅会订阅到返回的新信号里的值map方法也是创建一个新信号但是会将返回的信号也当做值这样就得不到真正需要的值了">信号的信号Signal of signals，一个外部信号包含一个内部信号，在输出信号的subscribeNext:块中订阅内部信号，会引起嵌套麻烦。使用flattenMap后会生成一个新的信号，和先前信号平级，订阅会订阅到返回的新信号里的值。map方法也是创建一个新信号，但是会将返回的信号也当做值，这样就得不到真正需要的值了。</a></li>
+        <li><a href="#不同信号顺序链接程序需要等待前一个信号发出完成事件sendcompleted然后再订阅下一个信号then">不同信号顺序链接，程序需要等待前一个信号发出完成事件（sendCompleted），然后再订阅下一个信号（then）</a></li>
+        <li><a href="#异步加载图片">异步加载图片</a></li>
+        <li><a href="#观察viewmodel里的tableview的数据键值和全部读取键值只要有一个有新值就会调用">观察viewModel里的tableView的数据键值和全部读取键值，只要有一个有新值就会调用</a></li>
+        <li><a href="#封装hook方法某个selector被调用时再执行一段指定代码和hook一样">封装hook方法，某个selector被调用时，再执行一段指定代码和hook一样。</a></li>
+        <li><a href="#使用raccommand来实现按钮的状态根据输入邮箱判断邮箱是否非法还有提交到服务器后出错处理等">使用RACCommand来实现按钮的状态根据输入邮箱判断邮箱是否非法还有提交到服务器后出错处理等</a></li>
+        <li><a href="#替换delegate直接使用racsubject">替换Delegate，直接使用RACSubject</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#宏定义">宏定义</a></li>
+    <li><a href="#subject">Subject</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#常见类">常见类</a>
+      <ul>
+        <li><a href="#racsiganl-信号类">RACSiganl 信号类。</a></li>
+        <li><a href="#racsubscriber-订阅者">RACSubscriber 订阅者</a></li>
+        <li><a href="#racdisposable-用于取消订阅或者清理资源当信号发送完成或者发送错误的时候就会自动触发它">RACDisposable 用于取消订阅或者清理资源，当信号发送完成或者发送错误的时候，就会自动触发它。</a></li>
+        <li><a href="#racsubject-信号提供者自己可以充当信号又能发送信号订阅后发送">RACSubject 信号提供者，自己可以充当信号，又能发送信号。订阅后发送</a></li>
+        <li><a href="#ractuple-元组类类似nsarray用来包装值">RACTuple 元组类,类似NSArray,用来包装值.</a></li>
+        <li><a href="#racsequence-rac中的集合类">RACSequence RAC中的集合类</a></li>
+        <li><a href="#raccommand-rac中用于处理事件的类可以把事件如何处理事件中的数据如何传递包装到这个类中他可以很方便的监控事件的执行过程">RACCommand RAC中用于处理事件的类，可以把事件如何处理,事件中的数据如何传递，包装到这个类中，他可以很方便的监控事件的执行过程。</a></li>
+        <li><a href="#racmulticastconnection-用于当一个信号被多次订阅时为了保证创建信号时避免多次调用创建信号中的block造成副作用可以使用这个类处理">RACMulticastConnection 用于当一个信号，被多次订阅时，为了保证创建信号时，避免多次调用创建信号中的block，造成副作用，可以使用这个类处理。</a></li>
+        <li><a href="#racscheduler-rac中的队列用gcd封装的">RACScheduler RAC中的队列，用GCD封装的。</a></li>
+      </ul>
+    </li>
+    <li><a href="#常见用法">常见用法</a></li>
+    <li><a href="#常见宏">常见宏</a></li>
+    <li><a href="#常用操作方法">常用操作方法</a></li>
+    <li><a href="#ui---category常用汇总">UI - Category（常用汇总）</a>
+      <ul>
+        <li><a href="#rac_prepareforreusesignal-需要复用时用">rac_prepareForReuseSignal： 需要复用时用</a></li>
+        <li><a href="#rac_buttonclickedsignal点击事件触发信号">rac_buttonClickedSignal：点击事件触发信号</a></li>
+        <li><a href="#rac_commandbutton类刷新类相关命令替换">rac_command：button类、刷新类相关命令替换</a></li>
+        <li><a href="#rac_signalforcontrolevents-control-event-触发">rac_signalForControlEvents: control event 触发</a></li>
+        <li><a href="#rac_gesturesignal-uigesturerecognizer-事件处理信号">rac_gestureSignal UIGestureRecognizer 事件处理信号</a></li>
+        <li><a href="#rac_imageselectedsignal-选择图片的信号">rac_imageSelectedSignal 选择图片的信号</a></li>
+        <li><a href="#rac_textsignal">rac_textSignal</a></li>
+        <li><a href="#可实现双向绑定的相关api">可实现双向绑定的相关API</a></li>
+      </ul>
+    </li>
+    <li><a href="#foundation---category-常用汇总">Foundation - Category （常用汇总）</a>
+      <ul>
+        <li><a href="#nsdata">NSData</a></li>
+        <li><a href="#nsdictionary">NSDictionary</a></li>
+        <li><a href="#nsarray">NSArray</a></li>
+        <li><a href="#nsfilehandle">NSFileHandle</a></li>
+        <li><a href="#nsinvocation">NSInvocation</a></li>
+        <li><a href="#nsnotificationcenter">NSNotificationCenter</a></li>
+        <li><a href="#nsobject">NSObject</a></li>
+        <li><a href="#nsstring">NSString</a></li>
+        <li><a href="#nsurlconnection">NSURLConnection</a></li>
+        <li><a href="#nsuserdefaults">NSUserDefaults</a></li>
+        <li><a href="#nsenumerator">NSEnumerator</a></li>
+        <li><a href="#nsindexset">NSIndexSet</a></li>
+        <li><a href="#nsorderedset">NSOrderedSet</a></li>
+        <li><a href="#nsset">NSSet</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <ul>
+    <li><a href="#reactivecocoa-objective-c">ReactiveCocoa Objective-C</a></li>
+    <li><a href="#reactivecocoa-swift">ReactiveCocoa Swift</a></li>
+    <li><a href="#rxswift">RXSwift</a></li>
+  </ul>
+</nav>
+            </div>
+        </div>
+        <style>
+        .menu-list > li > a.is-active + .menu-list {display: block;}
+        .menu-list > li > a + .menu-list {display: none;}
+        </style>
+        <script type="text/javascript" src="/js/toc.js" defer></script>
+    </div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>

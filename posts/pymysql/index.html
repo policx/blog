@@ -1,0 +1,2371 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="renderer" content="webkit"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"/>
+<meta http-equiv="Cache-Control" content="no-transform"/>
+<meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+<meta name="generator" content="Hugo 0.79.0 with theme icarus"/>
+<meta name="google-site-verification" content="Your googleVerification code"/>
+<meta name="baidu-site-verification" content="Your baiduVerification code"/>
+
+<meta name="author" content="江湖"/>
+<meta name="description" content="什么是 PyMySQL？ PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。 PyMySQL 遵循 Python 数据库 API v2.0 规范，并包含了 pure-Python MySQL 客户"/>
+<meta name="keywords" content=""/>
+
+<title>python3 与 MySQL 之间的交互 - 数字人生</title>
+
+
+<meta name="application-name" content="数字人生" />
+<meta name="msapplication-TileImage" content="img/favicon.svg" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="数字人生" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https:\/\/blog.policx.com\/posts\/pymysql\/"
+    },
+    "headline": "数字人生",
+    "image": [],
+    "dataPublished": "2018-05-02T11:14:27Z",
+    "dataModified": "2018-05-02T11:14:27Z",
+    "author": {
+        "@type": "Person",
+        "name": "江湖"
+    },
+    "description": "什么是 PyMySQL？ PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。 PyMySQL 遵循 Python 数据库 API v2.0 规范，并包含了 pure-Python MySQL 客户"
+}
+</script>
+
+
+<link rel="canonical" href="https://blog.policx.com/posts/pymysql/"/>
+<link rel="alternate" href="https://blog.policx.com/index.xml" title="数字人生" type="application/rss+xml"/>
+<link rel="icon" href="/img/favicon.svg"/>
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/atom-one-light.min.css"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source&#43;Code&#43;Pro"/>
+
+<link rel="stylesheet" href="/css/default.css"/>
+
+
+    
+    
+        
+        
+        
+        
+
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"/>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css"/>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+
+
+
+</head>
+<body class="is-3-column">
+<nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand justify-content-center">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    <img src="/img/apple/logo.gif" alt="python3 与 MySQL 之间的交互" height="28">
+                
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                
+                
+                    <a class="navbar-item "
+                       href="/">主页</a>
+                
+                    <a class="navbar-item "
+                       href="/archives">归档</a>
+                
+                    <a class="navbar-item "
+                       href="/categories">分类</a>
+                
+                    <a class="navbar-item "
+                       href="/tags">标签</a>
+                
+                    <a class="navbar-item "
+                       href="/about">关于</a>
+                
+            </div>
+            <div class="navbar-end">
+                
+                    
+                
+                
+                
+                    <a class="navbar-item search" title="搜索" href="javascript:;">
+                        <i class="fas fa-search"></i>
+                    </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen">
+                
+    <div class="card">
+    
+    <article class="card-content article" role="article">
+        
+            <div class="article-meta is-size-7 is-uppercase level is-mobile">
+                <div class="level-left">
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-05-02T11:14:27Z"
+                                  title="2018-05-02T11:14:27Z">2018-05-02</time>发表
+                        </span>
+                    
+                    
+                        <span class="level-item">
+                            <time dateTime="2018-05-02T11:14:27Z"
+                                  title="2018-05-02T11:14:27Z">2018-05-02</time>更新
+                        </span>
+                    
+                    
+                    
+                        <span class="level-item">
+                            
+                            <a class="link-muted" href="/categories/program">program</a>
+                        </span>
+                    
+                    
+                        <span class="level-item">8 分钟读完 (大约3740个字)</span>
+                    
+                    
+                        <span class="level-item" id="busuanzi_container_page_pv">
+                            <span id="busuanzi_value_page_pv">0</span>次访问
+                        </span>
+                    
+                </div>
+            </div>
+        
+        <h1 class="title is-3 is-size-4-mobile">python3 与 MySQL 之间的交互</h1>
+        <div class="content"><h2 id="什么是-pymysql">什么是 PyMySQL？</h2>
+<p>PyMySQL 是在 Python3.x 版本中用于连接 MySQL 服务器的一个库，Python2中则使用mysqldb。</p>
+<p>PyMySQL 遵循 Python 数据库 API v2.0 规范，并包含了 pure-Python MySQL 客户端库。</p>
+<!-- more --> 
+<h2 id="安装mysql模块">安装mysql模块</h2>
+<p>在文件中引入模块</p>
+<p><code>import pymysql</code></p>
+<h3 id="1connection对象">1.Connection对象</h3>
+<p>•  用于建立与数据库的连接
+•  创建对象：调用connect()方法
+conn=connect(参数列表)
+•  参数host：连接的mysql主机，如果本机是&rsquo;localhost'
+•  参数port：连接的mysql主机的端口，默认是3306
+•  参数db：数据库的名称
+•  参数user：连接的用户名
+•  参数password：连接的密码
+•  参数charset：通信采用的编码方式，默认是&rsquo;gb2312'，要求与数据库创建时指定的编码一致，否则中文会乱码</p>
+<h3 id="2对象的方法">2.对象的方法</h3>
+<p>•  close()关闭连接
+•  commit()事务，所以需要提交才会生效
+•  rollback()事务，放弃之前的操作
+•  cursor()返回Cursor对象，用于执行sql语句并获得结果</p>
+<h4 id="cursor对象">Cursor对象</h4>
+<p>•  执行sql语句
+•  创建对象：调用Connection对象的cursor()方法
+cursor1=conn.cursor()</p>
+<h4 id="对象的方法">对象的方法</h4>
+<p>•  close()关闭
+•  execute(operation [, parameters ])执行语句，返回受影响的行数
+•  fetchone()执行查询语句时，获取查询结果集的第一个行数据，返回一个元组
+•  next()执行查询语句时，获取当前行的下一行
+•  fetchall()执行查询时，获取结果集的所有行，一行构成一个元组，再将这些元组装入一个元组返回
+•  scroll(value[,mode])将行指针移动到某个位置
+•  mode表示移动的方式
+•  mode的默认值为relative，表示基于当前行移动到value，value为正则向下移动，value为负则向上移动。相对的
+•  mode的值为absolute，表示基于第一条数据的位置，第一条数据的位置为0，绝对的。</p>
+<h4 id="举个例子便于理解">举个例子便于理解</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 导入python操作mysql的模块</span>
+<span class="kn">import</span> <span class="nn">pymysql</span>
+<span class="c1"># 获取连接对象</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">pymysql</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s1">&#39;123456&#39;</span><span class="p">,</span> <span class="n">database</span><span class="o">=</span><span class="s1">&#39;python01&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">3306</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">)</span>
+<span class="c1"># 获取执行工具</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="c1"># sql语句,增删改</span>
+<span class="c1">#sql = &#39;select birthday from t_user&#39;</span>
+<span class="n">sql</span> <span class="o">=</span> <span class="s1">&#39;select id,name,pwd,birthday from t_user&#39;</span>
+<span class="c1"># 执行,返回值。如果是增删改，返回受影响的行数，如果是查询，返回查询的行数</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;查询的结果有</span><span class="si">%s</span><span class="s1">条数据&#39;</span><span class="o">%</span><span class="n">count</span><span class="p">)</span>
+
+<span class="c1">#获取第一行</span>
+<span class="n">dateOne</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dateOne</span><span class="p">)</span>
+
+<span class="c1">#向上移动一行</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">scroll</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#向下移动一行</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">scroll</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">scroll</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;absolute&#39;</span><span class="p">)</span>   <span class="err">绝对的，这里指的是第一行</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">scroll</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;relative&#39;</span><span class="p">)</span>   <span class="err">相对的</span>
+
+<span class="c1">#获取所有行的数据</span>
+<span class="n">dataAll</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dataAll</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">dataAll</span><span class="p">:</span>
+     <span class="k">print</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+     <span class="k">print</span><span class="p">(</span><span class="n">dataAll</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>      <span class="c1">#dataAll[-1]得到的是一个用户所有的信息，dataAll[-1][2]获取最后一个人的密码</span>
+
+
+<span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">cur</span><span class="p">:</span>
+     <span class="k">print</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+
+
+<span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;id:</span><span class="si">%s</span><span class="s1">,name:</span><span class="si">%s</span><span class="s1">,pwd:</span><span class="si">%s</span><span class="s1">,birthday:</span><span class="si">%s</span><span class="s1">&#39;</span>
+<span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">dataAll</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">s</span><span class="o">%</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+
+<span class="c1"># 关闭</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="3对象的属性">3.对象的属性</h3>
+<p>•  rowcount只读属性，表示最近一次execute()执行后受影响的行数
+•  connection获得当前连接对象</p>
+<h3 id="2增删改查crud">2.增删改查(CRUD)</h3>
+<h4 id="1增">1.增</h4>
+<p>•  创建testInsert.py文件，向学生表中插入一条数据</p>
+<pre><code>#encoding=utf-8
+import pymysql
+try:
+  conn=pymysql.connect(host='localhost',port=3306,db='test1',user='root',passwd='mysql',charset='utf8')
+  cs1=conn.cursor()
+  count=cs1.execute(&quot;insert into students(sname) values('张良')&quot;)
+  print(count)
+  conn.commit()
+  cs1.close()
+  conn.close()
+except Exception,e:
+  print(e)
+</code></pre><h4 id="2修改">2.修改</h4>
+<p>•  创建testUpdate.py文件，修改学生表的一条数据</p>
+<pre><code>#encoding=utf-8
+import pymysql
+try:
+  conn=pymysql.connect(host='localhost',port=3306,db='test1',user='root',passwd='mysql',charset='utf8')
+  cs1=conn.cursor()
+  count=cs1.execute(&quot;update students set sname='刘邦' where id=6&quot;)
+  print(count)
+  conn.commit()
+  cs1.close()
+  conn.close()
+except Exception,e:
+  print(e)
+</code></pre><h4 id="3删除">3.删除</h4>
+<p>•  创建testDelete.py文件，删除学生表的一条数据</p>
+<pre><code>#encoding=utf-8 import pymysql
+try:
+  conn=pymysql.connect(host='localhost',port=3306,db='test1',user='root',passwd='mysql',charset='utf8')
+  cs1=conn.cursor()
+  count=cs1.execute(&quot;delete from students where id=6&quot;)
+  print(count)
+  conn.commit()
+  cs1.close()
+  conn.close()
+except Exception as e:
+  print(e)
+</code></pre><h4 id="4查">4.查</h4>
+<p>•  创建testSelectOne.py文件，查询一条学生信息</p>
+<pre><code>import Pymysql try:
+conn=Pymysql.connect(host='localhost',port=3306,db='test1',user='root',passwd='mysql',charset='utf8')
+cur=conn.cursor()
+cur.execute('select * from students where id=7')
+result=cur.fetchone()
+print result
+cur.close()
+conn.close()
+except Exception as e:
+print(e)
+</code></pre><p>•  创建testSelectMany.py文件，查询全部学生信息</p>
+<pre><code>#encoding=utf8 import Pymysql
+try:
+conn=Pymysql.connect(host='localhost',port=3306,db='test1',user='root',passwd='mysql',charset='utf8')
+cur=conn.cursor()
+cur.execute('select * from students')
+result=cur.fetchall()
+print result
+cur.close()
+conn.close()
+except Exception as e:
+print(e)
+</code></pre><h3 id="实例一参数">实例一：参数</h3>
+<pre><code>
+# 导入python操作mysql的模块
+import pymysql
+import time
+
+# 获取连接对象
+conn = pymysql.connect(host='127.0.0.1', user='root', password='123456', database='python01', port=3306, charset='utf8')
+# 获取执行工具
+cur = conn.cursor()
+# sql语句,增删改，sql注入
+sql = 'insert into t_user(name,pwd,birthday) values(%s,%s,%s)'
+# 参数列表
+name = input('输入姓名:')
+pwd = input('输入密码:')
+birthday = input('输入生日:')     # 2017年10月01日--&gt;日期struct_time(---&gt;2017-10-01)
+birthday = time.strptime(birthday,'%Y年%m月%d日')      #这里我们就用到了时间与字符串的相互转换(详情见MySQL高级)
+
+params = [name,pwd,birthday]
+# 执行,返回值。如果是增删改，返回受影响的行数，如果是查询，返回查询的行数
+count = cur.execute(sql,params)
+#提交
+conn.commit()
+print('受影响的行数:%s'%count)
+# 关闭
+cur.close()
+conn.close()
+</code></pre><h3 id="实例二抛出异常">实例二：抛出异常</h3>
+<pre><code># 导入python操作mysql的模块
+import pymysql
+
+try:
+    conn = None
+    cur = None
+    # 获取连接对象
+    conn = pymysql.connect(host='127.0.0.1',
+                           user='root',
+                           password='123456',
+                           database='python01',
+                           port=3306,
+                           charset='utf8')
+    # 模拟异常
+    # a = 1 / 0
+    # 获取执行工具
+    cur = conn.cursor()
+    # sql语句,增删改
+    sql = 'insert into t_user(name,pwd,birthday) values(&quot;小伊&quot;,&quot;123456&quot;,str_to_date(&quot;2017年10月20日&quot;,&quot;%Y年%m月%d日&quot;))'
+    # 执行,返回值。如果是增删改，返回受影响的行数，如果是查询，返回查询的行数
+    count = cur.execute(sql)
+    # 提交
+    conn.commit()
+    print('受影响的行数:%s' % count)
+except Exception as ex:
+    # 打印异常信息，测试时候使用，项目上线，去掉
+    print(str(ex))
+    # 将异常继续抛出
+    # raise
+finally:
+    if cur != None:
+        cur.close()
+    if conn != None:
+        conn.close()
+</code></pre><h3 id="实例三">实例三：</h3>
+<pre><code>
+# 导入python操作mysql的模块
+import pymysql
+
+# 获取连接对象
+conn = pymysql.connect(host='127.0.0.1', user='root', password='123456', database='python01', port=3306, charset='utf8')
+# 获取执行工具
+cur = conn.cursor()
+# sql语句,增删改
+#sql = 'select birthday from t_user'
+sql = 'select id,name,pwd,birthday from t_user'
+# 执行,返回值。如果是增删改，返回受影响的行数，如果是查询，返回查询的行数
+count = cur.execute(sql)
+print('查询的结果有%s条数据'%count)
+
+#获取第一行
+# dateOne = cur.fetchone()
+# print(dateOne)
+
+
+# for temp in cur:
+#     print(temp)
+
+
+s = 'id:%s,name:%s,pwd:%s,birthday:%s'
+for temp in dataAll:
+    print(s%(temp[0],temp[1],temp[2],temp[3]))
+
+# 关闭
+cur.close()
+conn.close()
+</code></pre><h3 id="3封装">3.封装</h3>
+<p>这个库的名字：mySqlHelper</p>
+<p>python操作mysql进行增删改查的封装</p>
+<pre><code>1、增删改，代码类似
+2、查询
+
+代码分析
+1、获取连接对象
+2、sql语句不同，参数不同
+3、获取执行对象
+    增删改
+    查询
+        1、fetchone
+        2、fetchall
+4、处理结果
+5、关闭
+</code></pre>
+<h4 id="面向对象--建立类封装属性和函数">面向对象  建立类，封装属性和函数</h4>
+<pre><code>import pymysql
+class MysqlHelper:
+    '''python操作mysql的增删改查的封装'''
+
+    def __init__(self, host, user, password, database, port=3306, charset='utf8'):
+        '''
+        初始化参数
+        :param host:        主机
+        :param user:        用户名
+        :param password:    密码
+        :param database:    数据库
+        :param port:        端口号，默认是3306
+        :param charset:     编码，默认是utf8
+        '''
+        self.host = host
+        self.port = port
+        self.database = database
+        self.user = user
+        self.password = password
+        self.charset = charset
+
+    def connect(self):
+        '''
+        获取连接对象和执行对象
+        :return:
+        '''
+        self.conn = pymysql.connect(host=self.host,
+                                    user=self.user,
+                                    password=self.password,
+                                    database=self.database,
+                                    port=self.port,
+                                    charset=self.charset)
+
+        self.cur = self.conn.cursor()
+
+    def fetchone(self, sql, params=None):
+        '''
+         根据sql和参数获取一行数据
+       :param sql:          sql语句
+       :param params:       sql语句对象的参数元组，默认值为None
+       :return:             查询的一行数据
+       '''
+        dataOne = None
+        try:
+            count = self.cur.execute(sql, params)
+            if count != 0:
+                dataOne = self.cur.fetchone()
+        except Exception as ex:
+            print(ex)
+        finally:
+            self.close()
+        return dataOne
+
+    def fetchall(self, sql, params=None):
+        '''
+         根据sql和参数获取一行数据
+       :param sql:          sql语句
+       :param params:       sql语句对象的参数列表，默认值为None
+       :return:             查询的一行数据
+       '''
+        dataall = None
+        try:
+            count = self.cur.execute(sql, params)
+            if count != 0:
+                dataall = self.cur.fetchall()
+        except Exception as ex:
+            print(ex)
+        finally:
+            self.close()
+        return dataall
+
+    def __item(self, sql, params=None):
+        '''
+        执行增删改
+        :param sql:           sql语句
+        :param params:        sql语句对象的参数列表，默认值为None
+        :return:              受影响的行数
+        '''
+        count = 0
+        try:
+            count = self.cur.execute(sql, params)
+            self.conn.commit()
+        except Exception as ex:
+            print(ex)
+        finally:
+            self.close()
+        return count
+
+    def update(self, sql, params=None):
+        '''
+        执行修改
+        :param sql:     sql语句
+        :param params:  sql语句对象的参数列表，默认值为None
+        :return:        受影响的行数
+        '''
+        return self.__item(sql, params)
+
+    def insert(self, sql, params=None):
+        '''
+        执行新增
+        :param sql:     sql语句
+        :param params:  sql语句对象的参数列表，默认值为None
+        :return:        受影响的行数
+        '''
+        return self.__item(sql, params)
+
+    def delete(self, sql, params=None):
+        '''
+        执行删除
+        :param sql:     sql语句
+        :param params:  sql语句对象的参数列表，默认值为None
+        :return:        受影响的行数
+        '''
+        return self.__item(sql, params)
+
+    def close(self):
+        '''
+        关闭执行工具和连接对象
+        '''
+        if self.cur != None:
+            self.cur.close()
+        if self.conn != None:
+            self.conn.close()
+</code></pre><h4 id="1测试查询多条数据">1.测试查询多条数据</h4>
+<pre><code>import mysqlHelper
+
+# 初始化对象
+helper = mysqlHelper.MysqlHelper('127.0.0.1', 'root', '123456', 'python01')
+# 连接
+helper.connect()
+# sql
+sql = 'select * from t_user where name = %s and id &gt; %s'
+# params
+params = ['小茗',1]
+# 执行
+data = helper.fetchall(sql, params)
+# 判断
+if data:
+    for temp in data:
+        print(temp)
+else:  # None,False,0
+    print('没有数据.')
+
+helper.close()
+</code></pre><h4 id="2测试查询一条数据">2.测试查询一条数据</h4>
+<pre><code>import mysqlHelper
+
+# 初始化对象
+helper = mysqlHelper.MysqlHelper('127.0.0.1', 'root', '123456', 'python01')
+# 连接
+helper.connect()
+# sql
+sql = 'select * from t_user where id = %s'
+#sql = 'select * from t_user where id = 1'
+# params
+params = [2]
+# 执行
+data = helper.fetchone(sql, params)
+#data = helper.fetchone(sql)
+# 判断
+if data:
+    print(data)
+else:  # None,False,0
+    print('没有数据.')
+</code></pre><h4 id="3测试增删改">3.测试增删改</h4>
+<pre><code>import mysqlHelper
+import time
+
+# 初始化对象
+helper = mysqlHelper.MysqlHelper('127.0.0.1', 'root', '123456', 'python01')
+# 连接
+helper.connect()
+# sql
+sql = 'update t_user set name =%s,pwd=%s,birthday=%s where id=%s'
+# params
+id = input('输入编号:')
+name = input('输入姓名:')
+pwd = input('输入密码:')
+birthday = time.strptime(input('输入生日:'), '%Y年%m月%d日')
+params = [name, pwd, birthday,id]
+# 执行
+count = helper.update(sql, params)
+# 判断
+if count:
+    print('操作成功.')
+else:  # None,False,0
+    print('操作失败.')
+</code></pre><h4 id="4登录和注册">4.登录和注册</h4>
+<p>登录和注册的时候需要对密码进行加密</p>
+<p>注意：</p>
+<p>•  需要对密码进行加密
+•  如果使用md5加密，则密码包含32个字符
+•  如果使用sha1加密，则密码包含40个字符，这里使用这种方式</p>
+<pre><code>create table userinfos(
+    id int primary key auto_increment,
+    uname varchar(20),
+    upwd char(40),
+    isdelete bit default 0
+);
+
+
+/*
+ret = doPwd('123')
+print(ret)
+结果：40bd001563085fc35165329ea1ff5c5ecbdbbeef
+ */
+
+-- 插入如下数据，用户名为123,密码为123,这是sha1加密后的值
+
+insert into userinfos 
+values(1,'123','40bd001563085fc35165329ea1ff5c5ecbdbbeef',0);
+</code></pre><h4 id="登录与注册">登录与注册</h4>
+<pre><code>
+from mysqlHelper import MysqlHelper
+import hashlib
+
+
+def login():
+    '''登录'''
+    name = input('输入用户名:')
+    pwd = input('输入密码:')
+    #加密
+    pwd = doPwd(pwd)
+
+    helper = MysqlHelper('127.0.0.1', 'root', '123456', 'python01')
+    helper.connect()
+    sql = 'select * from t_user where name=%s and pwd=%s'
+    params = [name, pwd]
+    data = helper.fetchone(sql, params)
+    if data:
+        print('登录成功.')
+    else:  # None,False,0
+        print('登录失败.')
+
+
+def doPwd(pwd):
+    '''sha1编码'''
+    mysha1 = hashlib.sha1()
+    mysha1.update(pwd.encode('utf-8'))
+    pwd = mysha1.hexdigest()
+    return pwd
+
+
+def register():
+    '''注册'''
+    name = input('输入用户名:')
+    pwd = input('输入密码:')
+    # 加密
+    pwd = doPwd(pwd)
+
+
+    helper = MysqlHelper('127.0.0.1', 'root', '123456', 'python01')
+    helper.connect()
+    sql = 'insert into t_user(name,pwd) values(%s,%s)'
+    params = [name, pwd]
+    count = helper.insert(sql, params)
+    if count:
+        print('操作成功.')
+    else:  # None,False,0
+        print('操作失败.')
+
+
+if __name__ == '__main__':
+    #register()
+    login()
+</code></pre></div>
+        
+            <div class="article-licensing box">
+    <div class="licensing-title">
+        <p>python3 与 MySQL 之间的交互</p>
+        <p><a href="https://blog.policx.com/posts/pymysql/">https://blog.policx.com/posts/pymysql/</a></p>
+    </div>
+    <div class="licensing-meta level is-mobile">
+        <div class="level-left">
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>作者</h6>
+                        <p>江湖</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>发布于</h6>
+                        <p>2018-05-02</p>
+                    </div>
+                </div>
+            
+            
+                <div class="level-item is-narrow">
+                    <div>
+                        <h6>更新于</h6>
+                        <p>2018-05-02</p>
+                    </div>
+                </div>
+            
+            <div class="level-item is-narrow">
+                <div>
+                    <h6>许可协议</h6>
+                    <p>
+                        
+                            <a class="" title="CC BY-NC 4.0" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">
+                                CC BY-NC 4.0
+                            </a>
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+        
+            <div class="article-tags size-small mb-4">
+                <span class="mr-2">#</span><a class="link-muted mr-2" href="/tags/Python" rel="tag">Python</a></div>
+        
+        
+
+    </article>
+</div>
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+                
+
+    <a class="button donate" data-type="alipay">
+        <span class="icon is-small">
+            <i class="fab fa-alipay"></i>
+        </span>
+        <span>支付宝</span>
+        <span class="qrcode">
+            <img src="/img/donate/alipay.webp" alt="支付宝">
+        </span>
+    </a>
+
+
+                
+            
+                
+                
+
+    <a class="button donate" data-type="wechat">
+        <span class="icon is-small">
+            <i class="fab fa-weixin"></i>
+        </span>
+        <span>微信</span>
+        <span class="qrcode">
+            <img src="/img/donate/wechat.webp" alt="微信">
+        </span>
+    </a>
+
+
+                
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+    <nav class="post-navigation mt-4 level is-mobile">
+        
+            <div class="level-start">
+                <a class="article-nav-prev level level-item link-muted" href="https://blog.policx.com/posts/mongodb/">
+                    <i class="level-item fas fa-chevron-left"></i>
+                    <span class="level-item">MongoDB</span>
+                </a>
+            </div>
+        
+        
+            <div class="level-end">
+                <a class="article-nav-next level level-item link-muted" href="https://blog.policx.com/posts/django-bi-ji/">
+                    <span class="level-item">Django笔记</span>
+                    <i class="level-item fas fa-chevron-right"></i>
+                </a>
+            </div>
+        
+    </nav>
+
+
+
+    <div class="card">
+    <div class="card-content">
+        <h3 class="title is-5">评论</h3>
+        
+        
+
+    <div id="comment-container"></div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.6.2/gitalk.min.js"></script>
+    <script>
+        
+        const gitalk = new Gitalk({
+          id: "929d296b5bb769afde469024538f30ed",
+          repo: "talk",
+          owner: "policx",
+          clientID: "668d4c1dc3767af8dc3b",
+          clientSecret: "f6b37398c2743c2a63752f7154e8d246ec17b9c0",
+          admin: ["policx"],
+          createIssueManually:  false ,
+          distractionFreeMode:  false ,
+          perPage:  10 ,
+          pagerDirection: "last",enableHotKey:  true ,});
+        gitalk.render('comment-container');
+    </script>
+
+
+        
+    </div>
+</div>
+
+
+
+
+            </div>
+            
+
+    <div class="column column-left is-4-tablet is-4-desktop is-3-widescreen order-1 ">
+        
+            
+            
+                
+                
+<div class="card widget" data-type="profile">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered flex-shrink-1">
+                <div>
+                    <figure class="image is-128x128 mx-auto mb-2">
+                        <img class="avatar is-rounded"
+                             src="/img/avatar.png"
+                             alt="高远">
+                    </figure>
+                    <p class="title is-size-4 is-block" style="line-height: inherit">高远</p>
+                    <p class="is-size-6 is-block">庙堂高，江湖远</p>
+                    
+                        <p class="is-size-6 is-flex justify-content-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>Sakhalin</span>
+                        </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">文章</p>
+                    <a href="/archives"><p class="title">76</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">分类</p>
+                    <a href="/categories"><p class="title">5</p></a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">标签</p>
+                    <a href="/tags"><p class="title">8</p></a>
+                </div>
+            </div>
+        </nav>
+        
+            <div class="level">
+                <a class="level-item button is-primary is-rounded" href="https://blog.policx.com/"
+                   target="_blank" rel="noopener">关注我</a>
+            </div>
+        
+        <div class="level is-mobile">
+            
+                <a class="level-item button is-transparent is-marginless" title="Telegram" href="https://telegram.me/your_name"
+                   target="_blank" rel="noopener">
+                    <i class="fab fa-telegram"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="Mail" href="mailto:heal@policx.com"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            
+                <a class="level-item button is-transparent is-marginless" title="RSS" href="/index.xml"
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-rss"></i>
+                </a>
+            
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="categories">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">分类</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/news/">
+                            <span class="level-start">
+                                <span class="level-item">news</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/notes/">
+                            <span class="level-start">
+                                <span class="level-item">notes</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">23</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/program/">
+                            <span class="level-start">
+                                <span class="level-item">program</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">39</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/software/">
+                            <span class="level-start">
+                                <span class="level-item">software</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    <li>
+                        <a class="level is-mobile" href="/categories/wwdc/">
+                            <span class="level-start">
+                                <span class="level-item">wwdc</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+                
+                <div class="card widget" data-type="tags">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">标签</h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/django/">
+                            <span class="tag">django</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/git/">
+                            <span class="tag">git</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/linux/">
+                            <span class="tag">linux</span>
+                            <span class="tag">5</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/markdown/">
+                            <span class="tag">markdown</span>
+                            <span class="tag">1</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/program/">
+                            <span class="tag">program</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/python/">
+                            <span class="tag">python</span>
+                            <span class="tag">8</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/wwdc/">
+                            <span class="tag">wwdc</span>
+                            <span class="tag">3</span>
+                        </a>
+                    </div>
+                
+                    <div class="control">
+                        <a class="tags has-addons" href="/tags/%e5%96%84%e7%94%a8%e4%bd%b3%e8%bd%af/">
+                            <span class="tag">善用佳软</span>
+                            <span class="tag">2</span>
+                        </a>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+        
+            <div class="column-right-shadow is-hidden-widescreen "></div>
+        
+    </div>
+
+
+    <div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 ">
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="recent-posts">
+    <div class="card-content">
+        <h3 class="menu-label">最新文章</h3>
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020/">
+                <img src="/img/wwdc/2020.jpg" alt="WWDC 2020">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2020-06-23T11:06:39Z'>2020-06-23</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020/">WWDC 2020</a></p>
+        <p class="categories"><a href="/categories/wwdc">wwdc</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/linuxdesktop/">
+                <img src="https://oscimg.oschina.net/oscnet/04b04752c3797920f5466e7c8c16edb273c.jpg" alt="Linux 桌面进化史">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-29T00:00:00Z'>2019-08-29</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/linuxdesktop/">Linux 桌面进化史</a></p>
+        <p class="categories"><a href="/categories/program">program</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/knowledge/">
+                <img src="https://gitee.com/policx/im/raw/master/images/UX6DG4.jpg" alt="关于知识产权、知识共享与文章翻译">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-25T09:20:42Z'>2019-08-25</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/knowledge/">关于知识产权、知识共享与文章翻译</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/2020dev/">
+                <img src="https://gitee.com/policx/im/raw/master/images/ofYs51.jpg" alt="2020年顶级编程语言的统计数据和调查结果如何？">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-19T08:21:23Z'>2019-08-19</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/2020dev/">2020年顶级编程语言的统计数据和调查结果如何？</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+            <article class="media">
+    
+        <figure class="media-left">
+            <a class="image" href="https://blog.policx.com/posts/five_a/">
+                <img src="https://images.pexels.com/photos/7114/laptop-mobile.jpg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;w=500" alt="Dice 称这  5 种编程语言未来可能各自成王">
+            </a>
+        </figure>
+    
+    <div class="media-content">
+        <p class="date"><time datetime='2019-08-16T16:14:18Z'>2019-08-16</time></p>
+        <p class="title"><a href="https://blog.policx.com/posts/five_a/">Dice 称这  5 种编程语言未来可能各自成王</a></p>
+        <p class="categories"><a href="/categories/news">news</a></p>
+    </div>
+</article>
+
+        
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="archives">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">归档</h3>
+            <ul class="menu-list">
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2020-06">
+                            <span class="level-start">
+                                <span class="level-item">2020年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-08">
+                            <span class="level-start">
+                                <span class="level-item">2019年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">5</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-07">
+                            <span class="level-start">
+                                <span class="level-item">2019年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">9</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2019-06">
+                            <span class="level-start">
+                                <span class="level-item">2019年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-09">
+                            <span class="level-start">
+                                <span class="level-item">2018年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-06">
+                            <span class="level-start">
+                                <span class="level-item">2018年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-05">
+                            <span class="level-start">
+                                <span class="level-item">2018年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-04">
+                            <span class="level-start">
+                                <span class="level-item">2018年 4月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-03">
+                            <span class="level-start">
+                                <span class="level-item">2018年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-02">
+                            <span class="level-start">
+                                <span class="level-item">2018年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">4</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2018-01">
+                            <span class="level-start">
+                                <span class="level-item">2018年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-09">
+                            <span class="level-start">
+                                <span class="level-item">2017年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-07">
+                            <span class="level-start">
+                                <span class="level-item">2017年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-03">
+                            <span class="level-start">
+                                <span class="level-item">2017年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2017-02">
+                            <span class="level-start">
+                                <span class="level-item">2017年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-12">
+                            <span class="level-start">
+                                <span class="level-item">2016年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-10">
+                            <span class="level-start">
+                                <span class="level-item">2016年 10月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-08">
+                            <span class="level-start">
+                                <span class="level-item">2016年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-06">
+                            <span class="level-start">
+                                <span class="level-item">2016年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">12</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-03">
+                            <span class="level-start">
+                                <span class="level-item">2016年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-02">
+                            <span class="level-start">
+                                <span class="level-item">2016年 2月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2016-01">
+                            <span class="level-start">
+                                <span class="level-item">2016年 1月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-12">
+                            <span class="level-start">
+                                <span class="level-item">2015年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-09">
+                            <span class="level-start">
+                                <span class="level-item">2015年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2015-06">
+                            <span class="level-start">
+                                <span class="level-item">2015年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">2</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-11">
+                            <span class="level-start">
+                                <span class="level-item">2014年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-09">
+                            <span class="level-start">
+                                <span class="level-item">2014年 9月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">3</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-08">
+                            <span class="level-start">
+                                <span class="level-item">2014年 8月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-06">
+                            <span class="level-start">
+                                <span class="level-item">2014年 6月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-05">
+                            <span class="level-start">
+                                <span class="level-item">2014年 5月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2014-03">
+                            <span class="level-start">
+                                <span class="level-item">2014年 3月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2013-07">
+                            <span class="level-start">
+                                <span class="level-item">2013年 7月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2012-12">
+                            <span class="level-start">
+                                <span class="level-item">2012年 12月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+                    
+                    
+                        
+                    
+                    <li>
+                        <a class="level is-mobile" href="/archives/#2011-11">
+                            <span class="level-start">
+                                <span class="level-item">2011年 11月</span>
+                            </span>
+                            <span class="level-end">
+                                <span class="level-item tag">1</span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="links">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">链接</h3>
+            <ul class="menu-list">
+                
+                    <li>
+                        <a class="level is-mobile" href="https://gohugo.io" target="_blank" rel="noopener">
+                            <span class="level-left"><span class="level-item">Hugo</span></span>
+                            <span class="level-right">
+                                <span class="level-item tag">
+                                    gohugo.io
+                                </span>
+                            </span>
+                        </a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="subscribe-email">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">订阅更新</h3>
+            <form action="https://feedburner.google.com/fb/a/mailverify" method="post" target="popupwindow"
+                  onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=','popupwindow','scrollbars=yes,width=550,height=520');return true">
+                <input type="hidden" value="" name="uri">
+                <input type="hidden" name="loc" value="en_US">
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" name="email" type="email" placeholder="Email">
+                        <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                    </div>
+                    <div class="control"><input class="button" type="submit" value="订阅"></div>
+                </div>
+                <p class="help">Powered by Google feedburner</p>
+            </form>
+        </div>
+    </div>
+</div>
+
+                
+            
+        
+            
+            
+                
+                
+<div class="card widget" data-type="adsense">
+    <div class="card-content">
+        
+            <div class="notification is-danger">You need to set <code>client_id</code> and
+                <code>slot_id</code> to show this AD unit. Please set it in <code>config.yaml</code>.
+            </div>
+        
+    </div>
+</div>
+
+                
+            
+        
+    </div>
+
+
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start">
+                <a class="footer-logo is-block mb-2" href="/">
+                    
+                        <img src="/img/apple/logo.gif" alt="DDoS（分布式拒绝服务）攻击是无解的吗？" height="28">
+                    
+                </a>
+                <p class="is-size-7">
+                    <span>&copy; 2020 江湖</span>&nbsp;&nbsp;Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>&nbsp;&&nbsp;<a href="https://github.com/iMaple/hugo-theme-icarus/" target="_blank" rel="noopener">Icarus</a>
+                    
+                        <br/>
+                        <span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span>
+                    
+                </p>
+            </div>
+            <div class="level-end">
+                <div class="field has-addons">
+                    
+                        <p class="control">
+                            <a class="button is-transparent is-large" title="Creative Commons" href="https://creativecommons.org/" target="_blank" rel="noopener">
+                                <i class="fab fa-creative-commons"></i>
+                            </a>
+                        </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment-with-locales.min.js"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+<script>moment.locale("zh-cn");</script>
+
+<script>
+    var IcarusThemeSettings = {
+      article: {
+        highlight: {
+          clipboard:  true ,
+          fold: "unfolded"
+        }
+      },
+      toc: {
+        index:  true 
+      }
+    };
+</script>
+
+<script type="text/javascript" src="/js/column.js"></script>
+
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="/js/animation.js"></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <a id="back-to-top" title="回到顶端" href="javascript:;">
+        <i class="fas fa-chevron-up"></i>
+    </a>
+    <script type="text/javascript" src="/js/back2top.js" defer></script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script>
+    <script>
+    window.addEventListener('load', () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static:  false ,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: '#edeff5',
+            text: '#838391'
+          },
+          button: {
+            background: '#4b81e8'
+          },
+        },
+      });
+    });
+    </script>
+
+
+        
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+      'HTML-CSS': {matchFontHeight: false},
+      SVG: {matchFontHeight: false},
+      CommonHTML: {matchFontHeight: false},
+      tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+    </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly.&nbsp;
+            <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a>
+        </p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">×</a></p>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js" defer></script>
+    <script>
+        window.addEventListener('load', function () {
+          outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'object-fit'
+          });
+        });
+    </script>
+
+
+        
+    
+
+    
+    
+        
+        
+        
+        
+
+
+
+        
+    
+
+    
+    
+
+    
+    
+        
+        
+        
+        
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.10/SmoothScroll.min.js" async></script>
+
+
+        
+    
+
+    
+    
+
+
+<script type="text/javascript" src="/js/main.js" defer></script>
+
+
+    
+    <div class="searchbox">
+    <div class="searchbox-container">
+        <div class="searchbox-header">
+            <div class="searchbox-input-container">
+                <input class="searchbox-input" type="text" placeholder="想要查找什么..."/>
+            </div>
+            <a class="searchbox-close" href="javascript:;">×</a>
+        </div>
+        <div class="searchbox-body"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/insight.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadInsight(
+        {contentUrl: '/index.json'},
+        {
+          hint: "想要查找什么...",
+          untitled: "(无标题)",
+          posts: "文章",
+          pages: "页面",
+          categories: "分类",
+          tags: "标签"
+        }
+      );
+    });
+</script>
+
+    
+
+
+</body>
+</html>
